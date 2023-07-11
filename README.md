@@ -1,2 +1,2 @@
-# data-structure-and-algorithm-study
+# Data structure & Algorithm with C
 Data structure and Algorithm study with C
