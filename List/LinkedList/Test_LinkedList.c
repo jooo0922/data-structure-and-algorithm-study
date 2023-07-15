@@ -53,6 +53,25 @@ int main()
 		printf("List[%d] : %d\n", i, Current->Data); // %d 는 정수값을 입력받은 형식지정자 > 문자열 뒤에 전달한 정수값으로 치환함
 	}
 
+	// 새로운 노드 삽입한다는 메세지 출력
+	printf("\nInserting 2000 Before [2]...\n\n");
+
+	// 링크드리스트의 세 번째 노드 앞에 새로운 노드 삽입
+	Current = SLL_GetNodeAt(List, 2);
+	NewNode = SLL_CreateNode(2000);
+	SLL_InsertBefore(&List, Current, NewNode);
+
+	// 다시 링크드리스트 출력
+	Count = SLL_GetNodeCount(List); // 현재까지 링크드리스트 개수 반환
+	for (i = 0; i < Count; i++)
+	{
+		Current = SLL_GetNodeAt(List, i); // 링크드리스트의 각 노드 주소를 찾아서 반환
+
+		// 링크드리스트의 각 노드 인덱스와 데이터 출력
+		// printf() 입출력 표준함수를 사용할 수 있는 이유는, LinkedList.h 헤더파일에 stdio.h 헤더파일을 포함시켜놓은 덕분!
+		printf("List[%d] : %d\n", i, Current->Data); // %d 는 정수값을 입력받은 형식지정자 > 문자열 뒤에 전달한 정수값으로 치환함
+	}
+
 	// 링크드리스트 상의 모든 노드 메모리 해제한다는 메시지 출력
 	printf("\nDestroying List...\n");
 	
