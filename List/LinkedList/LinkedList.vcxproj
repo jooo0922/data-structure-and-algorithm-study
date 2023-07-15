@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LinkedList.c" />
     <ClCompile Include="Test_LinkedList.c" />
   </ItemGroup>
   <ItemGroup>
