@@ -17,6 +17,21 @@ void SLL_DestroyNode(Node* Node)
 	free(Node); // 힙 메모리에서 전달받은 Node 포인터가 가리키는 메모리 해제
 }
 
+// 전체 노드 소멸
+void SLL_DestroyAllNodes(Node** List)
+{
+	Node* Current = *List; // 현재 노드가 헤드노드를 가리키도록 포인터 변수 주소값 초기화
+
+	while (Current != NULL)
+	{
+		Node* Head = Current; // 현재 Current 노드는 링크드리스트 상의 맨앞 노드이므로, 이것을 Head 포인터 변수가 가리키도록 초기화
+		*List = Current->NextNode; // 링크드리스트 상에서 헤드노드를 Remove
+		Current = *List; // 현재 노드를 링크드리스트 상에서 업데이트된 다음 노드로 덮어쓰기
+
+		free(Head); // Current 는 주소값이 다음 노드로 변경된 상태이므로, Head 포인터가 가리키는 헤드노드의 메모리 해제
+	}
+}
+
 // 노드 추가 (테일 노드에 추가)
 void SLL_AppendNode(Node** Head, Node* NewNode)
 {

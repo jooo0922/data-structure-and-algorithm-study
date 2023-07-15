@@ -25,7 +25,7 @@ typedef struct tagNode
 // 함수 원형 선언
 Node* SLL_CreateNode(ElementType NewData); // 최초 노드(헤드노드) 생성
 void SLL_DestroyNode(Node* Node); // 노드 파괴(메모리 해제)
-//void SLL_DestroyAllNodes(Node** List); // 전체 노드 파괴
+void SLL_DestroyAllNodes(Node** List); // 전체 노드 파괴
 void SLL_AppendNode(Node** Head, Node* NewNode); // 노드 추가 (테일노드에 추가)
 void SLL_InsertAfter(Node* Current, Node* NewNode); // 노드 삽입
 void SLL_InsertBefore(Node** Head, Node* Current, Node* NewNode); // 노드 삽입 (특정 노드 앞에 삽입)
