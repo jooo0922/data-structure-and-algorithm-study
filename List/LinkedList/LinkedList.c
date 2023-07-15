@@ -64,6 +64,45 @@ void SLL_InsertAfter(Node* Current, Node* NewNode)
 	Current->NextNode = NewNode; // 현재 노드의 NextNode 가 NewNode 를 가리키게 함.
 }
 
+// 노드 삽입 (특정 노드 앞에)
+void SLL_InsertBefore(Node** Head, Node* Current, Node* NewNode)
+{
+	if (*Head == Current)
+	{
+		// 헤드노드와 특정 노드가 같으면, 헤드노드 삽입과 동일하게 처리
+		if (Head == NULL)
+		{
+			// 헤드노드가 NULL 일 경우를 대비해서 이중 포인터로 외부 포인터 변수를 가리키도록 함.
+			// 헤드노드가 NULL 이면, 역참조 연산자 *Head 로 외부 포인터 변수에 NewNode 주소값 할당  
+			(*Head) = NewNode;
+		}
+		else
+		{
+			// 헤드노드가 존재할 경우, 일단 NewNode 노드의 NextNode 가 현재의 Head 노드를 가리키는 주소값을 할당하고,
+			NewNode->NextNode = (*Head);
+			// 실제 Head 노드를 가리키는 포인터 변수에는 NewNode 노드의 주소값을 할당해서 바꿔치기 함.
+			(*Head) = NewNode;
+		}
+	}
+	else
+	{
+		// 반복 순회할 이전노드를 가리키는 포인터 변수를 헤드노드를 가리키는 포인터 변수로 초기화함. 
+		Node* PrevNode = *Head;
+
+		while (PrevNode != NULL && PrevNode->NextNode != Current)
+		{
+			// NextNode 가 Current 인 노드를 찾을 때까지 PrevNode 를 순차적으로 덮어씀
+			PrevNode = PrevNode->NextNode;
+		}
+
+		if (PrevNode != NULL)
+		{
+			PrevNode->NextNode = NewNode; // 이전 노드의 NextNode 는 NewNode 를 가리키도록 함.
+			NewNode->NextNode = Current; // NewNode 의 NextNode 는 Current 노드를 가리키도록 함.
+		}
+	}
+}
+
 // 헤드노드 삽입
 void SLL_InsertNewHead(Node** Head, Node* NewHead)
 {
