@@ -1,4 +1,4 @@
-#include "LinkedList.h"; // 헤더파일 포함
+#include "LinkedList.h" // 헤더파일 포함
 
 // 노드 생성
 Node* SLL_CreateNode(ElementType NewData)
