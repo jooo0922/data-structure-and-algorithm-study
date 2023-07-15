@@ -77,16 +77,23 @@ int main()
 	
 	// 모든 노드를 메모리 상에서 제거(Destroy)
 	// for문으로 링크드리스트 상의 모든 노드 순회
-	for (i = 0; i < Count; i++)
-	{
-		Current = SLL_GetNodeAt(List, 0); // 0번째 노드, 즉 링크드리스트의 헤드노드를 현재 노드 포인터 변수가 가리키도록 초기화
+	//for (i = 0; i < Count; i++)
+	//{
+	//	Current = SLL_GetNodeAt(List, 0); // 0번째 노드, 즉 링크드리스트의 헤드노드를 현재 노드 포인터 변수가 가리키도록 초기화
 
-		if (Current != NULL)
-		{
-			SLL_RemoveNode(&List, Current); // 우선 링크드리스트 상에서 현재노드 제거
-			SLL_DestroyNode(Current); // 링크드리스트를 메모리 상에서 제거
-		}
-	}
+	//	if (Current != NULL)
+	//	{
+	//		SLL_RemoveNode(&List, Current); // 우선 링크드리스트 상에서 현재노드 제거
+	//		SLL_DestroyNode(Current); // 링크드리스트를 메모리 상에서 제거
+	//	}
+	//}
+
+	// 모든 노드 제거
+	SLL_DestroyAllNodes(&List);
+
+	// 다시 링크드리스트 출력
+	Count = SLL_GetNodeCount(List); // 현재까지 링크드리스트 개수 반환
+	printf("List Counts : %d\n", Count); // %d 는 정수값을 입력받은 형식지정자 > 문자열 뒤에 전달한 정수값으로 치환함
 
 	return 0;
 }
