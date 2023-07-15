@@ -8,6 +8,10 @@
 	cpp-study > TBCppStudy > Chapter1_12 > add.h 필기 참고!
 */
 
+#include <stdio.h> // printf(), scanf() 같은 입출력 함수 선언이 포함된 헤더파일
+#include <stdlib.h> // malloc(), free() 같은 메모리 할당 함수 선언이 포함된 헤더파일
+// -> LinkedList.h 헤더파일에 포함되어 있어야, 이를 가져다 쓰는 LinkedList.c 파일에서 malloc() 등 사용할 때 에러가 안남.
+
 // 노드에 들어갈 데이터 타입. 여기서는 정수형으로 임의로 정함.
 typedef int ElementType;
 
