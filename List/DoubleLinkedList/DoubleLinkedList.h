@@ -29,5 +29,6 @@ void DLL_InsertAfter(Node* Current, Node* NewNode); // 노드 삽입
 void DLL_RemoveNode(Node** Head, Node* Remove); // 링크드리스트에서 노드 제거
 Node* DLL_GetNodeAt(Node* Head, int Location); // 노드 탐색
 int DLL_GetNodeCount(Node* Head); // 노드 개수 세기
+void PrintNode(Node* _Node); // 노드 데이터 출력
 
 #endif // ! DOUBLE_LINKEDLIST_H
