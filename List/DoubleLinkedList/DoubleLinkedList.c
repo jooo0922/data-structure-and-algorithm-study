@@ -157,3 +157,22 @@ void PrintNode(Node* _Node)
 		printf("Next: %d\n", _Node->NextNode->Data);
 	}
 }
+
+void PrintReverse(Node* Head)
+{
+	Node* Tail = Head; // 테일노드가 헤드노드를 가리키도록 포인터 변수 주소값 초기화
+
+	// NextNode 가 NULL 을 가리키는 노드(테일노드)가 나올때까지 Tail 에 덮어쓰며 반복 순회
+	while (Tail->NextNode != NULL)
+	{
+		Tail = Tail->NextNode;
+	}
+
+	Node* Current = Tail; // 현재노드가 위에 while 문에서 찾은 테일노드를 가리키도록 포인터 변수 초기화
+
+	while (Current != NULL)
+	{
+		printf("Current: %d\n", Current->Data); // 현재 노드 데이터 출력
+		Current = Current->PrevNode; // 현재 노드를 이전 노드로 덮어쓰면서 헤드노드까지 계속 순회
+	}
+}
