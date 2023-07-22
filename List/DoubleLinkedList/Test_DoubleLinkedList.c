@@ -26,6 +26,12 @@ int main()
 		printf("List[%d] : %d\n", i, Current->Data); // %d 는 정수값을 입력받은 형식지정자 > 문자열 뒤에 전달한 정수값으로 치환함
 	}
 
+	// 역순으로 출력한다는 메세지 출력
+	printf("\nPrint Reverse...\n");
+
+	// 더블 링크드리스트 역순 출력
+	PrintReverse(List);
+
 	// 새로운 노드 삽입한다는 메세지 출력
 	printf("\nInserting 3000 After [2]...\n");
 
@@ -44,6 +50,12 @@ int main()
 		// printf() 입출력 표준함수를 사용할 수 있는 이유는, DoubleLinkedList.h 헤더파일에 stdio.h 헤더파일을 포함시켜놓은 덕분!
 		printf("List[%d] : %d\n", i, Current->Data); // %d 는 정수값을 입력받은 형식지정자 > 문자열 뒤에 전달한 정수값으로 치환함
 	}
+
+	// 역순으로 출력한다는 메세지 출력
+	printf("\nPrint Reverse...\n");
+
+	// 더블 링크드리스트 역순 출력
+	PrintReverse(List);
 
 	// 더블 링크드리스트 상의 모든 노드 메모리 해제한다는 메시지 출력
 	printf("\nDestroying List...\n");
