@@ -18,6 +18,9 @@
     <ClCompile Include="CircularDoubleLinkedList.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_CircularDoubleLinkedList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CircularDoubleLinkedList.h">

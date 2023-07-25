@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CircularDoubleLinkedList.c" />
+    <ClCompile Include="Test_CircularDoubleLinkedList.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CircularDoubleLinkedList.h" />
