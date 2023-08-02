@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ArrayStack.cpp" />
+    <ClCompile Include="ArrayStack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayStack.h" />
