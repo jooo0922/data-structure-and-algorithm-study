@@ -36,5 +36,6 @@ ElementType AS_Pop(ArrayStack* Stack); // 스택 노드 제거
 ElementType AS_Top(ArrayStack* Stack); // 스택의 현재 최상위 노드 데이터 반환
 int AS_GetSize(ArrayStack* Stack); // 스택의 크기 반환
 int AS_IsEmpty(ArrayStack* Stack); // 스택이 비어있는지 여부 반환
+int AS_IsFull(ArrayStack* Stack); // 스택의 설정 용량이 가득 찼는지 체크
 
 #endif // !ARRAYSTACK_H

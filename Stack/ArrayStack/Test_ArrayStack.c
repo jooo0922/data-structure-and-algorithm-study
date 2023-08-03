@@ -14,6 +14,11 @@ int main()
 	AS_Push(Stack, 11);
 	AS_Push(Stack, 12);
 
+	if (AS_IsFull(Stack))
+	{
+		printf("Stack Is Full.\n");
+	}
+
 	// 스택 초기 생성 시 지정된 최대 용량, 현재 스택 크기, 최상위 스택 출력 
 	printf("Capacity: %d, Size: %d, Top: %d\n\n",
 		Stack->Capacity, AS_GetSize(Stack), AS_Top(Stack));

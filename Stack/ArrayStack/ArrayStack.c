@@ -53,3 +53,11 @@ int AS_IsEmpty(ArrayStack* Stack)
 	// 반대로, 조건문이 false 라면, 0을 출력하겠지
 	return (Stack->Top == -1);
 }
+
+// 스택의 초기 설정 용량이 가득 찼는지 체크
+int AS_IsFull(ArrayStack* Stack)
+{
+	// 스택의 현재 노드 개수가 스택의 Capacity 보다 크거나 같다면 true(1),
+	// 작다면 false(0) 를 반환할 것임.
+	return (Stack->Top + 1 >= Stack->Capacity);
+}
