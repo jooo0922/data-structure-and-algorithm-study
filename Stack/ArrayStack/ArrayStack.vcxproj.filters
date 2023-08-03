@@ -18,6 +18,9 @@
     <ClCompile Include="ArrayStack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_ArrayStack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayStack.h">
