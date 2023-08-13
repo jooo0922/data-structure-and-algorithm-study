@@ -97,7 +97,7 @@ void LLS_Push(LinkedListStack* Stack, Node* NewNode)
 }
 
 // 스택 노드 제거
-void LLS_Pop(LinkedListStack* Stack)
+Node* LLS_Pop(LinkedListStack* Stack)
 {
 	Node* TopNode = Stack->Top; // 예전 최상위 노드를 다른 노드 포인터 변수가 가리키도록 보관해 둠.
 
