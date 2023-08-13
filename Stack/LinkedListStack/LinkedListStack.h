@@ -42,7 +42,7 @@ void LLS_DestroyNode(Node* _Node); // 스택의 노드 파괴 (메모리 해제)
 void LLS_Push(LinkedListStack* Stack, Node* NewNode); // 스택에 노드 삽입 (최상위 노드 추가)
 Node* LLS_Pop(LinkedListStack* Stack); // 스택에서 노드 제거 (최상위 노드 제거)
 
-Node* LLS_Top(LinkedListStack* Stack); // 스택의 현재 최상위 노드 데이터 반환
+Node* LLS_Top(LinkedListStack* Stack); // 스택의 현재 최상위 노드 반환
 int LLS_GetSize(LinkedListStack* Stack); // 스택의 크기 반환
 int LLS_IsEmpty(LinkedListStack* Stack); // 스택이 비어있는지 여부 반환
 
