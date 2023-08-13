@@ -131,6 +131,8 @@ Node* LLS_Pop(LinkedListStack* Stack)
 		// 윗노드를 가리키는 포인터 멤버변수(NextNode)는 아무것도 가리키면 안되겠지!
 		Stack->Top->NextNode; 
 	}
+
+	return TopNode; // 제거된 예전 최상위 노드 반환
 }
 
 // 스택의 최상위 노드 반환
