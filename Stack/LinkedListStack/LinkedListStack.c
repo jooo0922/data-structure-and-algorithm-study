@@ -56,7 +56,7 @@ Node* LLS_CreateNode(char* NewData)
 	NewNode->Data = (char*)malloc(strlen(NewData) + 1);
 
 	// strcpy(대상 버퍼(메모리), 원본 문자열) -> 대상 버퍼에 원본 문자열을 복사해서 저장함
-	strcpy(NewNode->Data, NewData); // 생성한 Node의 Data 포인터 멤버변수에 문자열 데이터 저장
+	strcpy_s(NewNode->Data, strlen(NewData) + 1, NewData); // 생성한 Node의 Data 포인터 멤버변수에 문자열 데이터 저장
 
 	// 스택에 새로 추가할 노드는, 한 마디로 스택의 최상위 노드로 추가할 노드라는 뜻이지!
 	// 따라서, 최상위 노드 위에 노드는 당연히 없어야 하는게 맞으니 NextNode 포인터 멤버변수는
