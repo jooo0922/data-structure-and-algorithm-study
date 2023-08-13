@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LinkedListStack.c" />
+    <ClCompile Include="Test_LinkedListStack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedListStack.h" />
