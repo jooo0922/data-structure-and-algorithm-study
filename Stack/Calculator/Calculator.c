@@ -8,7 +8,18 @@ char NUMBER[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.' };
 // 토큰이 피연산자인지 검사
 int IsNumber(char Cipher)
 {
+    int i = 0;
+    int ArrayLength = sizeof(NUMBER); // NUMBER 배열은 char 타입 배열이고, char 타입은 1 byte 이므로, 배열 개수와 배열 메모리 크기가 일치하겠군!
 
+    for ( i = 0; i < ArrayLength; i++)
+    {
+        // NUMBER 배열 안에 있는 십진수 문자열 중 하나라도 일치하는 게 있다면,
+        // Cipher 토큰은 '피연산자' 라는 의미이므로, 1(true)를 반환
+        if (Cipher == NUMBER[i])
+            return 1;
+    }
+
+    return 0; // NUMBER 안에 일치하는 문자열이 없으면 '연산자' 이므로, 0(false) 반환
 }
 
 // 다음 토큰에 대한 중위표기식 문자열 상의 인덱스를 반환, 다음 토큰 및 토큰 타입 업데이트
