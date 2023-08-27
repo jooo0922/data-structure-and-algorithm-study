@@ -240,10 +240,118 @@ void GetPostfix(char* InfixExpression, char* PostfixExpression)
 // 변환된 후위표기식을 계산하여 결과값 반환
 double Calculate(char* PostfixExpression)
 {
+    LinkedListStack* Stack; // 피연산자를 보관해 둘 링크드리스트 기반 스택을 생성할 포인터 변수 선언
+    Node* ResultNode; // 피연산자를 보관하는 스택에서 후위표기식의 결과값이 저장되는 가장 마지막 노드를 저장할 포인터 변수 선언
+    
+    double Result; // 결과값을 저장할 실수형 변수
+    char Token[32]; // GetPostfix() 에서 처럼, 후위표기식의 현재 토큰들을 저장해 둘 문자열 배열 변수 선언
+    int Type = -1; // GetPostfix() 에서 처럼, 후위표기식의 현재 토큰 타입을 저장할 변수 선언 및 초기화
+    unsigned int Read = 0; // GetPostfix() 에서 처럼, 전체 후위표기식 문자열 상에서 현재 순회중인 문자열의 인덱스 변수 선언 및 초기화
+    unsigned int Length = strlen(PostfixExpression); // 후위표기식 문자열 길이 저장 
+    LLS_CreateStack(&Stack); // 링크드리스트 스택 생성
 
-}
+    // 후위표기식 문자열의 모든 문자들을 순회할 때까지 반복
+    while (Read < Length)
+    {
+        /*
+            GetPostFix() 에서 했던 것처럼,
 
-int main()
-{
-    return 0;
+            GetNextToken() 함수 내에서
+            PostfixExpression(후위표기식) 문자열 중 Read 번째의 문자부터 시작하는 문자열을 전달하여
+            다룰 수 있도록 인자를 전달하는 것이라고 보면 됨.
+
+            이를 통해, GetNextToken() 함수 내에서는
+            Read 번째부터 시작하는 문자열을 분석해서
+            다음 토큰이 무엇인지 알아내서 Token 변수에 덮어쓰고,
+            그 토큰의 타입도 알아내서 Type 변수에도 덮어써 줌.
+
+            마지막으로, 다음 토큰에 해당하는 문자열을 찾을 때까지 반복순회하며 누산한
+            i 값을 반환하는데, 이는 결국 다음 토큰 문자열 길이와 동일함.
+
+            이를 반환받아 Read 에 누적한다는 뜻은,
+            다음 토큰의 문자열 길이를
+            순회중인 PostfixExpression 문자열의 현재 인덱스값인 Position 에 더해서
+            현재 순회중인 PostfixExpression 전체 문자열 상의 현재 인덱스 값을 업데이트 해준다는 뜻!
+        */
+        Read += GetNextToken(&PostfixExpression[Read], Token, &Type);
+
+        if (Type == SPACE)
+        {
+            // 현재 토큰 타입이 공백이라면, 다음 반복 순회로 건너뜀.
+            continue;
+        }
+        
+        if (Type == OPERAND)
+        {
+            // 현재 토큰 타입이 피연산자라면, 해당 토큰을 데이터로 노드를 생성하여 스택에 삽입함
+            Node* NewNode = LLS_CreateNode(Token);
+            LLS_Push(Stack, NewNode);
+        }
+        else
+        {
+            // 현재 토큰 타입이 연산자라면, 
+            // 스택의 최상위 노드에서 2개의 피연산자를 꺼낸(LLS_Pop()) 후,
+            // 현재 토큰 연산자로 두 피연산자를 계산함.
+            // 그리고, 계산한 결과를 다시 스택의 최상위 노드로 삽입(LLS_Push()) 함.
+            char ResultingString[32]; // 두 피연산자의 계산 결과를 문자열로 저장할 배열 변수 선언
+            double Operand1, Operand2, TempResult; // 각각 피연산자1, 피연산자2, 두 피연산자의 계산결과를 저장할 부동소수점 실수형 변수 선언
+            Node* OperandNode; // 피연산자 토큰이 담긴 스택의 최상위 노드를 Pop 해서 꺼내온 뒤 보관해 둘 Node 타입 포인터 변수 선언
+
+            // 스택의 최상위 노드에서 두 번째 피연산자 가져오기
+            /*
+                double atof(const char *str);
+                
+                'ASCII to Float' 의 줄임말로,
+                문자열을 부동 소수점 숫자로 변환하는 함수!
+
+                str: 변환할 부동 소수점 숫자로 표현된 문자열
+                반환값: 변환된 부동 소수점 숫자
+            */
+            OperandNode = LLS_Pop(Stack); // 스택의 현재 최상위 노드 꺼내오기
+            Operand2 = atof(OperandNode->Data); // 꺼내온 최상위 노드에 저장된 두 번째 피연산자 문자열을 부동 소수점 실수로 변환하여 저장
+            LLS_DestroyNode(OperandNode); // 꺼내온 최상위 노드 메모리 해제
+
+            // 스택의 최상위 노드에서 첫 번째 피연산자 가져오기
+            OperandNode = LLS_Pop(Stack); // 스택의 현재 최상위 노드 꺼내오기
+            Operand1 = atof(OperandNode->Data); // 꺼내온 최상위 노드에 저장된 첫 번째 피연산자 문자열을 부동 소수점 실수로 변환하여 저장
+            LLS_DestroyNode(OperandNode); // 꺼내온 최상위 노드 메모리 해제
+
+            // 현재 연산자 토큰의 타입에 따라
+            // 스택에서 꺼내온 두 피연산자를 계산하고, 그 결과값을 TempResult 에 저장
+            switch (Type)
+            {
+            case PLUS: TempResult = Operand1 + Operand2; break;
+            case MINUS: TempResult = Operand1 - Operand2; break;
+            case MULTIPLY: TempResult = Operand1 * Operand2; break;
+            case DIVIDE: TempResult = Operand1 / Operand2; break;
+            }
+
+            // 두 피연산자 계산 결과값 TempResult 을 소수점 이하 10번째 자리까지
+            // 문자열로 변환한 후, 해당 문자열을 ResultingString 문자열 배열 버퍼에 저장.
+            /*
+                char *gcvt(double value, int ndigit, char *buf);
+
+                'Generalized Convert' 의 줄임말로,
+                부동 소수점 숫자를 문자열로 변환하는 함수.
+
+                value: 변환할 부동 소수점 숫자
+                ndigit: 변환할 소수점 이하 자릿수 > value 의 소수점 이하 몇째 자리까지 문자열로 변환할건지 결정!
+                buf: 변환된 문자열을 저장할 버퍼
+                반환값: 변환된 문자열을 가리키는 buf 포인터
+            */
+            gcvt(TempResult, 10, ResultingString);
+            LLS_Push(Stack, LLS_CreateNode(ResultingString)); // 두 피연산자 계산 결과는 스택에 최상위 노드로 다시 삽입 > p.98 참고
+        }
+    }
+
+    // 후위표기식의 모든 토큰을 순회하고 나서 (반복문이 끝나고 나서)
+    // 후위표기식의 최종 결과값이 담겨있는, 스택에 남아있는 최상위 노드를 꺼내옴.
+    ResultNode = LLS_Pop(Stack);
+    Result = atof(ResultNode->Data); // 최상위 노드에 문자열로 저장된 계산결과를 다시 부동 소수점 실수형으로 변환한 뒤, Result 변수에 저장
+
+    LLS_DestroyNode(ResultNode); // 더 이상 최상위 노드가 쓸모 없으므로, 메모리 해제
+
+    LLS_DestroyStack(Stack); // 비어있는 스택도 더 이상 필요 없으므로, 메모리 해제
+
+    return Result; // 후위 표기식 계산 결과 최종 반환.
 }
