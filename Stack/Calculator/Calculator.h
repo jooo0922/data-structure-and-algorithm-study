@@ -28,8 +28,8 @@ typedef enum
 int IsNumber(char Cipher); // 토큰이 피연산자인지 검사
 unsigned int GetNextToken(char* Expression, char* Token, int* Type); // 다음 토큰에 대한 중위표기식 문자열 상의 인덱스를 반환, 다음 토큰 및 토큰 타입 업데이트
 int IsPrior(char Operator1, char Operator2); // 두 연산자 토큰의 우선순위 비교
-void GetPostFix(char* InfixExpression, char* PostfixExpression); // 중위표기식 > 후위표기식으로 변환
-double Calculate(char* PostrixExpression); // 변환된 후위표기식을 계산하여 결과값 반환
+void GetPostfix(char* InfixExpression, char* PostfixExpression); // 중위표기식 > 후위표기식으로 변환
+double Calculate(char* PostfixExpression); // 변환된 후위표기식을 계산하여 결과값 반환
 
 #endif // !CALCULATOR_H
 
