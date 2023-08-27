@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Calculator.c" />
     <ClCompile Include="LinkedListStack.c" />
+    <ClCompile Include="Test_Calculator.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Calculator.h" />

@@ -21,6 +21,9 @@
     <ClCompile Include="LinkedListStack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Calculator.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Calculator.h">
