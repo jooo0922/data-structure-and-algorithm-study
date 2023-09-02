@@ -13,18 +13,26 @@ int main()
 	AS_Push(Stack, 37);
 	AS_Push(Stack, 11);
 	AS_Push(Stack, 12);
+	AS_Push(Stack, 14);
+	AS_Push(Stack, 20);
+	AS_Push(Stack, 53);
+	AS_Push(Stack, 25);
+	AS_Push(Stack, 84);
+	AS_Push(Stack, 72); // 초기에 스택에 설정한 최대 용량까지 노드를 추가함. > 스택의 배열 용량을 30% 만큼 동적으로 증가시킴
 
 	if (AS_IsFull(Stack))
 	{
 		printf("Stack Is Full.\n");
 	}
 
-	// 스택 초기 생성 시 지정된 최대 용량, 현재 스택 크기, 최상위 스택 출력 
+	// 스택의 현재 최대 용량, 현재 스택 크기, 최상위 스택 출력 
 	printf("Capacity: %d, Size: %d, Top: %d\n\n",
 		Stack->Capacity, AS_GetSize(Stack), AS_Top(Stack));
 
-	// 스택에 초기에 삽입된 노드 개수만큼 반복 순회
-	for ( i = 0; i < 4; i++)
+	AS_Push(Stack, 91); // 최대 용량이 늘어났는지 테스트하기 위해 노드 추가
+
+	// 스택의 현재 노드 개수만큼 반복 순회
+	for ( i = 0; i < 11; i++)
 	{
 		// 스택이 비어있다면 반복문 중단
 		if (AS_IsEmpty(Stack))
