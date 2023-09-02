@@ -25,6 +25,18 @@ void AS_Push(ArrayStack* Stack, ElementType Data)
 {
 	Stack->Top++; // 최상위 노드 인덱스 증가
 	Stack->Nodes[Stack->Top].Data = Data; // 스택의 현재 최상위 노드에 데이터 저장
+
+	if (AS_IsFull(Stack))
+	{
+		// 스택이 가득찼을 때, 배열의 용량을 동적으로 증가
+		int IncreasedCapacity = (int)(Stack->Capacity * 1.3f); // 30% 증가된 Capacity 계산
+
+		// 배열을 동적으로 증가시킬 때, realloc() 사용 
+		// > 기존의 배열 메모리 블록 확장 및 기존 데이터 복사 과정에서 성능에 영향을 미치므로 가급적 사용 자제... 
+		Stack->Nodes = (Node*)realloc(Stack->Nodes, sizeof(Node) * IncreasedCapacity);
+
+		Stack->Capacity = IncreasedCapacity; // Capacity 포인터 멤버변수 변경
+	}
 }
 
 // 스택 노드 제거
