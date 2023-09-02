@@ -31,8 +31,25 @@ int main()
 
 	AS_Push(Stack, 91); // 최대 용량이 늘어났는지 테스트하기 위해 노드 추가
 
+	// 스택의 최대 용량이 늘어난 상태에서 추가된 노드 확인
+	printf("Capacity: %d, Size: %d, Top: %d\n\n",
+		Stack->Capacity, AS_GetSize(Stack), AS_Top(Stack));
+
+	// 스택의 현재 크기가 최대 용량의 70% 이하로 떨어질 때까지 노드 제거
+	// 현재까지 11개의 노드가 추가되어 있고, 스택의 최대 용량이 13개까지 늘어난 상태이므로,
+	// 노드를 3개 더 제거해서 8개가 되면 최대 용량의 70% 인 9개 보다 작아짐.
+	AS_Pop(Stack);
+	AS_Pop(Stack);
+	AS_Pop(Stack); // 스택 배열의 현재 크기를 동적으로 70% 까지 감소시킴.
+
+	// 줄어든 스택 배열의 크기 확인
+	printf("Capacity: %d, Size: %d, Top: %d\n\n",
+		Stack->Capacity, AS_GetSize(Stack), AS_Top(Stack));
+
+	int StackSize = AS_GetSize(Stack);
+
 	// 스택의 현재 노드 개수만큼 반복 순회
-	for ( i = 0; i < 11; i++)
+	for ( i = 0; i < StackSize; i++)
 	{
 		// 스택이 비어있다면 반복문 중단
 		if (AS_IsEmpty(Stack))
