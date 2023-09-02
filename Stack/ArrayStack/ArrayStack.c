@@ -43,6 +43,28 @@ void AS_Push(ArrayStack* Stack, ElementType Data)
 ElementType AS_Pop(ArrayStack* Stack)
 {
 	int Position = Stack->Top--; // 최상위 노드 인덱스 감소
+
+	int MinSize = (int)(Stack->Capacity * 0.7); // 현재 스택 최대 용량의 70%
+	if (AS_GetSize(Stack) < MinSize)
+	{
+		// 현재 스택 크기가 현재 스택 최대 용량의 70% 보다 낮아질 경우 처리
+		Node* DecreasedNodes = (Node*)malloc(sizeof(Node) * MinSize); // 현재 스택 최대 용량의 70% 만큼의 새로운 배열 메모리 할당
+
+		/*
+			void *memcpy(void *dest, const void *src, size_t n);
+			
+			dest: 복사한 데이터가 저장될 목적지를 가리키는 포인터입니다.
+			src: 복사할 데이터를 가리키는 포인터입니다.
+			n: 복사할 바이트 수를 나타내는 size_t 타입의 정수입니다.
+		*/
+		memcpy(DecreasedNodes, Stack->Nodes, sizeof(Node) * MinSize); // 기존 Nodes 배열에서 최대 용량의 70% 개수의 Node 만큼 새로운 배열에 복사
+
+		free(Stack->Nodes); // 기존 Nodes 배열 메모리 해제
+
+		Stack->Nodes = DecreasedNodes; // Nodes 포인터 멤버변수가 새로운 배열의 메모리 공간을 가리키도록 할당
+		Stack->Capacity = MinSize; // Capacity 포인터 멤버변수가 가리키는 메모리의 값을 이전 스택 최대 용량의 70% 개수로 변경
+	}
+
 	return Stack->Nodes[Position].Data; // 제거하려는 최상위 노드 데이터 반환
 }
 
