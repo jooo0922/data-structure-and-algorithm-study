@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CircularQueue.c" />
+    <ClCompile Include="Test_CircularQueue.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CircularQueue.h" />
