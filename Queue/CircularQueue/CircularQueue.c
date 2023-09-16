@@ -51,7 +51,7 @@ void CQ_Enqueue(CircularQueue* Queue, ElementType Data)
 }
 
 // 큐 노드 제거
-void CQ_Dequeue(CircularQueue* Queue)
+ElementType CQ_Dequeue(CircularQueue* Queue)
 {
 	int Position = Queue->Front; // 현재 전단이 가리키는 Node(제거하고자 하는 노드)의 인덱스 저장 
 
