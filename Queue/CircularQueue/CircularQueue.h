@@ -32,7 +32,7 @@ typedef struct tagCircularQueue
 
 // 함수 원형 선언
 void CQ_CreateQueue(CircularQueue** Queue, int Capacity); // 순환 큐 생성
-void CQ_DestroyQueue(CircularQueue** Queue); // 순환 큐 메모리 해제
+void CQ_DestroyQueue(CircularQueue* Queue); // 순환 큐 메모리 해제
 void CQ_Enqueue(CircularQueue* Queue, ElementType Data); // 순환 큐에 노드 삽입
 ElementType CQ_Dequeue(CircularQueue* Queue); // 순환 큐에서 노드 제거
 int CQ_GetSize(CircularQueue* Queue); // 순환 큐의 현재 크기 반환
