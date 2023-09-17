@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.33801.447
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CircularQueue", "CircularQueue\CircularQueue.vcxproj", "{357C1274-8D98-40C5-AD09-1EDB2D4EF316}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkedQueue", "LinkedQueue\LinkedQueue.vcxproj", "{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{357C1274-8D98-40C5-AD09-1EDB2D4EF316}.Release|x64.Build.0 = Release|x64
 		{357C1274-8D98-40C5-AD09-1EDB2D4EF316}.Release|x86.ActiveCfg = Release|Win32
 		{357C1274-8D98-40C5-AD09-1EDB2D4EF316}.Release|x86.Build.0 = Release|Win32
+		{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}.Debug|x64.ActiveCfg = Debug|x64
+		{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}.Debug|x64.Build.0 = Debug|x64
+		{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}.Debug|x86.ActiveCfg = Debug|Win32
+		{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}.Debug|x86.Build.0 = Debug|Win32
+		{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}.Release|x64.ActiveCfg = Release|x64
+		{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}.Release|x64.Build.0 = Release|x64
+		{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}.Release|x86.ActiveCfg = Release|Win32
+		{1B8AD092-1FB2-4FAE-8493-709D73BBBFC8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
