@@ -27,7 +27,7 @@ void LQ_DestroyQueue(LinkedQueue* Queue)
 }
 
 // 링크드 큐에 삽입할 노드 생성
-void LQ_CreateNode(char* NewData)
+Node* LQ_CreateNode(char* NewData)
 {
 	Node* NewNode = (Node*)malloc(sizeof(Node)); // 새로운 Node 구조체 힙 메모리 공간 할당
 
@@ -49,10 +49,59 @@ void LQ_CreateNode(char* NewData)
 	return NewNode;
 }
 
+// 링크드 큐의 노드 메모리 해제
 void LQ_DestroyNode(Node* _Node)
 {
 	// 노드를 생성할 때, malloc() 을 두 번 호출했으므로,
 	// 노드의 메모리를 해제할 때에서 free() 를 두번 사용함.
 	free(_Node->Data); // 노드의 문자열 데이터 메모리 반납
 	free(_Node); // 노드 구조체 메모리 반납
+}
+
+// 링크드 큐 노드 삽입
+void LQ_Enqueue(LinkedQueue* Queue, Node* NewNode)
+{
+	if (Queue->Front == NULL)
+	{
+		// 전단이 NULL 일 경우, 즉, 링크드 큐에 노드가 하나도 없는 경우
+		// 새로 삽입할 유일한 노드가 곧 큐의 전단이자 후단이 됨.
+		Queue->Front = NewNode;
+		Queue->Rear = NewNode;
+		Queue->Count++; // 노드 개수 증가
+	}
+	else
+	{
+		// 링크드 큐에 노드가 최소 하나 이상 있는 경우
+		Queue->Rear->NextNode = NewNode; // 링크드 큐의 현재 후단의 다음 노드 포인터가 새로 삽입할 노드를 가리키도록 함.
+		Queue->Rear = NewNode; // 링크드 큐의 현재 후단을 새로 삽입된 노드로 변경함.
+		Queue->Count++; // 노드 개수 증가
+	}
+}
+
+// 링크드 큐 노드 제거
+void LQ_Dequeue(LinkedQueue* Queue)
+{
+	Node* Front = Queue->Front; // 현재 링크드 큐의 전단 노드 주소값을 캐싱해 둠.
+
+	if (Queue->Front->NextNode == NULL)
+	{
+		// 전단 노드의 다음 노드 포인터가 NULL 일 경우, 즉, 큐에 전단 노드 하나만 남았을 경우
+		// 큐에 남아있는 전단 노드 하나마저 제거해버리면,
+		// 큐의 전단과 후단 포인터는 NULL 초기화를 할 수밖에!
+		Queue->Front = NULL;
+		Queue->Rear = NULL;
+	}
+	else
+	{
+		// 링크드 큐에 전단 노드 이외의 노드도 존재할 경우
+		// 현재 링크드 큐의 전단 포인터가
+		// 현재 링크드 큐의 전단 노드의 다음 노드를 가리키도록 변경 
+		Queue->Front = Queue->Front->NextNode;
+	}
+
+	Queue->Count--; // 노드 개수 차감
+
+	// 방금 제거된 전단 노드의 포인터(주소값) 반환
+	// -> 큐에서 제거된 노드의 메모리 해제 시 사용될 것임.
+	return Front;
 }
