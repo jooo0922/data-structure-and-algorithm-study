@@ -79,7 +79,7 @@ void LQ_Enqueue(LinkedQueue* Queue, Node* NewNode)
 }
 
 // 링크드 큐 노드 제거
-void LQ_Dequeue(LinkedQueue* Queue)
+Node* LQ_Dequeue(LinkedQueue* Queue)
 {
 	Node* Front = Queue->Front; // 현재 링크드 큐의 전단 노드 주소값을 캐싱해 둠.
 
