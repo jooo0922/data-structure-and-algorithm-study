@@ -12,3 +12,47 @@ void LQ_CreateQueue(LinkedQueue** Queue)
 	(*Queue)->Rear = NULL;
 	(*Queue)->Count = 0;
 }
+
+// 링크드 큐 메모리 반납
+void LQ_DestroyQueue(LinkedQueue* Queue)
+{
+	// 링크드 큐 노드가 비워지기 전까지 반복문 순회
+	while (!LQ_IsEmpty(Queue))
+	{
+		Node* Popped = LQ_Dequeue(Queue); // 노드 제거 및 제거된 노드의 주소값 반환
+		LQ_DestroyNode(Popped); // 제거된 노드의 메모리 반납
+	}
+
+	free(Queue); // 링크드 큐 구조체 메모리 반납
+}
+
+// 링크드 큐에 삽입할 노드 생성
+void LQ_CreateNode(char* NewData)
+{
+	Node* NewNode = (Node*)malloc(sizeof(Node)); // 새로운 Node 구조체 힙 메모리 공간 할당
+
+	// NewData 문자열 길이 (strlen(NewData)) + 1 만큼의 힙 메모리 공간 할당
+	// 왜 +1 하냐면, NULL 종료문자('\o') 도 저장하기 위함!
+	NewNode->Data = (char*)malloc(strlen(NewData) + 1);
+
+	// strcpy_s(대상 버퍼(메모리 공간 주소), 복사할 문자열 크기, 원본 문자열)
+	// -> 대상 버퍼에 원본 문자열을 복사해서 저장함
+	// 생성한 Node의 Data 포인터가 가리키는 메모리 공간에 문자열 데이터 복사해서 저장
+	strcpy_s(NewNode->Data, strlen(NewData) + 1, NewData); 
+
+	// 큐에 새로 삽입할 노드를 삽입한 것이므로,
+	// 새로 삽입된 노드는 가리킬 다음 노드가 없겠지!
+	// 따라서, 다음 노드 포인터를 NULL 초기화한 것
+	NewNode->NextNode = NULL;
+
+	// 생성한 노드 반환
+	return NewNode;
+}
+
+void LQ_DestroyNode(Node* _Node)
+{
+	// 노드를 생성할 때, malloc() 을 두 번 호출했으므로,
+	// 노드의 메모리를 해제할 때에서 free() 를 두번 사용함.
+	free(_Node->Data); // 노드의 문자열 데이터 메모리 반납
+	free(_Node); // 노드 구조체 메모리 반납
+}
