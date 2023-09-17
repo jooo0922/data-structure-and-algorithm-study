@@ -105,3 +105,11 @@ Node* LQ_Dequeue(LinkedQueue* Queue)
 	// -> 큐에서 제거된 노드의 메모리 해제 시 사용될 것임.
 	return Front;
 }
+
+int LQ_IsEmpty(LinkedQueue* Queue)
+{
+	// 링크드 큐의 전단 존재 여부는 링크드 큐의 공백 여부와 같음.
+	// why? 링크드 큐의 전단 노드는 큐에 있는 모든 노드들의 시작 노드인데, 
+	// 이런 전단 노드가 없다면, 큐에 노드가 하나도 존재하지 않는다는 뜻이니까!
+	return (Queue->Front == NULL);
+}
