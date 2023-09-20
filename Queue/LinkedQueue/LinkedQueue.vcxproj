@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LinkedQueue.c" />
+    <ClCompile Include="Test_LinkedQueue.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedQueue.h" />
