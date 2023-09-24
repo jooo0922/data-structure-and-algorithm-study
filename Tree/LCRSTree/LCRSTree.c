@@ -108,3 +108,28 @@ void LCRS_PrintTree(LCRSNode* Node, int Depth)
 		LCRS_PrintTree(Node->RightSibling, Depth);
 	}
 }
+
+// 특정 레벨에 해당하는 모든 노드 출력
+void LCRS_PrintNodesAtLevel(LCRSNode* Node, int Depth, int Level)
+{ 
+	if (Depth == Level)
+	{
+		// 현재 노드의 깊이값과 특정 레벨이 일치하면,
+		// 현재 노드의 데이터를 출력함.
+		printf("%c ", Node->Data);
+	}
+
+	if (Node->LeftChild != NULL)
+	{
+		// 현재 노드의 왼쪽 자식 노드 포인터가 존재하면,
+		// 현재 노드 깊이 + 1 증가시켜서 왼쪽 자식노드에 대해 재귀를 돌려서 출력함.
+		LCRS_PrintNodesAtLevel(Node->LeftChild, Depth + 1, Level);
+	}
+
+	if (Node->RightSibling != NULL)
+	{
+		// 현재 노드의 오른쪽 형제 노드 포인터가 존재하면,
+		// 현재 노드 깊이와 동일한 깊이값을 전달하여 오른쪽 형제노드에 대해 재귀를 돌려서 출력함. (형제 노드니까 깊이값은 같아야겠지!)
+		LCRS_PrintNodesAtLevel(Node->RightSibling, Depth, Level);
+	}
+}

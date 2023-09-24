@@ -30,5 +30,6 @@ void LCRS_DestroyTree(LCRSNode* Root); // LCRS 트리의 뿌리노드 메모리 
 
 void LCRS_AddChildNode(LCRSNode* ParentNode, LCRSNode* ChildNode); // LCRS 트리의 특정 노드에 자식 노드 추가
 void LCRS_PrintTree(LCRSNode* Node, int Depth); // LCRS 트리 출력
+void LCRS_PrintNodesAtLevel(LCRSNode* Node, int Depth, int Level); // 특정 레벨에 해당하는 모든 노드 출력
 
 #endif // !LCRS_TREE_H
