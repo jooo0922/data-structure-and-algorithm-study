@@ -18,7 +18,7 @@ typedef char ElementType;
 typedef struct tagLCRSNode
 {
 	struct tagLCRSNode* LeftChild; // 왼쪽 자식 노드 포인터 멤버
-	struct tagLCRSNode* rightSibling; // 오른쪽 형제 노드 포인터 멤버
+	struct tagLCRSNode* RightSibling; // 오른쪽 형제 노드 포인터 멤버
 
 	ElementType Data; // 노드 데이터 멤버
 } LCRSNode;
@@ -26,7 +26,7 @@ typedef struct tagLCRSNode
 // 함수 원형 선언
 LCRSNode* LCRS_CreateNode(ElementType NewData); // LCRS 트리 노드 생성
 void LCRS_DestroyNode(LCRSNode* Node); // LCRS 트리 노드 메모리 해제
-void LCRS_DestroyNode(LCRSNode* Root); // LCRS 트리의 뿌리노드 메모리 해제 > 전체 트리 노드 메모리 해제와 같음
+void LCRS_DestroyTree(LCRSNode* Root); // LCRS 트리의 뿌리노드 메모리 해제 > 전체 트리 노드 메모리 해제와 같음
 
 void LCRS_AddChildNode(LCRSNode* ParentNode, LCRSNode* ChildNode); // LCRS 트리의 특정 노드에 자식 노드 추가
 void LCRS_PrintTree(LCRSNode* Node, int Depth); // LCRS 트리 출력
