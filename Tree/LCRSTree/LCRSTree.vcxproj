@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LCRSTree.c" />
+    <ClCompile Include="Test_LCRSTree.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LCRSTree.h" />
