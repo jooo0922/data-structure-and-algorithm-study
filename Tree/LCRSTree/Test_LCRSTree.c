@@ -34,6 +34,14 @@ int main()
 	// 뿌리노드부터 재귀적으로 자식 및 형제 노드들을 모두 출력
 	LCRS_PrintTree(Root, 0); // 뿌리노드의 깊이값은 0
 
+	// 특정 레벨에 해당하는 모든 노드를 출력
+	// 출력하고자 하는 노드들이 속한 레벨 출력
+	int Level = 3;
+	printf("Nodes at Level %d : ", Level); 
+	
+	// 해당 레벨에 속한 노드들을 재귀적으로 출력
+	LCRS_PrintNodesAtLevel(Root, 0, Level); 
+
 	// LCRS 트리 메모리 해제
 	// 뿌리노드부터 재귀적으로 자식 및 형제 노드들을 모두 메모리 해제
 	LCRS_DestroyTree(Root);
