@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BinaryTree.c" />
+    <ClCompile Include="Test_BinaryTree.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryTree.h" />
