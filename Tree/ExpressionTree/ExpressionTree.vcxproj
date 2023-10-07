@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ExpressionTree.c" />
+    <ClCompile Include="Test_ExpressionTree.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExpressionTree.h" />

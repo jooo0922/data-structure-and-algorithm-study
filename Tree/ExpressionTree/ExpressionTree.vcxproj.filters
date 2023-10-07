@@ -18,6 +18,9 @@
     <ClCompile Include="ExpressionTree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_ExpressionTree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExpressionTree.h">
