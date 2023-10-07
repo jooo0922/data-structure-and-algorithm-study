@@ -99,11 +99,11 @@ void ET_InorderPrintTree(ETNode* Node)
 	ET_InorderPrintTree(Node->Left);
 
 	// 뿌리 노드(현재 노드) 출력
-	printf(" %c", Node->Data);
+	printf("%c", Node->Data);
 
 	// 오른쪽 하위 트리(노드) 출력 (재귀 호출)
 	ET_InorderPrintTree(Node->Right);
-	printf("(");
+	printf(")");
 }
 
 // 수식트리 후위순회 출력 > 후위표기식 출력
@@ -181,21 +181,20 @@ void ET_BuildExpressionTree(char* PostfixExpression, ETNode** Node)
 // 수식트리 계산
 double ET_Evaluate(ETNode* Tree)
 {
-	// 피연산자 토큰 문자열을 임시로 저장해 둘 배열 선언
-	// 길이를 2로 설정한 이유는, 한 자릿수 피연산자 토큰과 종료문자('\0')를 포함하기 위함.
-	char Temp[2];
+	// 피연산지 토큰을 임시로 저장해 둘 문자열 배열 선언
+	// (한 자릿수 피연산자 토큰 + 종료문자 '\0' = 2개 길이의 문자열)
+	char Temp[2]; 
 
-	// 왼쪽 / 오른쪽 하위 트리 계산 결과 저장할 변수 초기화
+	// 왼쪽 하위트리와 오른쪽 하위트리 계산 결과 저장할 변수 초기화
 	double Left = 0;
 	double Right = 0;
 
-	// 왼쪽 / 오른쪽 하위 트리 계산 결과 합산 또는,
-	// 문자열 토큰 -> 실수형 타입으로 변환된 피연산자 저장할 변수 초기화
+	// 양쪽 하위트리 계산결과 합산 또는 문자열에서 실수형으로 변환된 피연산자 토큰 저장할 변수 초기화
 	double Result = 0;
 
+	// 매개변수로 들어온 노드 NULL 체크
 	if (Tree == NULL)
 	{
-		// 매개변수로 들어온 수식트리의 노드 NULL 체크
 		return 0;
 	}
 
@@ -203,27 +202,31 @@ double ET_Evaluate(ETNode* Tree)
 	{
 		// 토큰이 연산자인 경우
 		case '+': case '-': case '*': case '/':
-			// 연산자 노드의 왼쪽과 오른쪽 하위트리 계산 결과를 얻기 위해,
-			// 연산자 노드의 왼쪽과 오른쪽 자식 노드에 대해 재귀호출
+			// 연산자 노드의 각 하위 트리 계산결과를 얻기 위해 양쪽 하위 노드에 대해 재귀호출
 			Left = ET_Evaluate(Tree->Left);
 			Right = ET_Evaluate(Tree->Right);
 
-			// 왼쪽과 오른쪽 하위트리 계산 결과를 연산자 토큰 타입에 따라 합산
-			if (Tree->Data == '+') Result = Left + Result;
-			else if (Tree->Data == '-') Result = Left - Result;
-			else if (Tree->Data == '*') Result = Left * Result;
-			else if (Tree->Data == '/') Result = Left / Result;
+			// 양쪽 하위트리 계산 결과를 연산자 토큰 타입에 따라 합산
+			if (Tree->Data == '+') Result = Left + Right;
+			else if (Tree->Data == '-') Result = Left - Right;
+			else if (Tree->Data == '*') Result = Left * Right;
+			else if (Tree->Data == '/') Result = Left / Right;
 
 			break;
 
-		// 토큰이 피연산자인 경우 (문자열 토큰 -> double 타입 실수형으로 변환)
+		// 토큰이 피연산자인 경우
 		default:
-			memset(Temp, 0, sizeof(Temp)); // 연속된 문자열 메모리 공간 Temp 를 종료문자 '\0'으로 초기화
-			Temp[0] = Tree->Data; // 문자열의 첫 번째 메모리 공간을 피연산자 토큰 문자로 덮어씀
-			Result = atof(Temp); // atof(): 'ascii to float' 의 줄임말. 문자열을 부동 소수점 실수형으로 변환
+			// 피연산자 토큰을 임시로 저장할 문자열 메모리 공간 Temp 를 종료문자 '\0'로 초기화
+			memset(Temp, 0, sizeof(Temp));
+
+			// 문자열의 첫번째 메모리 공간을 피연산자 토큰 문자로 덮어씀
+			Temp[0] = Tree->Data;
+
+			// atof() : 'ascii to float' 의 줄임말. 문자열을 부동 소수점 실수형으로 변환.
+			Result = atof(Temp);
 			break;
 	}
 
-	// 하위 트리 계산결과 또는 실수형으로 변환된 피연산자 토큰 반환
-	return Result; 
+	// 양쪽 하위트리 계산결과 합산 또는 문자열에서 실수형으로 변환된 피연산자 토큰 반환
+	return Result;
 }
