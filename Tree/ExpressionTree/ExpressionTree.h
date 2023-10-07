@@ -18,8 +18,8 @@ typedef char ElementType;
 // 수식트리에 추가될 단일 노드 구조체 타입을 별칭으로 선언 (이진트리 노드 구조체와 동일)
 typedef struct tagETNode
 {
-	struct tagSBTNode* Left; // 왼쪽 자식 노드 포인터 멤버
-	struct tagSBTNode* Right; // 오른쪽 자식 노드 포인터 멤버
+	struct tagETNode* Left; // 왼쪽 자식 노드 포인터 멤버
+	struct tagETNode* Right; // 오른쪽 자식 노드 포인터 멤버
 
 	ElementType Data; // 노드 데이터 멤버
 } ETNode;
