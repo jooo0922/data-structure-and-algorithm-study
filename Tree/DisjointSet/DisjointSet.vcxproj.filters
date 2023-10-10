@@ -18,6 +18,9 @@
     <ClCompile Include="DisjointSet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_DisjointSet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.h">

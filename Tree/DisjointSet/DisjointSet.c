@@ -26,6 +26,8 @@ DisjointSet* DS_FindSet(DisjointSet* Set)
 }
 
 // 분리집합 생성
+// void* 타입의 주소값을 받는다는 건, 어느 자료형의 주소값이든 다 받도록 하겠다는 뜻!
+// why? DisjointSet 노드의 데이터 멤버는 어느 자료형이든 다 허용하기 때문!
 DisjointSet* DS_MakeSet(void* NewData)
 {
 	// 하나의 독립된 분리집합 트리를 생성한다는 것은, 뿌리노드를 생성하는 것과 같음!

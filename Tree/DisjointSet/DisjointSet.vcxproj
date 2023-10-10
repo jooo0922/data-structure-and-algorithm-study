@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DisjointSet.c" />
+    <ClCompile Include="Test_DisjointSet.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.h" />
