@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 // 버블정렬 함수 구현
 /*
@@ -15,11 +16,14 @@ void BubbleSort(int DataSet[], int Length)
 {
     int i = 0; // 바깥쪽 for loop 를 돌 때 사용할 인덱스 변수 초기화
     int j = 0; // 안쪽 for loop 를 돌 때 사용할 인덱스 변수 초기화
+    int k = 0;
     int temp = 0; // 버블정렬할 정적 배열의 요소를 임시로 저장해 둘 변수 초기화
 
     // 바깥쪽 for loop 는 정적 배열의 길이만큼 순회
     for (i = 0; i < Length - 1; i++)
     {
+        bool isSorted = true;
+
         // 안쪽 for loop 는 바깥쪽 for loop 가 진행될수록 반복 횟수가 줄어듦
         // 본문 p.206 에서 버블정렬이 진행될 때마다 정렬 대상 개수가 줄어드는 것을 구현한 것임.
         for (j = 0; j < Length - (i + 1); j++)
@@ -32,7 +36,16 @@ void BubbleSort(int DataSet[], int Length)
                 temp = DataSet[j + 1];
                 DataSet[j + 1] = DataSet[j];
                 DataSet[j] = temp;
+
+                isSorted = false;
             }
+        }
+
+        if (isSorted)
+        {
+            printf("Sorting Complete!\n");
+            printf("End outer loop at %d\n", i);
+            break;
         }
     }
 }
