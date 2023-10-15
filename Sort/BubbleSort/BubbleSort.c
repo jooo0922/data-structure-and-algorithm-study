@@ -16,7 +16,6 @@ void BubbleSort(int DataSet[], int Length)
 {
     int i = 0; // 바깥쪽 for loop 를 돌 때 사용할 인덱스 변수 초기화
     int j = 0; // 안쪽 for loop 를 돌 때 사용할 인덱스 변수 초기화
-    int k = 0;
     int temp = 0; // 버블정렬할 정적 배열의 요소를 임시로 저장해 둘 변수 초기화
 
     // 바깥쪽 for loop 는 정적 배열의 길이만큼 순회
