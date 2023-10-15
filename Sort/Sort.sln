@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.34031.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BubbleSort", "BubbleSort\BubbleSort.vcxproj", "{CE7CFADE-D174-42BC-9BFE-FC901709688D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InsertionSort", "InsertionSort\InsertionSort.vcxproj", "{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{CE7CFADE-D174-42BC-9BFE-FC901709688D}.Release|x64.Build.0 = Release|x64
 		{CE7CFADE-D174-42BC-9BFE-FC901709688D}.Release|x86.ActiveCfg = Release|Win32
 		{CE7CFADE-D174-42BC-9BFE-FC901709688D}.Release|x86.Build.0 = Release|Win32
+		{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}.Debug|x64.ActiveCfg = Debug|x64
+		{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}.Debug|x64.Build.0 = Debug|x64
+		{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}.Debug|x86.ActiveCfg = Debug|Win32
+		{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}.Debug|x86.Build.0 = Debug|Win32
+		{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}.Release|x64.ActiveCfg = Release|x64
+		{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}.Release|x64.Build.0 = Release|x64
+		{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}.Release|x86.ActiveCfg = Release|Win32
+		{DC232C70-2E29-4154-8EE7-DA00D7E8B0B3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
