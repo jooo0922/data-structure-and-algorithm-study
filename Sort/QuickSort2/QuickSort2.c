@@ -30,13 +30,29 @@ int ComparePoint(const void* _elem1, const void* _elem2)
 
 int main()
 {
+    int DataSet[] = { 6, 4, 2, 3, 1, 5 }; // 퀵 정렬할 정적 배열 선언 및 초기화
+    int Length = sizeof DataSet / sizeof DataSet[0]; // 정적 배열 길이 계산하여 저장
+    int i = 0; // 퀵 정렬 결과를 확인할 때 for loop 에서 사용할 인덱스 변수 초기화
+
+    // c언어 표준 라이브러리 qsort() 을 사용한 퀵 정렬 수행 (각 매개변수 설명 p.227 참고)
+    // 첫 번째 매개변수는 void* 타입 주소값만 받기 때문에, 
+    // int 타입 정적 배열의 주소값을 void* 타입으로 형변환해서 전달한 것!
+    qsort((void*)DataSet, Length, sizeof(int), ComparePoint);
+
+    // std::qsort() 를 사용한 퀵 정렬 결과 출력
+    for (i = 0; i < Length; i++)
+    {
+        printf("%d ", DataSet[i]);
+    }
+
+
     return 0;
 }
 
 /*
-    std::qsort() 비교함수
+    qsort() 비교함수
 
-    참고로, qsort() 에 전달하는 비교함수 ComparePoint() 는
+    참고로, qsort() 에 전달하는 비교함수 ComparePoint() 는 (정확히는 함수 포인터를 전달하는 것!)
     JS sort() 함수와 정확히 동일한 기능을 하는 함수임!
 
     그래서, 위 비교함수는
