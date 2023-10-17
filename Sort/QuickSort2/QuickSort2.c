@@ -16,7 +16,7 @@ int ComparePoint(const void* _elem1, const void* _elem2)
         // 첫 번째 요소가 두 번째 요소보다 크면 1을 반환
         return 1;
     }
-    else if (*elem1 < elem2)
+    else if (*elem1 < *elem2)
     {
         // 첫 번째 요소가 두 번째 요소보다 작다면 -1을 반환
         return -1;
@@ -42,7 +42,7 @@ int ComparePointDescend(const void* _elem1, const void* _elem2)
         // 첫 번째 요소가 두 번째 요소보다 크면 오름차순과 반대로 -1 반환
         return -1;
     }
-    else if (*elem1 < elem2)
+    else if (*elem1 < *elem2)
     {
         // 첫 번째 요소가 두 번째 요소보다 작다면 오름차순과 반대로 1 반환
         return 1;
@@ -71,6 +71,7 @@ int main()
         printf("%d ", DataSet[i]);
     }
 
+    printf("\n");
 
     return 0;
 }
