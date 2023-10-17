@@ -65,7 +65,7 @@ int main()
     // int 타입 정적 배열의 주소값을 void* 타입으로 형변환해서 전달한 것!
     qsort((void*)DataSet, Length, sizeof(int), ComparePointDescend);
 
-    // std::qsort() 를 사용한 퀵 정렬 결과 출력
+    // qsort() 를 사용한 퀵 정렬 결과 출력
     for (i = 0; i < Length; i++)
     {
         printf("%d ", DataSet[i]);
