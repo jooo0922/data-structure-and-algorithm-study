@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="InsertionSort.c">
+    <ClCompile Include="QuickSort2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
