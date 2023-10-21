@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "LinkedListStack.h"
 
 // 배열내의 두 요소 주소값을 받아 서로의 위치를 맞교환하는 함수
 void Swap(int* A, int* B)
@@ -56,26 +57,41 @@ int Partition(int DataSet[], int Left, int Right)
 // 퀵 정렬 함수 구현
 void QuickSort(int DataSet[], int Left, int Right)
 {
-    // 그룹의 오른쪽 정찰병 위치가 왼쪽 정찰병 위치보다 크다 == 전달받은 그룹의 크기가 1보다는 크다!
-    // -> 그룹의 크기가 1보다 클 때에만 분할을 수행할 수 있댔지?
-    if (Left < Right)
+    LinkedListStack* Stack; // 스택 포인터 변수 선언
+    LLS_CreateStack(&Stack); // 스택 구조체 생성
+    LLS_Push(Stack, LLS_CreateNode(Left, Right)); // 정렬범위 정보가 포함된 노드 생성 및 스택에 Push
+
+    // 스택에 노드가 없어질 때까지 반복 순회
+    while (!LLS_IsEmpty(Stack))
     {
-        // 그룹을 분할하고, 분할 기준요소의 위치를 반환받아 저장해 둠.
-        int Index = Partition(DataSet, Left, Right);
+        // 가장 마지막에 Push 된 정렬범위를 가져옴(Pop)
+        // 참고로, 반복문을 순회할수록 점점 더 분할되어가는 정렬범위가 스택에 Push 됨!
+        Node* Popped = LLS_Pop(Stack); 
+        Left = Popped->Left; // Pop 으로 가져온 정렬범위의 왼쪽 정찰병 위치 저장
+        Right = Popped->Right; // Pop 으로 가져온 정렬범위의 오른쪽 정찰병 위치 저장
+    
+        // 그룹의 오른쪽 정찰병 위치가 왼쪽 정찰병 위치보다 크다 == 전달받은 그룹의 크기가 1보다는 크다!
+        // -> 그룹의 크기가 1보다 클 때에만 분할을 수행할 수 있댔지?
+        if (Left < Right)
+        {
+            // 그룹을 분할하고, 분할 기준요소의 위치를 반환받아 저장해 둠.
+            int Index = Partition(DataSet, Left, Right);
 
-        /*
-            분할 기준요소 위치,
-            하위 그룹의 정렬범위를 결정짓는 두 정찰병 위치(Left, Right)를
-            매개변수로 전달함으로써,
+            /*
+                하위 그룹의 정렬범위를 결정짓는 두 정찰병 위치(Left, Right)로
+                노드를 생성하고, 이를 스택에 Push 함으로써,
 
-            현재 그룹에서 분할 기준요소 Index 를 기준으로 나눠진
-            왼쪽 그룹과 오른쪽 그룹에 대해서 다시 재귀적으로 분할을 수행함.
+                다음 순회에서
+                스택으로부터 분할된 하위 정렬범위 정보를 갖는 노드를 Pop 해와서
+                반복적으로 분할을 수행할 수 있도록 함!
+            */
 
-            QuickSort() 함수를 재귀적으로 호출함으로써,
-            Partition() 함수에 의해 그룹이 재귀적으로 분할됨.
-        */
-        QuickSort(DataSet, Left, Index - 1); // 기준요소의 왼쪽 그룹을 재귀적으로 분할
-        QuickSort(DataSet, Index + 1, Right); // 기준요소의 오른쪽 그룹을 재귀적으로 분할
+            // 기준요소의 왼쪽 하위 정렬범위를 노드로 생성 및 스택에 Push
+            LLS_Push(Stack, LLS_CreateNode(Left, Index - 1)); 
+
+            // 기준요소의 오른쪽 하위 정렬범위를 노드로 생성 및 스택에 Push
+            LLS_Push(Stack, LLS_CreateNode(Index + 1, Right));
+        }
     }
 }
 
