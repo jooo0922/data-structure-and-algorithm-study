@@ -31,7 +31,7 @@ void LLS_DestroyStack(LinkedListStack* Stack)
 }
 
 // 스택에 삽입할 노드 생성
-Node* LLS_CreateNode(char* NewData)
+Node* LLS_CreateNode(int Left, int Right)
 {
 	// Node 구조체를 저장할 공간과 문자열 데이터를 저장할 공간을 모두 malloc() 으로 생성
 	/*
@@ -51,12 +51,9 @@ Node* LLS_CreateNode(char* NewData)
 	*/
 	Node* NewNode = (Node*)malloc(sizeof(Node)); // Node 구조체 크기 만큼의 자유 메모리 할당
 
-	// NewData 문자열 길이 (strlen()) + 1 만큼의 자유 메모리 할당
-	// 왜 +1 하냐면, NULL 종료문자('\o') 도 저장하기 위함!
-	NewNode->Data = (char*)malloc(strlen(NewData) + 1);
-
-	// strcpy(대상 버퍼(메모리), 원본 문자열) -> 대상 버퍼에 원본 문자열을 복사해서 저장함
-	strcpy_s(NewNode->Data, strlen(NewData) + 1, NewData); // 생성한 Node의 Data 포인터 멤버변수에 문자열 데이터 저장
+	// 왼쪽과 오른쪽 정찰병 위치값 할당
+	NewNode->Left = Left;
+	NewNode->Right = Right;
 
 	// 스택에 새로 추가할 노드는, 한 마디로 스택의 최상위 노드로 추가할 노드라는 뜻이지!
 	// 따라서, 최상위 노드 위에 노드는 당연히 없어야 하는게 맞으니 NextNode 포인터 멤버변수는
@@ -71,7 +68,6 @@ void LLS_DestroyNode(Node* _Node)
 {
 	// 노드를 생성할 때, malloc() 을 두 번 호출했으므로,
 	// 노드의 메모리를 해제할 때에서 free() 를 두번 사용함.
-	free(_Node->Data); // 노드의 문자열 데이터 메모리 해제
 	free(_Node); // 노드 구조체 메모리 해제
 }
 

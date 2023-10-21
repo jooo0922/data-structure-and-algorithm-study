@@ -16,12 +16,9 @@
 typedef struct tagNode
 {
 	// 노드에 들어갈 데이터 
-	// 이번에는 문자'열' 데이터를 사용할 것이므로, 
-	// 기본 자료형 리터럴을 바로 멤버변수의 값으로 할당할 수 없음! 
-	// 즉, char 타입을 배열 형태로 저장해야 되므로, 
-	// 해당 문자열이 저장된 자유 저장소의 주소값을 관리하는, 
-	// 즉, 포인터 멤버변수로 관리해야 함!
-	char* Data;
+	// 퀵 정렬에 대상이 되는 정렬범위의 왼쪽 / 오른쪽 정찰병 위치 저장
+	int Left;
+	int Right;
 	struct tagNode* NextNode; // 다음 노드(자신의 '위'에 쌓인 노드)를 가리키는 포인터 멤버변수
 } Node;
 
@@ -36,7 +33,7 @@ typedef struct tagLinkedListStack
 void LLS_CreateStack(LinkedListStack** Stack); // 링크드리스트 기반 스택 생성
 void LLS_DestroyStack(LinkedListStack* Stack); // 스택 파괴 (메모리 해제)
 
-Node* LLS_CreateNode(char* Data); // 스택의 노드 생성
+Node* LLS_CreateNode(int Left, int Right); // 스택의 노드 생성
 void LLS_DestroyNode(Node* _Node); // 스택의 노드 파괴 (메모리 해제)
 
 void LLS_Push(LinkedListStack* Stack, Node* NewNode); // 스택에 노드 삽입 (최상위 노드 추가)
