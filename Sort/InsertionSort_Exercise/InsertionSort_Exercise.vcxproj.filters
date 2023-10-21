@@ -18,5 +18,13 @@
     <ClCompile Include="InsertionSort_Exercise.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DoubleLinkedList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DoubleLinkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

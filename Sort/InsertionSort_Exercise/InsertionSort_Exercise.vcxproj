@@ -139,7 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DoubleLinkedList.c" />
     <ClCompile Include="InsertionSort_Exercise.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DoubleLinkedList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
