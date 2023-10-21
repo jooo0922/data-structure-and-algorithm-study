@@ -8,33 +8,29 @@ void Swap(int* A, int* B)
     *B = Temp; // B가 가리키는 메모리 공간의 값을 맨 처음에 복사해 둔 값으로 덮어씀.
 }
 
-int GetPivot(int DataSet[], int Left, int Right)
+int getMedian(int Left, int Right, int Mid)
 {
-    int mid = (int)(Left + (Right - Left) / 2); // 두 정찰병 사이의 가운데 인덱스 계산
-
-    // 왼쪽, 가운데, 오른쪽 인덱스가 가리키는 요소 저장
-    int a = DataSet[Left];
-    int b = DataSet[mid];
-    int c = DataSet[Right];
-
-    if ((a - b) * (c - a) >= 0)
+    // 정렬범위의 왼쪽, 오른쪽, 가운데 위치값의 대소관계를 비교해서,
+    // 세 위치값 중 가운데에 있는 위치값을 반환함.
+    if (Right >= Left && Left >= Mid)
     {
-        // a, b, c 의 대소관계를 비교한 결과, c > a > b 이거나, b > a > c 라면, 
-        // 즉, 가운데 요소가 가장 크거나 작다면, 두 정찰병 사이의 정렬범위는 아직 정렬되지 않은 것이므로,
-        // 원래대로 맨 왼쪽 정찰병을 기준 요소로 반환함.
+        // Right >= Left >= Mid
+        // 위 부등식에서 Left 가 가운데에 있지? 따라서 가운데 위치값 Left 반환.
         return Left;
-    } 
-    else if ((b - a) * (c - b) >= 0)
-    {
-        // a, b, c 의 대소관계를 비교한 결과, c > b > a 이거나, a > b > c 라면,
-        // 즉, 세 요소가 이미 정렬 또는 역순정렬 되어있을 가능성이 높으므로,
-        // 가운데 인덱스를 기준요소로 반환하여 최악의 경우를 피함
     }
-    else
+    else if (Left >= Right && Right >= Mid)
     {
-        // 위에 해당되지 않는 나머지 케이스는 맨 오른쪽 정찰병을 기준요소로 반환함. 
+        // Left >= Right >= Mid
+        // 위 부등식에서 Right 가 가운데에 있지? 따라서 가운데 위치값 Right 반환.
         return Right;
     }
+
+    // 사실, Mid = (Left + Right) / 2 로 계산되므로, 어지간하면 Mid 값이 가운데 위치값이 됨.
+    // 그러나, 위의 if - else if 블록은 Mid 가 위와 같이 계산되었음에도,
+    // 실제로 Left 와 Right 위치값 사이에 존재하지 않을지 모르는 예외 케이스에 대응하기 위해 작성해 둔 코드라고 봐도 무방함.
+    // 어쨋든 핵심은, 기준요소를 정렬범위의 맨 첫번째 요소가 아닌, 가운데 요소로 지정하기 위해서
+    // 정렬범위 가운데에 위치한 인덱스를 반환해주는 게 이 함수의 가장 큰 목적!
+    return Mid;
 }
 
 // 주어진 그룹(DataSet)을 첫 번째 요소를 기준 요소로 삼아 왼쪽 / 오른쪽 그룹으로 분할하는 함수
@@ -42,7 +38,17 @@ int GetPivot(int DataSet[], int Left, int Right)
 int Partition(int DataSet[], int Left, int Right)
 {
     int First = Left; // 맨 왼쪽 정찰병의 초기 위치 = 그룹의 첫 번째 요소 위치
-    int Pivot = GetPivot(DataSet, Left, Right); // 현재 정렬범위의 순서에 따라 기준요소 반환
+    int Index = getMedian(Left, Right, (Left + Right) / 2); // 정렬범위의 가운데 요소 위치값 반환
+    int Pivot = DataSet[Index]; // 가운데 요소를 분할 기준요소로 선택
+    
+    // 이제 정렬범위의 첫번째 요소와 정렬범위 가운데 요소(분할 기준요소)를 교체함.
+    // 이 덕분에, 만약 정렬범위가 이미 정렬 또는 역순정렬 되어있었을 경우, 가운데 요소와 첫번째 요소를 한 번 교체함으로써,
+    // 1:n-1 로 분할되는 최악의 상황을 방지할 수 있음.
+    // 또한, 정렬 또는 역순정렬이 안되어있다고 할지라도, 어차피 정렬이 안되어 있는 정렬범위라면 
+    // 가운데 요소와 첫번째 요소를 한 번 교체해준다고 해서 딱히 손해볼 건 없는 상황임. 어차피 정렬이 안되어 있었으니까!
+    Swap(&DataSet[Index], &DataSet[Left]);            
+
+    /* 이후부터의 정렬 과정은 이전과 동일함. 왼쪽 정찰병과 오른쪽 정찰병이 정렬범위 양쪽 끝에서부터 수색 섬멸 */
 
     ++Left; // 왼쪽 정찰병의 시작 위치를 첫 번째 요소 다음 요소부터 시작하도록 지정
 
