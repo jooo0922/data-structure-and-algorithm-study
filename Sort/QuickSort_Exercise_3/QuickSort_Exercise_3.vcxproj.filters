@@ -18,5 +18,13 @@
     <ClCompile Include="QuickSort_Exercise_3.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LinkedListStack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LinkedListStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
