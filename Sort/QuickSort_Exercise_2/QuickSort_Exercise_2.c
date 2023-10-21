@@ -8,12 +8,41 @@ void Swap(int* A, int* B)
     *B = Temp; // B가 가리키는 메모리 공간의 값을 맨 처음에 복사해 둔 값으로 덮어씀.
 }
 
+int GetPivot(int DataSet[], int Left, int Right)
+{
+    int mid = (int)(Left + (Right - Left) / 2); // 두 정찰병 사이의 가운데 인덱스 계산
+
+    // 왼쪽, 가운데, 오른쪽 인덱스가 가리키는 요소 저장
+    int a = DataSet[Left];
+    int b = DataSet[mid];
+    int c = DataSet[Right];
+
+    if ((a - b) * (c - a) >= 0)
+    {
+        // a, b, c 의 대소관계를 비교한 결과, c > a > b 이거나, b > a > c 라면, 
+        // 즉, 가운데 요소가 가장 크거나 작다면, 두 정찰병 사이의 정렬범위는 아직 정렬되지 않은 것이므로,
+        // 원래대로 맨 왼쪽 정찰병을 기준 요소로 반환함.
+        return Left;
+    } 
+    else if ((b - a) * (c - b) >= 0)
+    {
+        // a, b, c 의 대소관계를 비교한 결과, c > b > a 이거나, a > b > c 라면,
+        // 즉, 세 요소가 이미 정렬 또는 역순정렬 되어있을 가능성이 높으므로,
+        // 가운데 인덱스를 기준요소로 반환하여 최악의 경우를 피함
+    }
+    else
+    {
+        // 위에 해당되지 않는 나머지 케이스는 맨 오른쪽 정찰병을 기준요소로 반환함. 
+        return Right;
+    }
+}
+
 // 주어진 그룹(DataSet)을 첫 번째 요소를 기준 요소로 삼아 왼쪽 / 오른쪽 그룹으로 분할하는 함수
 // Left 는 왼쪽 정찰병 위치, Right 는 오른쪽 정찰병 위치
 int Partition(int DataSet[], int Left, int Right)
 {
     int First = Left; // 맨 왼쪽 정찰병의 초기 위치 = 그룹의 첫 번째 요소 위치
-    int Pivot = DataSet[First]; // 기준 요소를 그룹의 첫 번째 요소로 지정
+    int Pivot = GetPivot(DataSet, Left, Right); // 현재 정렬범위의 순서에 따라 기준요소 반환
 
     ++Left; // 왼쪽 정찰병의 시작 위치를 첫 번째 요소 다음 요소부터 시작하도록 지정
 
