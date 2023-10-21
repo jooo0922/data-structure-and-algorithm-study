@@ -26,6 +26,7 @@ Node* DLL_CreateNode(ElementType NewData); // 최초 노드(헤드노드) 생성
 void DLL_DestroyNode(Node* Node); // 노드 파괴(메모리 해제)
 void DLL_AppendNode(Node** Head, Node* NewNode); // 노드 추가 (테일노드에 추가)
 void DLL_InsertAfter(Node* Current, Node* NewNode); // 노드 삽입
+void DLL_InsertBefore(Node** Head, Node* Current, Node* NewNode); // 노드 삽입 (특정 노드 앞에)
 void DLL_RemoveNode(Node** Head, Node* Remove); // 링크드리스트에서 노드 제거
 Node* DLL_GetNodeAt(Node* Head, int Location); // 노드 탐색
 int DLL_GetNodeCount(Node* Head); // 노드 개수 세기

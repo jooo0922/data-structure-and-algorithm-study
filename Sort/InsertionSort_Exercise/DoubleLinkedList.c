@@ -59,6 +59,30 @@ void DLL_InsertAfter(Node* Current, Node* NewNode)
 	}
 }
 
+// 노드 삽입 (특정 노드 앞에)
+void DLL_InsertBefore(Node** Head, Node* Current, Node* NewNode)
+{
+	// 현재 노드가 헤드노드와 같다면, 헤드노드를 새로운 노드로 교체
+	if ((*Head) == Current)
+	{
+		(*Head) = NewNode;
+	}
+
+	// 새로운 노드의 이전 노드와 다음 노드 포인터가 가리킬 노드를 새롭게 할당
+	NewNode->PrevNode = Current->PrevNode; 
+	NewNode->NextNode = Current;
+
+	// 현재 노드의 이전 노드가 가리킬 다음 노드를 새로운 노드로 설정
+	if (Current->PrevNode != NULL)
+	{
+		Current->PrevNode->NextNode = NewNode;
+	}
+
+	// 현재 노드가 가리킬 이전 노드를 새로운 노드로 설정
+	Current->PrevNode = NewNode;
+}
+
+
 // 노드 제거(링크드리스트 내에서만 제거) 
 void DLL_RemoveNode(Node** Head, Node* Remove)
 {
