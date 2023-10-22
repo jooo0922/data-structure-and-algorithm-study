@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.34031.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkedListSequentialSearch", "LinkedListSequentialSearch\LinkedListSequentialSearch.vcxproj", "{CD46419B-804D-42B4-A9EF-5E1E6A5606AD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArraySequentialSearch", "ArraySequentialSearch\ArraySequentialSearch.vcxproj", "{DAFA9334-986B-4A43-8197-DA77392C85AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{CD46419B-804D-42B4-A9EF-5E1E6A5606AD}.Release|x64.Build.0 = Release|x64
 		{CD46419B-804D-42B4-A9EF-5E1E6A5606AD}.Release|x86.ActiveCfg = Release|Win32
 		{CD46419B-804D-42B4-A9EF-5E1E6A5606AD}.Release|x86.Build.0 = Release|Win32
+		{DAFA9334-986B-4A43-8197-DA77392C85AF}.Debug|x64.ActiveCfg = Debug|x64
+		{DAFA9334-986B-4A43-8197-DA77392C85AF}.Debug|x64.Build.0 = Debug|x64
+		{DAFA9334-986B-4A43-8197-DA77392C85AF}.Debug|x86.ActiveCfg = Debug|Win32
+		{DAFA9334-986B-4A43-8197-DA77392C85AF}.Debug|x86.Build.0 = Debug|Win32
+		{DAFA9334-986B-4A43-8197-DA77392C85AF}.Release|x64.ActiveCfg = Release|x64
+		{DAFA9334-986B-4A43-8197-DA77392C85AF}.Release|x64.Build.0 = Release|x64
+		{DAFA9334-986B-4A43-8197-DA77392C85AF}.Release|x86.ActiveCfg = Release|Win32
+		{DAFA9334-986B-4A43-8197-DA77392C85AF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
