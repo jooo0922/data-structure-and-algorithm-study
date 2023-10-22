@@ -33,5 +33,6 @@ void SLL_InsertNewHead(Node** Head, Node* NewHead); // 새로운 헤드노드 �
 void SLL_RemoveNode(Node** Head, Node* Remove); // 링크드리스트에서 노드 제거
 Node* SLL_GetNodeAt(Node* Head, int Location); // 노드 탐색
 int SLL_GetNodeCount(Node* Head); // 노드 개수 세기
+Node* SLL_SequentialSearch(Node* Head, int Target); // 링크드리스트 순차 탐색
 
 #endif // !LINKEDLIST_H

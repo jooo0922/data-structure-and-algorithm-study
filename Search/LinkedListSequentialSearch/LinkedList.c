@@ -195,3 +195,29 @@ int SLL_GetNodeCount(Node* Head)
 
 	return Count;
 }
+
+// 링크드리스트 순차 탐색
+Node* SLL_SequentialSearch(Node* Head, int Target)
+{
+	Node* Current = Head; // 순차 탐색을 순회하며 바꿔줄 현재 노드를 헤드 노드로 초기화
+	Node* Match = NULL; // 찾고자 하는 값(Target)을 갖고있는 노드를 저장할 포인터 변수를 NULL 초기화
+
+	// 링크드리스트 노드들을 순차적으로 순회하며 찾고자 하는 노드를 탐색함
+	while (Current != NULL)
+	{
+		if (Current->Data == Target)
+		{
+			// 찾고자 하는 값을 갖고 있는 노드를 발견했을 때
+			Match = Current; // 찾은 현재 노드의 주소값을 Match 포인터 변수에 저장
+			break; // 원하는 노드를 찾았으니 순차 탐색 종료
+		}
+		else
+		{
+			// 찾고자 하는 값을 갖고 있는 노드가 아닐 때
+			Current = Current->NextNode; // 순차 탐색 시 순회하는 노드를 다음 노드로 업데이트
+		}
+	}
+
+	// 찾고자 하는 노드의 주소값 반환
+	return Match;
+}
