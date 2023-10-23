@@ -221,3 +221,46 @@ Node* SLL_SequentialSearch(Node* Head, int Target)
 	// 찾고자 하는 노드의 주소값 반환
 	return Match;
 }
+
+// 링크드리스트 순차 탐색 (전진 이동법)
+Node* SLL_MoveToFront(Node** Head, int Target)
+{
+	Node* Current = (*Head); // 순차 탐색을 순회할 현재 노드를 헤드 노드로 초기화
+	Node* Previous = NULL; // 현재 노드의 이전 노드를 저장할 포인터 NULL 초기화
+	Node* Match = NULL; // 찾고자 하는 값(Target)을 갖고있는 노드를 저장할 포인터 NULL 초기화
+
+	// 링크드리스트 노드들을 순차적으로 순회하며 찾고자 하는 노드를 탐색함
+	while (Current != NULL)
+	{
+		if (Current->Data == Target)
+		{
+			/* 찾고자 하는 값을 갖고 있는 노드를 발견했을 때 */
+			// 찾은 현재 노드의 주소값을 Match 포인터 변수에 저장
+			Match = Current;
+
+			// 현재 노드(Current)를 링크드리스트 상의 맨앞으로 이동 (전진 이동법)
+			if (Previous != NULL)
+			{
+				// 현재 노드를 빼내기
+				Previous->NextNode = Current->NextNode;
+
+				// 현재 노드를 리스트의 가장 앞(헤드노드 자리)로 옮기기
+				Current->NextNode = (*Head);
+				(*Head) = Current;
+			}
+
+			// 원하는 노드를 찾았으니 순차 탐색 종료
+			break; 
+		}
+		else
+		{
+			/* 찾고자 하는 값을 갖고 있는 노드가 아닐 때 */ 
+			// 현재 노드와 이전 노드의 주소값을 갱신함.
+			Previous = Current;
+			Current = Current->NextNode;
+		}
+	}
+
+	// 찾고자 하는 노드의 주소값 반환
+	return Match;
+}
