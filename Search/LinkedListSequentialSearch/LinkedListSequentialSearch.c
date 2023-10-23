@@ -32,10 +32,16 @@ int main()
 	//Node* MatchNode = SLL_SequentialSearch(List, 3);
 
 	// 전진이동법 순차탐색으로 3을 데이터로 갖는 노드를 탐색한다는 메시지 출력
-	printf("\nSearch Node which has value of 3 by Sequential Search with MoveToFront...\n");
+	//printf("\nSearch Node which has value of 3 by Sequential Search with MoveToFront...\n");
 
 	// 전진이동법 순차탐색 수행
-	Node* MatchNode = SLL_MoveToFront(&List, 3);
+	//Node* MatchNode = SLL_MoveToFront(&List, 3);
+
+	// 전위법 순차탐색으로 3을 데이터로 갖는 노드를 탐색한다는 메시지 출력
+	printf("\nSearch Node which has value of 3 by Sequential Search with Transpose...\n");
+
+	// 전진이동법 순차탐색 수행
+	Node* MatchNode = SLL_Transpose(&List, 3);
 
 	if (MatchNode == NULL)
 	{
@@ -48,7 +54,7 @@ int main()
 		printf("Match Node : %d\n", MatchNode->Data);
 		printf("Next Node : %d\n", MatchNode->NextNode->Data);
 
-		// 전진이동법으로 정렬된 링크드리스트 출력
+		// 전위법으로 정렬된 링크드리스트 출력
 		for (i = 0; i < Count; i++)
 		{
 			Current = SLL_GetNodeAt(List, i); // 링크드리스트의 각 노드 주소를 찾아서 반환
