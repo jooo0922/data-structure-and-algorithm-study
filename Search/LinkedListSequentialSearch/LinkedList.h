@@ -35,5 +35,6 @@ Node* SLL_GetNodeAt(Node* Head, int Location); // 노드 탐색
 int SLL_GetNodeCount(Node* Head); // 노드 개수 세기
 Node* SLL_SequentialSearch(Node* Head, int Target); // 링크드리스트 순차 탐색
 Node* SLL_MoveToFront(Node** Head, int Target); // 링크드리스트 순차 탐색 (전진 이동법)
+Node* SLL_Transpose(Node** Head, int Target); // 링크드리스트 순차 탐색 (전위법)
 
 #endif // !LINKEDLIST_H
