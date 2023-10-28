@@ -30,5 +30,28 @@ int ComparePoint(const void* _elem1, const void* _elem2)
 
 int main()
 {
+    int Length = sizeof DataSet / sizeof DataSet[0]; // 정적 배열 길이 계산하여 저장
+    Point target; // 목표값을 저장할 Point 구조체 변수 선언
+    Point* found = NULL; // 이진탐색으로 찾은 결과값의 주소를 저장할 포인터 변수
+
+    // 구매포인트에 대해 qsort() 를 사용하여 퀵 정렬 수행 (오름차순 정렬)
+    qsort((void*)DataSet, Length, sizeof(Point), ComparePoint);
+
+    // 구매포인트가 671.78 점인 고객을 찾기 위해 목표값 초기화
+    target.id = 0;
+    target.point = 671.78;
+
+    // C 표준 라이브러리의 이진탐색 함수 bsearch() 를 사용하여 이진탐색 수행
+    found = bsearch(
+        (void*)&target, // 목표값이 초기화된 Point 구조체 주소값을 void* 타입으로 캐스팅하여 전달
+        (void*)DataSet, // 데이터 배열 주소값을 void* 타입으로 캐스팅하여 전달
+        Length, // 데이터 개수
+        sizeof(Point), // 데이터 하나의 크기 (바이트 단위)
+        ComparePoint // 오름차순 비교함수의 함수 포인터
+    );
+
+    // 이진탐색으로 찾은 고객 데이터 출력
+    printf("found... ID: %d, Point: %f \n", found->id, found->point);
+
     return 0;
 }
