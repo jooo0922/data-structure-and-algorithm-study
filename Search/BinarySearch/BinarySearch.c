@@ -69,5 +69,17 @@ int ComparePoint(const void* _elem1, const void* _elem2)
 
 int main()
 {
+    int Length = sizeof DataSet / sizeof DataSet[0]; // 정적 배열 길이 계산하여 저장
+    Point* found = NULL; // 이진탐색으로 찾은 결과값의 주소를 저장할 포인터 변수
+
+    // 구매포인트에 대해 qsort() 를 사용하여 퀵 정렬 수행 (오름차순 정렬)
+    qsort((void*)DataSet, Length, sizeof(Point), ComparePoint);
+
+    // 구매포인트가 671.78 점인 고객을 이진탐색으로 찾아서 주소값 반환받아 저장
+    found = BinarySearch(DataSet, Length, 671.78);
+
+    // 이진탐색으로 찾은 고객 데이터 출력
+    printf("found... ID: %d, Point: %f \n", found->id, found->point);
+
     return 0;
 }
