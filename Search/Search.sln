@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArraySequentialSearch", "Ar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinarySearch", "BinarySearch\BinarySearch.vcxproj", "{0D2A98CC-FB24-4471-95AA-F811FFCD9D98}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinarySearch2", "BinarySearch2\BinarySearch2.vcxproj", "{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{0D2A98CC-FB24-4471-95AA-F811FFCD9D98}.Release|x64.Build.0 = Release|x64
 		{0D2A98CC-FB24-4471-95AA-F811FFCD9D98}.Release|x86.ActiveCfg = Release|Win32
 		{0D2A98CC-FB24-4471-95AA-F811FFCD9D98}.Release|x86.Build.0 = Release|Win32
+		{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}.Debug|x64.ActiveCfg = Debug|x64
+		{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}.Debug|x64.Build.0 = Debug|x64
+		{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}.Debug|x86.ActiveCfg = Debug|Win32
+		{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}.Debug|x86.Build.0 = Debug|Win32
+		{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}.Release|x64.ActiveCfg = Release|x64
+		{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}.Release|x64.Build.0 = Release|x64
+		{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}.Release|x86.ActiveCfg = Release|Win32
+		{1BE051ED-B104-4BDA-9B6C-257B4FB38F40}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
