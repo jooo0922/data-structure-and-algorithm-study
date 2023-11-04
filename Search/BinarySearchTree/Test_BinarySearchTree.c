@@ -18,5 +18,35 @@ void PrintSearchResult(int SearchTarget, BSTNode* Result)
 
 int main()
 {
+	// 이진탐색트리 뿌리노드 생성 및 초기화
+	BSTNode* Tree = BST_CreateNode(123);
+
+	// 이진탐색트리 연산 결과 노드의 주소값을 저장할 포인터 변수 초기화
+	BSTNode* Node = NULL;
+
+	// 이진탐색트리에 노드 생성하여 삽입
+	BST_InsertNode(Tree, BST_CreateNode(22));
+	BST_InsertNode(Tree, BST_CreateNode(9918));
+	BST_InsertNode(Tree, BST_CreateNode(424));
+	BST_InsertNode(Tree, BST_CreateNode(17));
+	BST_InsertNode(Tree, BST_CreateNode(3));
+	
+	BST_InsertNode(Tree, BST_CreateNode(98));
+	BST_InsertNode(Tree, BST_CreateNode(34));
+
+	BST_InsertNode(Tree, BST_CreateNode(760));
+	BST_InsertNode(Tree, BST_CreateNode(317));
+	BST_InsertNode(Tree, BST_CreateNode(1));
+
+	// 노드 17 이진탐색
+	int SearchTarget = 17;
+	Node = BST_SearchNode(Tree, SearchTarget);
+	PrintSearchResult(SearchTarget, Node);
+
+	// 노드 117 이진탐색
+	SearchTarget = 117;
+	Node = BST_SearchNode(Tree, SearchTarget);
+	PrintSearchResult(SearchTarget, Node);
+
 	return 0;
 }
