@@ -18,6 +18,9 @@
     <ClCompile Include="BinarySearchTree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_BinarySearchTree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h">
