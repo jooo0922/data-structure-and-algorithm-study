@@ -109,7 +109,36 @@ BSTNode* BST_SearchMinNode(BSTNode* Tree)
 // 이진탐색트리 노드 삽입
 void BST_InsertNode(BSTNode* Tree, BSTNode* Child)
 {
+	if (Tree->Data < Child->Data)
+	{
+		// 현재 노드보다 삽입할 노드가 더 클 경우, 오른쪽 하위트리에서 삽입 위치 탐색
 
+		if (Tree->Right == NULL)
+		{
+			// 현재 노드의 오른쪽 하위트리가 비어있을 경우, 삽입할 노드를 오른쪽 하위트리에 추가함
+			Tree->Right = Child;
+		}
+		else
+		{
+			// 현재 노드의 오른쪽 하위트리가 존재할 경우, 재귀적으로 오른쪽 하위트리 재탐색
+			BST_InsertNode(Tree->Right, Child);
+		}
+	}
+	else if (Tree->Data > Child->Data)
+	{
+		// 현재 노드보다 삽입할 노드가 더 작은 경우, 왼쪽 하위트리에서 삽입 위치 탐색
+
+		if (Tree->Left == NULL)
+		{
+			// 현재 노드의 왼쪽 하위트리가 비어있을 경우, 삽입할 노드를 왼쪽 하위트리에 추가함
+			Tree->Left = Child;
+		}
+		else
+		{
+			// 현재 노드의 왼쪽 하위트리가 존재할 경우, 재귀적으로 왼쪽 하위트리 재탐색
+			BST_InsertNode(Tree->Left, Child);
+		}
+	}
 }
 
 // 이진탐색트리 노드 제거
