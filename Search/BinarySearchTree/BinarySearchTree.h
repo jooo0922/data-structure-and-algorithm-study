@@ -31,7 +31,7 @@ BSTNode* BST_SearchNode(BSTNode* Tree, ElementType Target); // 이진탐색트�
 BSTNode* BST_SearchMinNode(BSTNode* Tree); // 주어진 하위트리 내의 최솟값 노드 탐색
 void BST_InsertNode(BSTNode* Tree, BSTNode* Child); // 이진탐색트리 노드 삽입
 BSTNode* BST_RemoveNode(BSTNode* Tree, BSTNode* Parent, ElementType Target); // 이진탐색트리 노드 제거
-void BST_InorderPrintTree(BSTNode* Node); // 이진탐색트리 중위순회 충력
+void BST_InorderPrintTree(BSTNode* Node); // 이진탐색트리 중위순회 출력
 
 #endif // !BINARY_SEARCH_TREE_H
 
