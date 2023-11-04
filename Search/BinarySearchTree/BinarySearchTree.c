@@ -251,7 +251,7 @@ void BST_InorderPrintTree(BSTNode* Node)
 	BST_InorderPrintTree(Node->Left);
 
 	// 뿌리 노드(현재 노드) 출력
-	printf(" %c", Node->Data);
+	printf(" %d", Node->Data);
 
 	// 오른쪽 하위 트리(노드) 출력 (재귀 호출)
 	BST_InorderPrintTree(Node->Right);
