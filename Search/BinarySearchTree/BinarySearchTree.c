@@ -233,8 +233,26 @@ BSTNode* BST_RemoveNode(BSTNode* Tree, BSTNode* Parent, ElementType Target)
 	return Removed;
 }
 
-// 이진탐색트리 중위순회 충력
+// 이진탐색트리 중위순회 출력
 void BST_InorderPrintTree(BSTNode* Node)
 {
+	// 현재 순회중인 노드 포인터 NULL 체크
+	if (Node == NULL)
+	{
+		// 현재 노드 포인터 변수에 주소값이 존재하지 않으면 순회를 종료함.
+		return;
+	}
 
+	// 현재 노드 포인터 변수가 NULL 이 아니라면,
+	// 중위 순회 순서로 (왼쪽 하위 트리 -> 뿌리 노드 -> 오른쪽 하위 트리)
+	// 재귀적으로 함수를 호출하여 노드 데이터 출력
+
+	// 왼쪽 하위 트리(노드) 출력 (재귀 호출)
+	BST_InorderPrintTree(Node->Left);
+
+	// 뿌리 노드(현재 노드) 출력
+	printf(" %c", Node->Data);
+
+	// 오른쪽 하위 트리(노드) 출력 (재귀 호출)
+	BST_InorderPrintTree(Node->Right);
 }
