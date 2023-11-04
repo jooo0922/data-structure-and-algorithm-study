@@ -52,5 +52,15 @@ int main()
 	BST_InorderPrintTree(Tree);
 	printf("\n");
 
+	// 노드 98 제거 및 메모리 반납
+	printf("Removing 98...\n");
+
+	Node = BST_RemoveNode(Tree, NULL, 98);
+	BST_DestroyNode(Node);
+
+	// 특정 노드 제거 후 다시 중위순회 출력
+	BST_InorderPrintTree(Tree);
+	printf("\n");
+
 	return 0;
 }
