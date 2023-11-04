@@ -48,5 +48,9 @@ int main()
 	Node = BST_SearchNode(Tree, SearchTarget);
 	PrintSearchResult(SearchTarget, Node);
 
+	// 이진탐색트리 중위순회 출력
+	BST_InorderPrintTree(Tree);
+	printf("\n");
+
 	return 0;
 }
