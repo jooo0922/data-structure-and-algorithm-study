@@ -62,5 +62,17 @@ int main()
 	BST_InorderPrintTree(Tree);
 	printf("\n");
 
+	// 노드 111 새로 삽입
+	printf("Inserting 111...\n");
+
+	BST_InsertNode(Tree, BST_CreateNode(111));
+
+	// 특정 노드 삽입 후 다시 중위순회 출력
+	BST_InorderPrintTree(Tree);
+	printf("\n");
+
+	// 이진탐색트리 전체 메모리 반납
+	BST_DestroyTree(Tree);
+
 	return 0;
 }
