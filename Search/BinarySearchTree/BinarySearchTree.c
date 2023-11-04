@@ -25,7 +25,24 @@ void BST_DestroyNode(BSTNode* Node)
 // 이진탐색트리 전체 메모리 해제
 void BST_DestroyTree(BSTNode* Tree)
 {
+	// 오른쪽 하위트리가 존재한다면, 재귀적으로 순회하여 하위 노드(잎 노드) 먼저 메모리 해제
+	if (Tree->Right != NULL)
+	{
+		BST_DestroyTree(Tree->Right);
+	}
 
+	// 왼쪽 하위트리가 존재한다면, 재귀적으로 순회하여 하위 노드(잎 노드) 먼저 메모리 해제
+	if (Tree->Left != NULL)
+	{
+		BST_DestroyTree(Tree->Left);
+	}
+
+	// 위에서 자식노드 메모리를 모두 해제했다면, 자식 노드 포인터를 NULL 초기화
+	Tree->Left = NULL;
+	Tree->Right = NULL;
+
+	// 현재 노드 메모리 해제
+	BST_DestroyNode(Tree);
 }
 
 // 이진탐색트리 노드 탐색
