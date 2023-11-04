@@ -144,7 +144,93 @@ void BST_InsertNode(BSTNode* Tree, BSTNode* Child)
 // 이진탐색트리 노드 제거
 BSTNode* BST_RemoveNode(BSTNode* Tree, BSTNode* Parent, ElementType Target)
 {
+	// 제거할 노드의 주소값을 저장 및 반환할 포인터 변수 초기화
+	BSTNode* Removed = NULL;
 
+	if (Tree == NULL)
+	{
+		// 현재 노드(트리) NULL 체크
+		return NULL;
+	}
+
+	if (Tree->Data > Target)
+	{
+		// 현재 순회중인 노드보다 제거할 노드가 더 작을 경우,
+		// 현재 노드의 왼쪽 하위 트리를 재귀적으로 다시 탐색함 (BST_SearchNode() 와 유사)
+		Removed = BST_RemoveNode(Tree->Left, Tree, Target);
+	}
+	else if (Tree->Data < Target)
+	{
+		// 현재 순회중인 노드보다 제거할 노드가 더 클 경우,
+		// 현재 노드의 오른쪽 하위 트리를 재귀적으로 다시 탐색함 (BST_SearchNode() 와 유사)
+		Removed = BST_RemoveNode(Tree->Right, Tree, Target);
+	}
+	else
+	{
+		// 현재 노드가 제거할 노드와 일치하는 경우, 제거할 노드의 주소값을 저장해 둠
+		Removed = Tree;
+
+		if (Tree->Left == NULL && Tree->Right == NULL)
+		{
+			// 제거할 노드에 자식노드가 없는(= 잎 노드) 경우,
+			// 제거할 노드의 부모노드 포인터 멤버를 NULL 초기화
+			if (Parent->Left == Tree)
+			{
+				Parent->Left = NULL;
+			}
+			else
+			{
+				Parent->Right = NULL;
+			}
+		}
+		else
+		{
+			// 제거할 노드에 자식노드가 있는 경우
+
+			if (Tree->Left != NULL && Tree->Right != NULL)
+			{
+				// 제거할 노드의 자식이 양쪽 모두 존재할 경우
+
+				// 제거할 노드의 오른쪽 하위트리에서 최솟값 노드를 탐색함
+				BSTNode* MinNode = BST_SearchMinNode(Tree->Right);
+
+				// 재귀호출하여 최솟값 노드를 현재 위치에서 제거
+				// 이때, 최솟값 노드의 자식 유무에 따라 뒷처리 방법이 달랐음! (p.257 하단 설명 참고)
+				MinNode = BST_RemoveNode(Tree, NULL, MinNode->Data);
+
+				// 최솟값 노드를 제거할 노드 위치에 덮어씀
+				Tree->Data = MinNode->Data;
+			}
+			else
+			{
+				// 제거할 노드 자식이 한쪽에만 존재할 경우
+
+				// 삭제할 노드의 자식노드 주소값을 Temp 포인터 변수에 임시 저장
+				BSTNode* Temp = NULL;
+				if (Tree->Left != NULL)
+				{
+					Temp = Tree->Left;
+				}
+				else
+				{
+					Temp = Tree->Right;
+				}
+
+				// 삭제할 노드의 자식노드를 삭제할 노드의 부모노드와 연결시킴
+				if (Parent->Left == Tree)
+				{
+					Parent->Left = Temp;
+				}
+				else
+				{
+					Parent->Right = Temp;
+				}
+			}
+		}
+	}
+
+	// 제거된 노드의 주소값 반환
+	return Removed;
 }
 
 // 이진탐색트리 중위순회 충력
