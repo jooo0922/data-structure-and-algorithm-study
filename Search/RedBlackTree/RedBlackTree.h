@@ -26,4 +26,23 @@ typedef struct tagRBTNode
 	ElementType Data; // 노드 데이터 멤버
 } RBTNode;
 
+/* 레드블랙트리 함수 선언 */
+
+void RBT_DestroyTree(RBTNode* Tree); // 레드블랙트리 전체 메모리 해제
+
+RBTNode* RBT_CreateNode(ElementType NewData); // 레드블랙트리 노드 생성
+void RBT_DestroyNode(RBTNode* Node); // 레드블랙트리 노드 메모리 해제
+
+RBTNode* RBT_SearchNode(RBTNode* Tree, ElementType Target); // 레드블랙트리 노드 탐색
+RBTNode* RBT_SearchMinNode(RBTNode* Tree); // 주어진 하위트리 내의 최솟값 노드 탐색
+void RBT_InsertNode(RBTNode** Tree, RBTNode* NewNode); // 레드블랙트리 노드 삽입
+void RBT_InsertNodeHelper(RBTNode** Tree, RBTNode* NewNode); // 이진탐색트리 노드 삽입과 동일한 코드를 별도 함수로 추출
+RBTNode* RBT_RemoveNode(RBTNode** Root, ElementType Target); // 레드블랙트리 노드 제거
+void RBT_RebuildAfterInsert(RBTNode** Tree, RBTNode* NewNode); // 레드블랙트리 노드 삽입 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
+void RBT_RebuildAfterRemove(RBTNode** Root, RBTNode* Successor); // 레드블랙트리 노드 제거 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
+
+void RBT_PrintTree(RBTNode* Node, int Depth, int BlackCount); // 레드블랙트리 출력
+void RBT_RotateLeft(RBTNode** Root, RBTNode* Parent); // 레드블랙트리 상에서 노드 좌회전
+void RBT_RotateRight(RBTNode** Root, RBTNode* Parent); // 레드블랙트리 상에서 노드 우회전
+
 #endif // !REDBLACKTREE_H
