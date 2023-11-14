@@ -36,3 +36,34 @@ RBTNode* RBT_CreateNode(ElementType NewData)
 	return NewNode;
 }
 
+// 레드블랙트리 노드 메모리 해제
+void RBT_DestroyNode(RBTNode* Node)
+{
+	free(Node);
+}
+
+// 레드블랙트리 전체 메모리 해제
+void RBT_DestroyTree(RBTNode* Tree)
+{
+	if (Tree->Right != Nil)
+	{
+		// 오른쪽 하위트리가 전역 더미노드가 아니라면, 재귀적으로 순회하여 하위 노드(잎 노드) 먼저 메모리 해제
+		RBT_DestroyTree(Tree->Right);
+	}
+
+	if (Tree->Left != Nil)
+	{
+		// 왼쪽 하위트리가 전역 더미노드가 아니라면, 재귀적으로 순회하여 하위 노드(잎 노드) 먼저 메모리 해제
+		RBT_DestroyTree(Tree->Left);
+	}
+
+	// 위에서 자식노드 메모리를 모두 해제했다면, 자식 노드 포인터들이 전역 더미노드를 가리키도록 초기화
+	// 왜냐하면, 자식노드 모두 메모리 반납했다면, 현재 Tree 노드가 '(사실상) 잎 노드'에 해당하므로,
+	// 레드블랙트리의 '(사실상) 잎 노드' 하위에는 양쪽에 더미노드를 연결해서 3번 규칙을 지키기 위함!
+	Tree->Left = Nil;
+	Tree->Right = Nil;
+
+	// 현재 노드 메모리 해제
+	RBT_DestroyNode(Tree);
+}
+
