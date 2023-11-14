@@ -203,6 +203,61 @@ void RBT_InsertNodeHelper(RBTNode** Tree, RBTNode* NewNode)
 	}
 }
 
+// 레드블랙트리 상에서 노드 좌회전 (= '왼쪽 자식노드' <-> '부모' 간 위치 교환)
+void RBT_RotateLeft(RBTNode** Root, RBTNode* Parent)
+{
+	// '왼쪽 자식노드' 가져오기
+	RBTNode* LeftChild = Parent->Left;
+
+
+	/* 이진탐색트리의 조건을 유지하기 위한 전처리 */
+
+	// '왼쪽 자식노드'의 오른쪽 자식을 '부모노드'의 왼쪽 자식으로 등록
+	Parent->Left = LeftChild->Right;
+
+	// 그에 따라, '왼쪽 자식노드'의 오른쪽 자식의 부모도 변경해 줌.
+	if (LeftChild->Right != Nil)
+	{
+		LeftChild->Right->Parent = Parent;
+	}
+
+	
+	/* '왼쪽 자식노드' <-> '부모' 간 위치 교환 */
+
+	// '왼쪽 자식노드'의 부모 먼저 변경
+	LeftChild->Parent = Parent->Parent;
+
+	if (Parent->Parent == NULL)
+	{
+		// '부모'가 뿌리노드였던 경우, '왼쪽 자식노드'를 뿌리노드로 교체함.
+		(*Root) = LeftChild;
+	}
+	else
+	{
+		// '부모'가 뿌리노드가 아니였던 경우
+
+		if (Parent == Parent->Parent->Left)
+		{
+			// '부모'가 할아버지 노드의 왼쪽 자식이었던 경우,
+			// 할아버지 노드의 왼쪽 자식을 '왼쪽 자식노드'로 교체함
+			Parent->Parent->Left = LeftChild;
+		}
+		else
+		{
+			// '부모'가 할아버지 노드의 오른쪽 자식이었던 경우,
+			// 할아버지 노드의 오른쪽 자식을 '왼쪽 자식노드'로 교체함
+			Parent->Parent->Right = LeftChild;
+		}
+	}
+
+	// '왼쪽 자식노드'의 오른쪽 자식을 '부모'로 등록
+	LeftChild->Right = Parent;
+
+	// '부모'의 부모노드를 '왼쪽 자식노드'로 등록
+	Parent->Parent = LeftChild;
+}
+
+
 // 레드블랙트리 노드 삽입 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
 void RBT_RebuildAfterInsert(RBTNode** Tree, RBTNode* NewNode)
 {
