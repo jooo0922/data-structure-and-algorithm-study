@@ -257,6 +257,62 @@ void RBT_RotateRight(RBTNode** Root, RBTNode* Parent)
 	Parent->Parent = LeftChild;
 }
 
+// 레드블랙트리 상에서 노드 좌회전 (= '오른쪽 자식노드' <-> '부모' 간 위치 교환)
+// 노드 우회전 코드에서 '왼쪽 자식노드' -> '오른쪽 자식노드' 로만 바꾸면 됨!
+void RBT_RotateLeft(RBTNode** Root, RBTNode* Parent)
+{
+	// '오른쪽 자식노드' 가져오기
+	RBTNode* RightChild = Parent->Right;
+
+
+	/* 이진탐색트리의 조건을 유지하기 위한 전처리 */
+
+	// '오른쪽 자식노드'의 왼쪽 자식을 '부모노드'의 오른쪽 자식으로 등록
+	Parent->Right = RightChild->Left;
+
+	// 그에 따라, '오른쪽 자식노드'의 왼쪽 자식의 부모도 변경해 줌.
+	if (RightChild->Left != Nil)
+	{
+		RightChild->Left->Parent = Parent;
+	}
+
+
+	/* '오른쪽 자식노드' <-> '부모' 간 위치 교환 */
+
+	// '오른쪽 자식노드'의 부모 먼저 변경
+	RightChild->Parent = Parent->Parent;
+
+	if (Parent->Parent == NULL)
+	{
+		// '부모'가 뿌리노드였던 경우, '오른쪽 자식노드'를 뿌리노드로 교체함.
+		(*Root) = RightChild;
+	}
+	else
+	{
+		// '부모'가 뿌리노드가 아니였던 경우
+
+		if (Parent == Parent->Parent->Left)
+		{
+			// '부모'가 할아버지 노드의 왼쪽 자식이었던 경우,
+			// 할아버지 노드의 왼쪽 자식을 '오른쪽 자식노드'로 교체함
+			Parent->Parent->Left = RightChild;
+		}
+		else
+		{
+			// '부모'가 할아버지 노드의 오른쪽 자식이었던 경우,
+			// 할아버지 노드의 오른쪽 자식을 '오른쪽 자식노드'로 교체함
+			Parent->Parent->Right = RightChild;
+		}
+	}
+
+	// '오른쪽 자식노드'의 왼쪽 자식을 '부모'로 등록
+	RightChild->Left = Parent;
+
+	// '부모'의 부모노드를 '오른쪽 자식노드'로 등록
+	Parent->Parent = RightChild;
+}
+
+
 
 // 레드블랙트리 노드 삽입 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
 void RBT_RebuildAfterInsert(RBTNode** Tree, RBTNode* NewNode)
