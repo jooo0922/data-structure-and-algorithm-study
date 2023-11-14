@@ -203,8 +203,8 @@ void RBT_InsertNodeHelper(RBTNode** Tree, RBTNode* NewNode)
 	}
 }
 
-// 레드블랙트리 상에서 노드 좌회전 (= '왼쪽 자식노드' <-> '부모' 간 위치 교환)
-void RBT_RotateLeft(RBTNode** Root, RBTNode* Parent)
+// 레드블랙트리 상에서 노드 우회전 (= '왼쪽 자식노드' <-> '부모' 간 위치 교환)
+void RBT_RotateRight(RBTNode** Root, RBTNode* Parent)
 {
 	// '왼쪽 자식노드' 가져오기
 	RBTNode* LeftChild = Parent->Left;
