@@ -143,10 +143,64 @@ void RBT_InsertNode(RBTNode** Tree, RBTNode* NewNode)
 	RBT_RebuildAfterInsert(Tree, NewNode);
 }
 
-// 이진탐색트리 노드 삽입과 동일한 코드를 별도 함수로 추출
+// 이진탐색트리 노드 삽입과 거의 유사한 코드를 별도 함수로 추출
 void RBT_InsertNodeHelper(RBTNode** Tree, RBTNode* NewNode)
 {
+	if ((*Tree) == NULL)
+	{
+		// 트리 이중 포인터를 de-referencing 했을 때,  
+		// 뿌리노드 주소값(RBTNode*)이 비어있을 경우, 삽입할 노드의 주소값을 뿌리노드 주소값으로 할당.
+		// -> 비어있는 트리의 뿌리노드로 삽입할 노드를 추가한 것!
+		(*Tree) = NewNode;
+	}
 
+	if ((*Tree)->Data < NewNode->Data)
+	{
+		// 현재 노드보다 삽입할 노드가 더 클 경우, 오른쪽 하위트리에서 삽입 위치 탐색
+
+		if ((*Tree)->Right == Nil)
+		{
+			// 현재 노드의 오른쪽 하위트리에 더미노드 뿐이라면, 삽입할 노드를 오른쪽 하위트리에 추가함
+			(*Tree)->Right = NewNode;
+
+			// 레드블랙트리 노드(RBTNode)는 부모노드 포인터도 존재하므로, 현재 노드의 주소값으로 채워줄 것.
+			NewNode->Parent = (*Tree);
+		}
+		else
+		{
+			// 현재 노드의 오른쪽 하위트리가 존재할 경우, 재귀적으로 오른쪽 하위트리 재탐색
+			/*
+				참고로, &(*Tree)->Right 는
+
+				현재노드(*Tree) 의 오른쪽 자식노드(Right)가 저장된 메모리의 주소값이
+				담긴 또 다른 메모리의 주소값(&)을 앰퍼샌드 연산자로 전달하려는 것임.
+
+				즉, &((*Tree)->Right) 이렇게 표현하면 더 이해가 쉬울 것임!
+
+				RBT_InsertNodeHelper() 함수가 첫 번째 인자를 이중 포인터로 받기 때문에,
+				재귀함수를 호출할 때에도 항상 이중 포인터로 전달해줘야 함!
+			*/
+			RBT_InsertNodeHelper(&(*Tree)->Right, NewNode);
+		}
+	}
+	else if ((*Tree)->Data > NewNode->Data)
+	{
+		// 현재 노드보다 삽입할 노드가 더 작은 경우, 왼쪽 하위트리에서 삽입 위치 탐색
+
+		if ((*Tree)->Left == Nil)
+		{
+			// 현재 노드의 왼쪽 하위트리가 더미노드 뿐이라면, 삽입할 노드를 왼쪽 하위트리에 추가함
+			(*Tree)->Left = NewNode;
+
+			// 레드블랙트리 노드(RBTNode)는 부모노드 포인터도 존재하므로, 현재 노드의 주소값으로 채워줄 것.
+			NewNode->Parent = (*Tree);
+		}
+		else
+		{
+			// 현재 노드의 왼쪽 하위트리가 존재할 경우, 재귀적으로 왼쪽 하위트리 재탐색
+			RBT_InsertNodeHelper(&(*Tree)->Left, NewNode);
+		}
+	}
 }
 
 // 레드블랙트리 노드 삽입 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
