@@ -315,9 +315,128 @@ void RBT_RotateLeft(RBTNode** Root, RBTNode* Parent)
 
 
 // 레드블랙트리 노드 삽입 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
-void RBT_RebuildAfterInsert(RBTNode** Tree, RBTNode* NewNode)
+void RBT_RebuildAfterInsert(RBTNode** Root, RBTNode* NewNode)
 {
+	// 새로 삽입한 노드가 뿌리노드가 아니고(뿌리노드면 검은색으로 칠하면 금방 해결됨..),
+	// 새로 삽입한 노드의 부모노드가 빨간색 노드일 때에는 반복문을 계속 돌리며 3개의 뒷처리 케이스 반복
+	while (NewNode !=  (*Root) && NewNode->Parent->Color == RED)
+	{
+		if (NewNode->Parent == NewNode->Parent->Parent->Left)
+		{
+			/* 부모노드가 할아버지 노드의 왼쪽 자식일 때 기준으로 뒷처리 */
 
+			// 삼촌노드(= 부모노드의 유일한 형제 노드) 가져오기
+			RBTNode* Uncle = NewNode->Parent->Parent->Right;
+
+			if (Uncle->Color == RED)
+			{
+				/* 1. 삼촌노드가 빨간색인 경우 뒷처리 */
+
+				// 부모노드와 삼촌노드를 검은색으로 칠함
+				NewNode->Parent->Color = BLACK;
+				Uncle->Color = BLACK;
+
+				// 할아버지 노드를 빨간색으로 칠함
+				NewNode->Parent->Parent->Color = RED;
+
+				// 위에서 할아버지 노드를 빨간색으로 칠함에 따라, 
+				// 레드블랙트리 4번 규칙 (= 빨간색 노드의 자식은 모두 검은색이다) 이 위배될 가능성이 생김.
+
+				// 따라서, 할아버지 노드를 새로 삽입한 노드로 간주하여 
+				// 다음 반복문에서 할아버지를 타고 올라가며 4번 규칙을 위배하는지 계속 검사하며 뒷처리 반복!
+				NewNode = NewNode->Parent->Parent;
+			}
+			else
+			{
+				if (NewNode = NewNode->Parent->Right)
+				{
+					/* 2. 삼촌노드가 검은색이고, 새로 삽입한 노드가 부모노드의 오른쪽 자식인 경우 뒷처리 */
+
+					// 새로 삽입한 노드와 부모노드를 좌회전으로 위치 교환할 것이므로,
+					// 그전에 부모노드를 새로 삽입한 노드로 간주시킴
+					NewNode = NewNode->Parent;
+
+					// 부모노드를 기준으로 좌회전
+					// (참고로, 부모노드는 새로 삽입한 노드로 간주되었으니, 현재 NewNode 에는 부모노드 주소값이 들어있는 상태!)
+					RBT_RotateLeft(Root, NewNode);
+
+					// 부모노드를 좌회전함으로써, 3번 뒷처리 케이스와 동일한 꼴이 됨 -> 3번 케이스로 뒷처리를 넘긴 셈!
+				}
+
+				/* 3. 삼촌노드가 검은색이고, 새로 삽입한 노드가 부모노드의 왼쪽 자식인 경우 뒷처리 */
+
+				// 부모노드를 검은색으로 칠함
+				NewNode->Parent->Color = BLACK;
+
+				// 할아버지 노드를 빨간색으로 칠함
+				NewNode->Parent->Parent->Color = RED;
+
+				// 할아버지 노드를 기준으로 우회전 -> 부모노드와 할아버지 노드 간 위치 교환
+				// -> 드디어 4번 규칙에 위배되지 않게 됨!
+				RBT_RotateRight(Root, NewNode->Parent->Parent);
+			}
+		}
+		else
+		{
+			/* 부모노드가 할아버지 노드의 오른쪽 자식일 때 기준으로 뒷처리 */
+			// 부모노드가 왼쪽 자식일 때 기준 코드에서 왼쪽 <-> 오른쪽 만 바꿔주면 됨!
+
+			// 삼촌노드(= 부모노드의 유일한 형제 노드) 가져오기
+			RBTNode* Uncle = NewNode->Parent->Parent->Left;
+
+			if (Uncle->Color == RED)
+			{
+				/* 1. 삼촌노드가 빨간색인 경우 뒷처리 */
+
+				// 부모노드와 삼촌노드를 검은색으로 칠함
+				NewNode->Parent->Color = BLACK;
+				Uncle->Color = BLACK;
+
+				// 할아버지 노드를 빨간색으로 칠함
+				NewNode->Parent->Parent->Color = RED;
+
+				// 위에서 할아버지 노드를 빨간색으로 칠함에 따라, 
+				// 레드블랙트리 4번 규칙 (= 빨간색 노드의 자식은 모두 검은색이다) 이 위배될 가능성이 생김.
+
+				// 따라서, 할아버지 노드를 새로 삽입한 노드로 간주하여 
+				// 다음 반복문에서 할아버지를 타고 올라가며 4번 규칙을 위배하는지 계속 검사하며 뒷처리 반복!
+				NewNode = NewNode->Parent->Parent;
+			}
+			else
+			{
+				if (NewNode = NewNode->Parent->Left)
+				{
+					/* 2. 삼촌노드가 검은색이고, 새로 삽입한 노드가 부모노드의 왼쪽 자식인 경우 뒷처리 */
+
+					// 새로 삽입한 노드와 부모노드를 우회전으로 위치 교환할 것이므로,
+					// 그전에 부모노드를 새로 삽입한 노드로 간주시킴
+					NewNode = NewNode->Parent;
+
+					// 부모노드를 기준으로 우회전
+					// (참고로, 부모노드는 새로 삽입한 노드로 간주되었으니, 현재 NewNode 에는 부모노드 주소값이 들어있는 상태!)
+					RBT_RotateRight(Root, NewNode);
+
+					// 부모노드를 우회전함으로써, 3번 뒷처리 케이스와 동일한 꼴이 됨 -> 3번 케이스로 뒷처리를 넘긴 셈!
+				}
+
+				/* 3. 삼촌노드가 검은색이고, 새로 삽입한 노드가 부모노드의 오른쪽 자식인 경우 뒷처리 */
+
+				// 부모노드를 검은색으로 칠함
+				NewNode->Parent->Color = BLACK;
+
+				// 할아버지 노드를 빨간색으로 칠함
+				NewNode->Parent->Parent->Color = RED;
+
+				// 할아버지 노드를 기준으로 좌회전 -> 부모노드와 할아버지 노드 간 위치 교환
+				// -> 드디어 4번 규칙에 위배되지 않게 됨!
+				RBT_RotateLeft(Root, NewNode->Parent->Parent);
+			}
+		}
+	}
+
+	// 2번 규칙(= 뿌리노드는 검은색이다)을 위반하지 않기 위해,
+	// 마지막에는 뿌리노드를 항상 검은색으로 칠해줌.
+	(*Root)->Color = BLACK;
 }
 
 
