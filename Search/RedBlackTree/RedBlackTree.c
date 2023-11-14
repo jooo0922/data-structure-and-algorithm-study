@@ -67,3 +67,33 @@ void RBT_DestroyTree(RBTNode* Tree)
 	RBT_DestroyNode(Tree);
 }
 
+// 레드블랙트리 노드 탐색
+RBTNode* RBT_SearchNode(RBTNode* Tree, ElementType Target)
+{
+	if (Tree == Nil)
+	{
+		// 현재 노드가 전역 더미노드일 경우, NULL 반환
+		// (전역 더미노드는 3번 규칙을 유지하기 위한 형식적인 노드에 불과)
+		return NULL;
+	}
+
+	if (Tree->Data > Target)
+	{
+		// 현재 순회중인 노드보다 목표 노드가 더 작을 경우,
+		// 현재 노드의 왼쪽 하위 트리를 재귀적으로 다시 탐색함
+		return RBT_SearchNode(Tree->Left, Target);
+	}
+	else if (Tree->Data < Target)
+	{
+		// 현재 순회중인 노드보다 목표 노드가 더 클 경우,
+		// 현재 노드의 오른쪽 하위 트리를 재귀적으로 다시 탐색함
+		return RBT_SearchNode(Tree->Right, Target);
+	} 
+	else
+	{
+		// 현재 순회중인 노드가 목표 노드와 같은 경우,
+		// 현재 노드 주소값을 그대로 반환
+		return Tree;
+	}
+}
+
