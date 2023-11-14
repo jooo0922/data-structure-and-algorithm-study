@@ -128,4 +128,32 @@ RBTNode* RBT_SearchMinNode(RBTNode* Tree)
 	}
 }
 
+// 레드블랙트리 노드 삽입
+void RBT_InsertNode(RBTNode** Tree, RBTNode* NewNode)
+{
+	// 이진탐색트리 노드 삽입 수행
+	RBT_InsertNodeHelper(Tree, NewNode);
+
+	// 삽입할 새 노드를 빨간색으로 칠하고, 양쪽 자식에 더미노드 연결
+	NewNode->Color = RED;
+	NewNode->Left = Nil;
+	NewNode->Right = Nil;
+
+	// 레드블랙트리 노드 삽입 후 뒷처리
+	RBT_RebuildAfterInsert(Tree, NewNode);
+}
+
+// 이진탐색트리 노드 삽입과 동일한 코드를 별도 함수로 추출
+void RBT_InsertNodeHelper(RBTNode** Tree, RBTNode* NewNode)
+{
+
+}
+
+// 레드블랙트리 노드 삽입 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
+void RBT_RebuildAfterInsert(RBTNode** Tree, RBTNode* NewNode)
+{
+
+}
+
+
 
