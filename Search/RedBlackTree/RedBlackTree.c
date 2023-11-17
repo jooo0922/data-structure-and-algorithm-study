@@ -721,4 +721,128 @@ void RBT_RebuildAfterRemove(RBTNode** Root, RBTNode* Successor)
 	Successor->Color = BLACK;
 }
 
+// 레드블랙트리 출력
+void RBT_PrintTree(RBTNode* Node, int Depth, int BlackCount)
+{
+	// 반복문을 순회하며 현재 노드의 Depth 에 따라 들여쓰기를 추가할 때 사용할 index 값 초기화
+	int i = 0;
 
+	// 부모의 왼쪽 / 오른쪽 자식인지 여부를 저장할 변수 초기화 ('L' | 'R' | 'X') -> X 는 뿌리노드에만!
+	char c = 'X';
+
+	// 부모노드의 데이터를 저장할 변수 초기화
+	int v = -1;
+
+	// 현재 노드가 잎 노드인 경우, 
+	// 뿌리노드와 현재 노드 사이의 검은색 노드 개수를 출력할 때 사용할 문자열 배열 변수 초기화
+	char cnt[100];
+
+	if (Node == NULL || Node == Nil)
+	{
+		// 현재 노드가 NULL 이거나 더미노드(Nil)일 경우 함수 종료
+		return;
+	}
+
+	if (Node->Color == BLACK)
+	{
+		/* 현재 노드가 검은색일 경우 처리 */
+
+		// 뿌리노드와 잎 노드 사이의 검은색 노드 수가 누산된 BlackGount 를 +1 증가시킴
+		BlackCount++;
+	}
+
+	if (Node->Parent != NULL)
+	{
+		/* 현재 노드가 뿌리노드가 아닐 경우 처리 */
+
+		// 부모노드 데이터 저장
+		v = Node->Parent->Data;
+
+		// 현재 노드가 부모의 왼쪽 / 오른쪽 자식 여부를 저장
+		if (Node->Parent->Left == Node)
+		{
+			c = 'L';
+		}
+		else
+		{
+			c = 'R';
+		}
+	}
+
+	if (Node->Left == Nil && Node->Right == Nil)
+	{
+		// 현재 노드의 양쪽 자식이 모두 더미노드인 경우, 즉, 잎 노드인 경우,
+		// 문자열 배열 cnt 에 뿌리노드와 잎 노드 사이의 검은색 노드 수를 문자열로 저장함
+		
+		// sprintf() 를 사용하여 형식 지정자 %d 가 포함된 문자열을 배열에 저장하도록 함. (관련 필기 하단 참고)
+		sprintf(cnt, "--------- %d", BlackCount);
+	}
+	else
+	{
+		// 현재 노드에 자식이 하나라도 존재하면, 잎 노드가 아니므로,
+		// 문자열 배열 cnt 에 empty string 을 저장함
+
+		// strncpy() 를 사용하여 문자열 배열 cnt 에 원본 문자열 ""를 복사함 (관련 필기 하단 참고)
+		strncpy(cnt, "", sizeof(cnt));
+	}
+
+	// 현재 노드의 깊이값(Depth)만큼 반복문을 순회하며 들여쓰기 추가
+	for (i = 0; i < Depth; i++)
+	{
+		printf("	");
+	}
+
+	// 현재 노드의 모든 정보를 최종 출력함 (p.286 하단 출력 형식 참고)
+	printf("%d %s [%c, %d] %s\n", Node->Data, (Node->Color == RED) ? "RED" : "BLACK", c, v, cnt);
+
+	// 현재 노드의 양쪽 자식노드를 재귀를 돌려서 출력을 반복함
+	RBT_PrintTree(Node->Left, Depth + 1, BlackCount);
+	RBT_PrintTree(Node->Right, Depth + 1, BlackCount);
+}
+
+
+/*
+	int sprintf(char *str, const char *format, ...);
+
+
+	sprintf() 함수는 형식 지정자가 포함된 문자열을 값으로 채워넣고 싶을 때 사용함.
+
+	예를 들어, 정수를 나타내는 %d, 
+	부동 소수점 숫자를 나타내는 %f 등의 형식 지정자가 포함된 문자열을
+	printf() 에서 사용하는 것처럼 문자열에 값을 저장할 때에도 사용할 수 있다는 것!
+
+	선언된 매개변수는 아래와 같음.
+
+	str: 형식화된 데이터가 저장될 문자열의 포인터입니다.
+	format: 형식 지정자를 포함하는 형식 문자열입니다.
+	나머지 매개변수: 형식 문자열에 지정된 형식 지정자에 따라 값을 전달합니다.
+*/
+
+/*
+	char *strncpy(char *dest, const char *src, size_t n);
+
+
+	strncpy() 함수는 C 언어에서 문자열을 복사하는 함수. 
+	일정한 크기의 문자열을 다른 문자열로 복사할 때 사용하기 좋음.
+
+	strncpy() 함수는 원본 문자열 (src)에서 최대 n개의 문자를 목적지 문자열 (dest)로 복사한다! 
+	
+	만약 src의 길이가 n보다 작다면, 
+	나머지 공간은 널 문자('\0')으로 채워짐.
+
+	그러나 만약 src의 길이가 n보다 크다면, 
+	dest는 널 문자로 종료되지 않을 수 있음!
+
+	선언된 매개변수는 아래와 같음
+
+	dest: 복사된 문자열이 저장될 목적지의 문자열 포인터입니다.
+	src: 복사할 대상이 되는 원본 문자열의 포인터입니다.
+	n: 복사할 최대 문자의 수를 나타내는 크기_t 형 매개변수입니다.
+
+	그러나, 위에서 복사할 최대 문자의 수를
+	sizeof(cnt) 로 계산한 이유는,
+
+	char 타입 크기 자체가 어차피 1 byte 이므로,
+	char 타입은 데이터 크기와 데이터 길이(= 개수)가 같아
+	sizeof(char[])로 계산한 데이터 크기는 문자열 개수로도 활용 가능함!
+*/
