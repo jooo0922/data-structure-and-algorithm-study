@@ -346,7 +346,7 @@ void RBT_RebuildAfterInsert(RBTNode** Root, RBTNode* NewNode)
 			}
 			else
 			{
-				if (NewNode = NewNode->Parent->Right)
+				if (NewNode == NewNode->Parent->Right)
 				{
 					/* 2. 삼촌노드가 검은색이고, 새로 삽입한 노드가 부모노드의 오른쪽 자식인 경우 뒷처리 */
 
