@@ -775,7 +775,7 @@ void RBT_PrintTree(RBTNode* Node, int Depth, int BlackCount)
 		// 문자열 배열 cnt 에 뿌리노드와 잎 노드 사이의 검은색 노드 수를 문자열로 저장함
 		
 		// sprintf() 를 사용하여 형식 지정자 %d 가 포함된 문자열을 배열에 저장하도록 함. (관련 필기 하단 참고)
-		sprintf(cnt, "--------- %d", BlackCount);
+		sprintf_s(cnt, sizeof(cnt), "--------- %d", BlackCount);
 	}
 	else
 	{
@@ -783,7 +783,7 @@ void RBT_PrintTree(RBTNode* Node, int Depth, int BlackCount)
 		// 문자열 배열 cnt 에 empty string 을 저장함
 
 		// strncpy() 를 사용하여 문자열 배열 cnt 에 원본 문자열 ""를 복사함 (관련 필기 하단 참고)
-		strncpy(cnt, "", sizeof(cnt));
+		strncpy_s(cnt, sizeof(cnt), "", sizeof(cnt));
 	}
 
 	// 현재 노드의 깊이값(Depth)만큼 반복문을 순회하며 들여쓰기 추가
