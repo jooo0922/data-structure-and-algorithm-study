@@ -402,7 +402,7 @@ void RBT_RebuildAfterInsert(RBTNode** Root, RBTNode* NewNode)
 			}
 			else
 			{
-				if (NewNode = NewNode->Parent->Left)
+				if (NewNode == NewNode->Parent->Left)
 				{
 					/* 2. 삼촌노드가 검은색이고, 새로 삽입한 노드가 부모노드의 왼쪽 자식인 경우 뒷처리 */
 
@@ -454,7 +454,7 @@ RBTNode* RBT_RemoveNode(RBTNode** Root, ElementType Data)
 
 
 	// 제거할 노드를 못찾았으면 NULL 을 반환하고 함수 종료
-	if (Target)
+	if (Target == NULL)
 	{
 		return NULL;
 	}
