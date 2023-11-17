@@ -39,7 +39,18 @@ int main()
 		fgets(buffer, sizeof(buffer) - 1, stdin);
 
 		// 문자열 배열 buffer 에 저장된 문자열을 %d 형식, 즉, 정수형으로 읽어서 cmd 변수에 저장
-		sscanf(buffer, "%d", &cmd);
+		sscanf_s(buffer, "%d", &cmd);
+
+		if (cmd < 1 || cmd > 5)
+		{
+			// 1 ~ 5 범위를 넘어서는 유효하지 않은 명령어 입력 시 입력 무시
+			printf("Invalid command number.\n");
+			continue;
+		}
+		else if (cmd == 4)
+		{
+
+		}
 	}
 }
 
