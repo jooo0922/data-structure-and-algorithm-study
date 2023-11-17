@@ -81,7 +81,8 @@ int main()
 
 		switch (cmd)
 		{
-		default:
+		case 1:
+			RBT_InsertNode(&Tree, RBT_CreateNode(param));
 			break;
 		}
 
