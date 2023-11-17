@@ -312,8 +312,6 @@ void RBT_RotateLeft(RBTNode** Root, RBTNode* Parent)
 	Parent->Parent = RightChild;
 }
 
-
-
 // 레드블랙트리 노드 삽입 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
 void RBT_RebuildAfterInsert(RBTNode** Root, RBTNode* NewNode)
 {
@@ -439,5 +437,112 @@ void RBT_RebuildAfterInsert(RBTNode** Root, RBTNode* NewNode)
 	(*Root)->Color = BLACK;
 }
 
+// 레드블랙트리 노드 제거
+RBTNode* RBT_RemoveNode(RBTNode** Root, ElementType Data)
+{
+	/* 노드 제거에 필요한 포인터 변수 초기화 */
+
+	// 제거할 노드의 주소값을 저장 및 반환할 포인터 변수 초기화
+	RBTNode* Removed = NULL;
+
+	// 제거할 노드를 대체할 노드 주소값을 저장할 포인터 변수 초기화 
+	// (= 제거할 노드의 자식노드 or RBT_RebuildAfterRemove() 에서는 '이중흑백노드')
+	RBTNode* Successor = NULL;
+
+	// 제거할 노드를 탐색하여 주소값 저장 (BST_RemoveNode() 와 달리 탐색할 때 재귀 호출 미사용!)
+	RBTNode* Target = RBT_SearchNode((*Root), Data);
+
+
+	// 제거할 노드를 못찾았으면 NULL 을 반환하고 함수 종료
+	if (Target)
+	{
+		return NULL;
+	}
+
+
+	/* 제거할 노드의 자식 존재 여부에 따른 처리 (p.256 ~ 257) */
+
+	if (Target->Left == Nil || Target->Right == Nil)
+	{
+		// 제거할 노드의 자식이 둘 중 하나라도 더미노드(Nil)인 경우,
+		// 즉, 제거할 노드의 자식이 존재하지 않거나, 제거할 노드의 자식이 1개인 경우 처리
+		
+		// 제거할 노드의 주소값을 곧바로 저장
+		Removed = Target; 
+	}
+	else
+	{
+		// 제거할 노드의 자식이 둘 다 더미노드(Nil)가 아닌 경우,
+		// 즉, 제거할 노드가 양쪽 자식을 모두 갖고 있는 경우 처리
+
+		// 제거할 노드의 오른쪽 하위 트리에서 최솟값 노드를 탐색 (p.257 참고)
+		Removed = RBT_SearchMinNode(Target->Right);
+
+		// 최솟값 노드로 제거할 노드 자리를 교체함 (p.257 참고)
+		Target->Data = Removed->Data;
+	}
+
+
+	/* 제거할 노드의 자식노드 (= 대체노드)의 주소값 저장 */
+
+	if (Removed->Left != Nil)
+	{
+		// 제거할 노드가 '왼쪽 자식만' 존재할 경우, 왼쪽 자식을 대체노드로 지정
+		Successor = Removed->Left;
+	}
+	else
+	{
+		// 제거할 노드가 '오른쪽 자식만' 존재하거나,
+		// 제거할 노드가 위에서 '최솟값 노드로 덮어쓰여서' 오른쪽 자식만 존재하거나(p.257 하단 설명 참고), -> 원래는 제거할 노드의 자식이 양쪽에 모두 있던 케이스!
+		// 제거할 노드의 자식이 모두 더미노드여서 '자식이 존재하지 않는' 경우, -> 이 경우 오른쪽 자식이라고 해봤자 더미노드(Nil)이 대체노드로 지정되겠지!
+		// 오른쪽 자식을 대체노드로 지정
+		Successor = Removed->Right;
+	}
+
+
+	// 제거할 노드의 부모를 대체노드의 부모로 삼음 
+	Successor->Parent = Removed->Parent;
+
+	
+	/* 제거할 노드의 부모에 대체노드를 자식으로 추가 */
+
+	if (Removed->Parent == NULL)
+	{
+		// 제거할 노드가 뿌리노드 였을 경우 처리
+
+		// 대체노드를 뿌리노드로 지정
+		(*Root) = Successor;
+	}
+	else
+	{
+		// 제거할 노드가 뿌리노드가 아니였을 경우 처리
+
+		// 제거할 노드가 부모의 왼쪽 자식이였다면 왼쪽에,
+		// 오른쪽 자식이였다면 오른쪽에 대체노드를 추가함
+		if (Removed == Removed->Parent->Left)
+		{
+			Removed->Parent->Left = Successor;
+		}
+		else
+		{
+			Removed->Parent->Right = Successor;
+		}
+	}
+
+	// 제거할 노드가 검은색 노드일 경우, 레드블랙트리의 규칙이 무너지므로, 뒷처리 함수 실행
+	if (Removed->Color == BLACK)
+	{
+		RBT_RebuildAfterRemove(Root, Successor);
+	}
+
+	// 제거할 노드의 주소값 반환
+	return Removed;
+}
+
+// 레드블랙트리 노드 제거 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
+void RBT_RebuildAfterRemove(RBTNode** Root, RBTNode* Successor)
+{
+
+}
 
 
