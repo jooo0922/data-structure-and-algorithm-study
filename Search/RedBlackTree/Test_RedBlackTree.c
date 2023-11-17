@@ -54,7 +54,17 @@ int main()
 			printf("\n");
 			continue;
 		}
+		else if (cmd == 5)
+		{
+			// 5번 명령어 입력 시, 무한루프 탈출 > 명령어 입력 종료
+			break;
+		}
 	}
+
+	// 무한루프 탈출 시, 더 이상 명령어를 입력받지 않으므로,
+	// 레드블랙트리 메모리 반납 및 함수 종료
+	RBT_DestroyTree(Tree);
+	return 0;
 }
 
 /*
