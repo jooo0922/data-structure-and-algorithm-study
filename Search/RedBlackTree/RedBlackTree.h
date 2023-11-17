@@ -37,7 +37,7 @@ RBTNode* RBT_SearchNode(RBTNode* Tree, ElementType Target); // 레드블랙트�
 RBTNode* RBT_SearchMinNode(RBTNode* Tree); // 주어진 하위트리 내의 최솟값 노드 탐색
 void RBT_InsertNode(RBTNode** Tree, RBTNode* NewNode); // 레드블랙트리 노드 삽입
 void RBT_InsertNodeHelper(RBTNode** Tree, RBTNode* NewNode); // 이진탐색트리 노드 삽입과 동일한 코드를 별도 함수로 추출
-RBTNode* RBT_RemoveNode(RBTNode** Root, ElementType Target); // 레드블랙트리 노드 제거
+RBTNode* RBT_RemoveNode(RBTNode** Root, ElementType Data); // 레드블랙트리 노드 제거
 void RBT_RebuildAfterInsert(RBTNode** Root, RBTNode* NewNode); // 레드블랙트리 노드 삽입 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
 void RBT_RebuildAfterRemove(RBTNode** Root, RBTNode* Successor); // 레드블랙트리 노드 제거 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
 
