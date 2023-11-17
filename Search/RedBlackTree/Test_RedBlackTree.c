@@ -59,6 +59,32 @@ int main()
 			// 5번 명령어 입력 시, 무한루프 탈출 > 명령어 입력 종료
 			break;
 		}
+
+
+		/* 2번, 3번, 4번 명령어 입력 시 처리 */ 
+
+		// 노드 데이터값 입력받기
+		printf("Enter parameter (1~200) :\n");
+
+		// 입력 스트림에서 읽어온 사용자 입력 데이터를 문자열 배열 buffer 에 저장함.
+		fgets(buffer, sizeof(buffer) - 1, stdin);
+
+		// 문자열 배열 buffer 에 저장된 문자열을 %d 형식, 즉, 정수형으로 읽어서 param 변수에 저장
+		sscanf_s(buffer, "%d", &param);
+
+		if (param < 1 || param > 200)
+		{
+			// 1 ~ 200 범위를 넘어서는 유효하지 않은 노드 데이터값 입력 시 입력 무시
+			printf("Invalid parameter.%d\n", param);
+			continue;
+		}
+
+		switch (cmd)
+		{
+		default:
+			break;
+		}
+
 	}
 
 	// 무한루프 탈출 시, 더 이상 명령어를 입력받지 않으므로,
