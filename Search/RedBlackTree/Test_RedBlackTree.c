@@ -82,7 +82,26 @@ int main()
 		switch (cmd)
 		{
 		case 1:
+			// 1번 명령어 입력 시, 노드 생성 및 삽입
 			RBT_InsertNode(&Tree, RBT_CreateNode(param));
+			break;
+		case 2:
+			// 2번 명령어 입력 시, 노드 제거
+
+			// 제거할 노드 탐색하여 주소값 반환
+			Node = RBT_RemoveNode(&Tree, param);
+
+			if (Node == NULL)
+			{
+				// 제거할 노드를 찾지 못했을 경우 에러 출력
+				printf("Not fount node to delete:%d\n", param);
+			}
+			else
+			{
+				// 제거할 노드의 메모리 해제
+				RBT_DestroyNode(Node);
+			}
+
 			break;
 		}
 
