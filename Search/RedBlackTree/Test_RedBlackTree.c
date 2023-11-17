@@ -103,8 +103,28 @@ int main()
 			}
 
 			break;
+		case 3:
+			// 3번 명령어 입력 시, 노드 탐색
+
+			// 노드 탐색 후 주소값 반환
+			Node = RBT_SearchNode(Tree, param);
+
+			if (Node == NULL)
+			{
+				// 노드를 찾지 못했을 경우 에러 출력
+				printf("Not found node:%d\n", param);
+			}
+			else
+			{
+				// 찾은 노드의 데이터와 색상 출력
+				printf("Found Node: %d(Color:%s)\n", Node->Data, (Node->Color == RED) ? "RED" : "BLACK");
+			}
+
+			break;
 		}
 
+		// 다음 명령어를 입력할 때 개행
+		printf("\n");
 	}
 
 	// 무한루프 탈출 시, 더 이상 명령어를 입력받지 않으므로,
