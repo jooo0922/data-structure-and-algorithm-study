@@ -542,7 +542,183 @@ RBTNode* RBT_RemoveNode(RBTNode** Root, ElementType Data)
 // 레드블랙트리 노드 제거 후 뒷처리 (레드블랙트리 규칙이 무너지지 않도록)
 void RBT_RebuildAfterRemove(RBTNode** Root, RBTNode* Successor)
 {
+	// 이중 흑색 노드(= 대체노드)의 형제노드 주소값을 저장할 포인터 변수 초기화
+	RBTNode* Sibling = NULL;
 
+	// 대체노드가 뿌리노드가 되거나, 빨간색 노드가 되기 전까지는 루프를 계속 순회
+	while (Successor->Parent != NULL && Successor->Color == BLACK)
+	{
+		if (Successor == Successor->Parent->Left)
+		{
+			/* 이중 흑색 노드(= 대체노드)가 어떤 노드의 왼쪽 자식일 경우 처리 */
+			// 참고로, 오른쪽 자식일 경우 동일한 코드에서 왼쪽 <-> 오른쪽만 바꿔주면 됨 (p.279)
+
+			// 이중 흑색 노드의 형제노드 저장
+			Sibling = Successor->Parent->Right;
+
+			if (Sibling->Color == RED)
+			{
+				/* 1. 이중 흑색 노드의 형제노드가 빨간색일 경우 뒷처리 (p.280 과정 코드로 구현) */
+
+				// 형제노드를 검은색으로 칠한다
+				Sibling->Color = BLACK;
+
+				// 이중 흑색 노드의 부모노드를 빨간색으로 칠한다
+				Successor->Parent->Color = RED;
+
+				// 이중 흑색 노드의 부모노드를 좌회전한다
+				RBT_RotateLeft(Root, Successor->Parent);
+
+				// 1번 케이스가 2번대 케이스가 될 때까지(= 형제노드가 검은색이 될 때까지) 이 과정을 반복함!
+			}
+			else
+			{
+				/* 2. 이중 흑색 노드의 형제노드가 검은색일 경우 뒷처리 */
+
+				if (Sibling->Left->Color == BLACK && Sibling->Right->Color == BLACK)
+				{
+					/* 2-A. 이중 흑색 노드의 형제노드가 검은색이고, 형제의 양쪽 자식이 모두 검은색일 경우 뒷처리 (p.281 과정 코드로 구현) */
+
+					// 형제노드를 빨간색으로 칠한다
+					Sibling->Color = RED;
+
+					// 이중 흑색 노드(= 대체노드)가 갖고있던 검은색을 부모노드에게 넘겨준다
+					// 즉, 부모노드를 새로운 대체노드로 지정한다
+					Successor = Successor->Parent;
+
+					// 이렇게 새로운 대체노드를 계속 부모노드로 올리기를 반복하면서
+					// 새로운 대체노드가 빨간색이 되거나 뿌리노드가 될 때까지 4가지 뒷처리 케이스를 반복함!
+				}
+				else
+				{
+					if (Sibling->Left->Color = RED)
+					{
+						/* 2-B. 이중 흑색 노드의 형제노드가 검은색이고, 형제의 왼쪽 자식만 빨간색일 경우 뒷처리 (p.282 과정 코드로 구현) */
+
+						// 형제의 왼쪽 자식을 검은색으로 칠한다
+						Sibling->Left->Color = BLACK;
+
+						// 형제노드를 빨간색으로 칠한다
+						Sibling->Color = RED;
+
+						// 형제노드를 우회전한다
+						RBT_RotateRight(Root, Sibling);
+
+						// 우회전 후, 새로 올라온 노드를 형제노드로 업데이트한다
+						Sibling = Successor->Parent->Right;
+
+						// 이렇게 하면 형제노드의 오른쪽 자식이 빨간색으로 바뀜에 따라,
+						// 2-C 케이스로 변경된다 (= 문제 해결을 2-C 로 떠넘김)
+					}
+
+
+					/* 2-C. 이중 흑색 노드의 형제노드가 검은색이고, 형제의 오른쪽 자식이 빨간색일 경우 뒷처리 (p.283 과정 코드로 구현) */
+					
+					// 형제노드를 이중 흑색 노드의 부모가 갖고 있는 색상으로 칠한다
+					Sibling->Color = Successor->Parent->Color;
+
+					// 이중 흑색 노드의 부모노드를 검은색으로 칠한다
+					Successor->Parent->Color = BLACK;
+
+					// 형제노드의 오른쪽 자식을 검은색으로 칠한다
+					Sibling->Right->Color = BLACK;
+
+					// 이중 흑색 노드의 부모노드를 좌회전한다
+					RBT_RotateLeft(Root, Successor->Parent);
+
+					// 이중 흑색 노드(= 대체노드)가 갖고있던 검은색을 뿌리노드에게 넘겨준다
+					// 즉, 뿌리노드를 새로운 대체노드(= Successor)로 지정한다
+					Successor = (*Root);
+				}
+			}
+		}
+		else
+		{
+			/* 이중 흑색 노드(= 대체노드)가 어떤 노드의 오른쪽 자식일 경우 처리 */
+
+			// 이중 흑색 노드의 형제노드 저장
+			Sibling = Successor->Parent->Left;
+
+			if (Sibling->Color == RED)
+			{
+				/* 1. 이중 흑색 노드의 형제노드가 빨간색일 경우 뒷처리 (p.280 과정 코드로 구현) */
+
+				// 형제노드를 검은색으로 칠한다
+				Sibling->Color = BLACK;
+
+				// 이중 흑색 노드의 부모노드를 빨간색으로 칠한다
+				Successor->Parent->Color = RED;
+
+				// 이중 흑색 노드의 부모노드를 우회전한다
+				RBT_RotateRight(Root, Successor->Parent);
+
+				// 1번 케이스가 2번대 케이스가 될 때까지(= 형제노드가 검은색이 될 때까지) 이 과정을 반복함!
+			}
+			else
+			{
+				/* 2. 이중 흑색 노드의 형제노드가 검은색일 경우 뒷처리 */
+
+				if (Sibling->Right->Color == BLACK && Sibling->Left->Color == BLACK)
+				{
+					/* 2-A. 이중 흑색 노드의 형제노드가 검은색이고, 형제의 양쪽 자식이 모두 검은색일 경우 뒷처리 (p.281 과정 코드로 구현) */
+
+					// 형제노드를 빨간색으로 칠한다
+					Sibling->Color = RED;
+
+					// 이중 흑색 노드(= 대체노드)가 갖고있던 검은색을 부모노드에게 넘겨준다
+					// 즉, 부모노드를 새로운 대체노드로 지정한다
+					Successor = Successor->Parent;
+
+					// 이렇게 새로운 대체노드를 계속 부모노드로 올리기를 반복하면서
+					// 새로운 대체노드가 빨간색이 되거나 뿌리노드가 될 때까지 4가지 뒷처리 케이스를 반복함!
+				}
+				else
+				{
+					if (Sibling->Right->Color = RED)
+					{
+						/* 2-B. 이중 흑색 노드의 형제노드가 검은색이고, 형제의 오른쪽 자식만 빨간색일 경우 뒷처리 (p.282 과정 코드로 구현) */
+
+						// 형제의 오른쪽 자식을 검은색으로 칠한다
+						Sibling->Right->Color = BLACK;
+
+						// 형제노드를 빨간색으로 칠한다
+						Sibling->Color = RED;
+
+						// 형제노드를 좌회전한다
+						RBT_RotateLeft(Root, Sibling);
+
+						// 좌회전 후, 새로 올라온 노드를 형제노드로 업데이트한다
+						Sibling = Successor->Parent->Left;
+
+						// 이렇게 하면 형제노드의 왼쪽 자식이 빨간색으로 바뀜에 따라,
+						// 2-C 케이스로 변경된다 (= 문제 해결을 2-C 로 떠넘김)
+					}
+
+
+					/* 2-C. 이중 흑색 노드의 형제노드가 검은색이고, 형제의 왼쪽 자식이 빨간색일 경우 뒷처리 (p.283 과정 코드로 구현) */
+
+					// 형제노드를 이중 흑색 노드의 부모가 갖고 있는 색상으로 칠한다
+					Sibling->Color = Successor->Parent->Color;
+
+					// 이중 흑색 노드의 부모노드를 검은색으로 칠한다
+					Successor->Parent->Color = BLACK;
+
+					// 형제노드의 왼쪽 자식을 검은색으로 칠한다
+					Sibling->Left->Color = BLACK;
+
+					// 이중 흑색 노드의 부모노드를 우회전한다
+					RBT_RotateRight(Root, Successor->Parent);
+
+					// 이중 흑색 노드(= 대체노드)가 갖고있던 검은색을 뿌리노드에게 넘겨준다
+					// 즉, 뿌리노드를 새로운 대체노드(= Successor)로 지정한다
+					Successor = (*Root);
+				}
+			}
+		}
+	}
+
+	// 대체노드는 어떤 케이스로 처리하던지 간에, 마지막에는 항상 검은색으로 칠해줘야 함!
+	Successor->Color = BLACK;
 }
 
 
