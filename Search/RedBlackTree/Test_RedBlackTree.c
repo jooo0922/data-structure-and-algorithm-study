@@ -49,7 +49,10 @@ int main()
 		}
 		else if (cmd == 4)
 		{
-
+			// 4번 명령어 입력 시, 트리 출력
+			RBT_PrintTree(Tree, 0, 0);
+			printf("\n");
+			continue;
 		}
 	}
 }
