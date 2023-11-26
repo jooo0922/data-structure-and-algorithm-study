@@ -34,7 +34,40 @@ void HEAP_Destroy(Heap* H)
 // 힙 노드 삽입
 void HEAP_Insert(Heap* H, ElementType NewData)
 {
+	// 힙의 최고 깊이 가장 우측 노드 인덱스 저장
+	// (정확히는 힙의 최고 깊이 가장 우측 노드 옆에 삽입할 예비 노드의 인덱스!)
+	int CurrentPosition = H->UsedSize;
 
+	// 힙의 최고 깊이 가장 우측 노드의 부모노드 인덱스 저장
+	int ParentPosition = HEAP_GetParent(CurrentPosition);
+
+	// 새로운 노드를 실제 삽입하기 전, 현재 힙의 노드 배열 개수와 최대 용량을 비교해서
+	// 노드 배열이 꽉 차있으면 힙의 최대 용량(메모리)를 2배로 늘려 재할당
+	if (H->UsedSize == H->Capacity)
+	{
+		H->Capacity *= 2;
+		H->Nodes = (HeapNode*)realloc(H->Nodes, sizeof(HeapNode) * H->Capacity); // realloc() 관련 설명 하단 참고
+	}
+
+	// 힙의 최고 깊이 가장 우측에 새로운 노드 삽입
+	H->Nodes[CurrentPosition].Data = NewData;
+
+	// 힙 속성 유지를 위한 뒷처리 로직
+	while (CurrentPosition > 0 
+		&& H->Nodes[CurrentPosition].Data < H->Nodes[ParentPosition].Data)
+	{
+		// 삽입한 노드가 뿌리노드(0)가 아니고, 
+		// 삽입한 노드보다 부모노드가 더 크다면, 부모노드와 위치를 교체
+		HEAP_SwapNodes(H, CurrentPosition, ParentPosition);
+
+		// 두 노드의 위치를 교체한 것에 맞춰서,
+		// 삽입한 노드 인덱스와 그것의 부모노드 인덱스도 변경해 줌.
+		CurrentPosition = ParentPosition;
+		ParentPosition = HEAP_GetParent(CurrentPosition);
+	}
+
+	// 노드를 새로 삽입했으므로, 실제 노드 개수를 +1 증가시킴
+	H->UsedSize++;
 }
 
 // 힙 최솟값 노드 삭제 (= 뿌리노드 삭제)
@@ -94,3 +127,11 @@ void HEAP_PrintNodes(Heap* H)
 	n: 복사할 바이트 수를 나타내는 size_t 타입의 정수입니다.
 */
 
+/*
+	realloc()
+
+	배열을 동적으로 증가시킬 때, realloc() 사용
+	
+	기존의 배열 메모리 블록 확장 및 기존 데이터 복사 과정에서 
+	성능에 영향을 미치므로 가급적 사용 자제...
+*/
