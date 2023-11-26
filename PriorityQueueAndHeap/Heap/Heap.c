@@ -24,7 +24,11 @@ Heap* HEAP_Create(int InitialSize)
 // 힙 구조체 메모리 해제
 void HEAP_Destroy(Heap* H)
 {
+	// 힙 노드 배열 메모리 해제
+	free(H->Nodes);
 
+	// 힙 구조체 메모리 해제
+	free(H);
 }
 
 // 힙 노드 삽입
