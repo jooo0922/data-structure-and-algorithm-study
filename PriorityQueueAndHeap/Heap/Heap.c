@@ -53,7 +53,8 @@ int HEAP_GetParent(int Index)
 // 주어진 노드의 왼쪽 자식노드 탐색 (오른쪽 자식노드 = 왼쪽 자식노드 위치 + 1)
 int HEAP_GetLeftChild(int Index)
 {
-
+	// k번 인덱스에 위치한 노드의 왼쪽 자식 노드 인덱스: 2k + 1 (p.313 참고)
+	return (2 * Index) + 1;
 }
 
 // 힙의 두 노드 위치 교환
