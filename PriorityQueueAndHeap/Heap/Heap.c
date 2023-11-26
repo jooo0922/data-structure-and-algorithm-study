@@ -116,7 +116,13 @@ void HEAP_SwapNodes(Heap* H, int Index1, int Index2)
 // 힙 전체 출력
 void HEAP_PrintNodes(Heap* H)
 {
-
+	// for 문으로 힙 노드 배열을 순회하며 각 노드의 데이터 출력
+	int i = 0;
+	for (int i = 0; i < H->UsedSize; i++)
+	{
+		printf("%d ", H->Nodes[i].Data);
+	}
+	printf("\n");
 }
 
 /*
