@@ -46,7 +46,8 @@ void HEAP_DeleteMin(Heap* H, HeapNode* Root)
 // 주어진 노드의 부모노드 탐색
 int HEAP_GetParent(int Index)
 {
-
+	// k번 인덱스에 위치한 노드의 부모노드 인덱스: (k - 1) / 2 의 몫 (p.313 참고)
+	return (int)((Index - 1) / 2);
 }
 
 // 주어진 노드의 왼쪽 자식노드 탐색 (오른쪽 자식노드 = 왼쪽 자식노드 위치 + 1)
