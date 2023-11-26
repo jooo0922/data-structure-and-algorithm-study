@@ -60,7 +60,24 @@ int HEAP_GetLeftChild(int Index)
 // 힙의 두 노드 위치 교환
 void HEAP_SwapNodes(Heap* H, int Index1, int Index2)
 {
+	// 복사할 메모리 사이즈 (= HeapNode 단일 구조체 크기) 저장
+	int CopySize = sizeof(HeapNode);
 
+	// 첫 번째 HeapNode(= Index1)를 임시 저장할 메모리 동적 할당
+	HeapNode* Temp = (HeapNode*)malloc(CopySize);
+
+	// 첫 번째 HeapNode 데이터를 Temp 자유 메모리에 임시 복사 (memcpy() 관련 설명 하단 참고)
+	memcpy(Temp, &H->Nodes[Index1], CopySize);
+
+	// 두 번째 HeapNode 데이터를 첫 번째 HeapNode 메모리에 복사
+	memcpy(&H->Nodes[Index1], &H->Nodes[Index2], CopySize);
+
+	// Temp 에 임시로 복사해 둔 첫 번째 HeapNode 데이터를 두 번째 HeapNode 메모리에 복사
+	// 이제 첫 번째 노드와 두 번째 노드의 데이터가 서로 교체됨! -> 두 노드 위치 교환 완료!
+	memcpy(&H->Nodes[Index2], Temp, CopySize);
+
+	// 두 노드 위치 교환 완료 후, 불필요한 임시 메모리 반납
+	free(Temp);
 }
 
 // 힙 전체 출력
@@ -68,3 +85,12 @@ void HEAP_PrintNodes(Heap* H)
 {
 
 }
+
+/*
+	void *memcpy(void *dest, const void *src, size_t n);
+
+	dest: 복사한 데이터가 저장될 목적지를 가리키는 포인터입니다.
+	src: 복사할 데이터를 가리키는 포인터입니다.
+	n: 복사할 바이트 수를 나타내는 size_t 타입의 정수입니다.
+*/
+
