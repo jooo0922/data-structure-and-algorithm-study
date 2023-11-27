@@ -77,7 +77,89 @@ void PQ_Enqueue(PriorityQueue* PQ, PQNode NewNode)
 // 우선순위 큐 최솟값 노드 삭제 (= 뿌리노드 삭제)
 void PQ_Dequeue(PriorityQueue* PQ, PQNode* Root)
 {
+	// 부모노드 인덱스를 0(= 뿌리노드)으로 초기화
+	int ParentPosition = 0;
 
+	// 부모의 왼쪽 / 오른쪽 자식노드 인덱스를 0으로 초기화
+	int LeftPosition = 0;
+	int RightPosition = 0;
+
+	// 제거할 뿌리노드 데이터를 포인터 매개변수 Root 에 복사하여 저장해 둠.
+	memcpy(Root, &PQ->Nodes[0], sizeof(PQNode));
+
+	// 우선순위 큐의 최솟값 노드(= 뿌리노드)의 데이터를 모두 0으로 초기화함 -> '뿌리노드 삭제' (p.310)
+	memset(&PQ->Nodes[0], 0, sizeof(PQNode));
+
+	// 우선순위 큐에서 (뿌리)노드를 하나 제거했으니 실제 노드 갯수를 -1 차감
+	PQ->UsedSize--;
+
+	// 우선순위 큐의 최고 깊이 가장 우측 노드(H->UsedSize)와 0으로 초기화된 뿌리노드의 위치를 교체함 (p.311)
+	HEAP_SwapNodes(PQ, 0, PQ->UsedSize);
+
+	// 우선순위 큐의 최고 깊이 가장 우측 노드가 올라간 뿌리노드 자리의 양쪽 자식노드 인덱스 저장
+	LeftPosition = HEAP_GetLeftChild(0);
+	RightPosition = LeftPosition + 1; // 항상 배열 기반 Heap 에서는 '오른쪽 자식노드 인덱스 = 왼쪽 자식노드 인덱스 + 1' 임을 기억할 것! (p.313)
+
+	// 힙 순서 속성 (= 힙의 모든 노드는 부모노드보다 크다)를 만족할 때까지 자식노드와 부모노드 위치 교체를 반복
+	while (1)
+	{
+		// 부모와 위치를 바꿀 자식노드 인덱스 저장
+		int SelectedChild = 0;
+
+		if (LeftPosition >= PQ->UsedSize)
+		{
+			// 왼쪽 자식노드 인덱스가 우선순위 큐의 최고 깊이 가장 우측 노드 인덱스보다 크다면,
+			// 왼쪽 자식은 이미 현재 우선순위 큐 영역을 벗어난 노드 위치이며, 오른쪽 자식 역시 마찬가지이다.
+			// 따라서, 현재 우선순위 큐 영역을 벗어난 노드의 위치값이므로, 반복문을 중단!
+			break;
+		}
+
+		if (RightPosition >= PQ->UsedSize)
+		{
+			// 상단의 if 조건문을 통과해서 두 번째 if block 에 도달했다면, 왼쪽 자식노드는 우선순위 큐 영역 내에 존재하겠지만,
+			// 오른쪽 자식노드가 우선순위 큐 영역 바깥에 위치하고 있다는 뜻. -> 즉, '왼쪽 자식노드가 우선순위 큐 최고 깊이 가장 우측 노드' 에 해당하는 케이스!
+			SelectedChild = LeftPosition;
+		}
+		else
+		{
+			// 왼쪽 / 오른쪽 자식노드 모두 우선순위 큐 영역 안쪽에 존재하고 있는 위치값일 경우
+
+			// 두 자식노드 중 우선순위가 더 작은 노드를 부모노드와 교체할 노드로 선택 (p.310 2번 뒷처리 과정)
+			if (PQ->Nodes[LeftPosition].Priority > PQ->Nodes[RightPosition].Priority)
+			{
+				SelectedChild = RightPosition;
+			}
+			else
+			{
+				SelectedChild = LeftPosition;
+			}
+		}
+
+		if (PQ->Nodes[SelectedChild].Priority < PQ->Nodes[ParentPosition].Priority)
+		{
+			// 교체할 자식노드가 부모노드보다 우선순위가 작다면, 힙 순서 속성이 깨진 것이므로, 둘의 위치를 교체함 (p.311)
+			HEAP_SwapNodes(PQ, ParentPosition, SelectedChild);
+			ParentPosition = SelectedChild;
+		}
+		else
+		{
+			// 힙 순서 속성이 깨지지 않았다면 반복문 중단
+			break;
+		}
+
+		// 다음 순회에서 비교할 왼쪽 / 오른쪽 자식노드 위치값 업데이트
+		LeftPosition = HEAP_GetLeftChild(ParentPosition);
+		RightPosition = LeftPosition + 1;
+	} // 반복문 탈출!
+
+	if (PQ->UsedSize < (PQ->Capacity / 2))
+	{
+		// 반복문을 순회하며 최솟값 노드 제거 후,
+		// 우선순위 큐 최대 용량을 확인해봤더니, 실제 우선순위 큐 노드 배열의 개수가 절반도 못미친다면? -> 메모리 낭비!
+		// 따라서, 우선순위 큐 노드 배열에 할당된 메모리를 절반 수준으로 낮춰서 재할당함!
+		PQ->Capacity /= 2;
+		PQ->Nodes = (PQNode*)realloc(PQ->Nodes, sizeof(PQNode) * PQ->Capacity);
+	}
 }
 
 // 주어진 노드의 부모노드 탐색
