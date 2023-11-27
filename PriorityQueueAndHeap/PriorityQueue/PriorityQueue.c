@@ -43,13 +43,15 @@ void PQ_Dequeue(PriorityQueue* PQ, PQNode* Root)
 // 주어진 노드의 부모노드 탐색
 int PQ_GetParent(int Index)
 {
-
+	// k번 인덱스에 위치한 노드의 부모노드 인덱스: (k - 1) / 2 의 몫 (p.313 참고)
+	return (int)((Index - 1) / 2);
 }
 
 // 주어진 노드의 왼쪽 자식노드 탐색 (오른쪽 자식노드 = 왼쪽 자식노드 위치 + 1)
 int PQ_GetLeftChild(int Index)
 {
-
+	// k번 인덱스에 위치한 노드의 왼쪽 자식 노드 인덱스: 2k + 1 (p.313 참고)
+	return (2 * Index) + 1;
 }
 
 // 우선순위 큐의 두 노드 위치 교환
