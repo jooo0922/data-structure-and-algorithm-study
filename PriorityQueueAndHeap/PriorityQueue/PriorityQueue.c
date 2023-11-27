@@ -36,7 +36,7 @@ void PQ_Enqueue(PriorityQueue* PQ, PQNode NewNode)
 	int CurrentPosition = PQ->UsedSize;
 
 	// 우선순위 큐의 최고 깊이 가장 우측 노드의 부모노드 인덱스 저장
-	int ParentPosition = HEAP_GetParent(CurrentPosition);
+	int ParentPosition = PQ_GetParent(CurrentPosition);
 
 	// 새로운 노드를 실제 삽입하기 전, 현재 우선순위 큐의 노드 배열 개수와 최대 용량을 비교해서
 	// 노드 배열이 꽉 차있으면 우선순위 큐의 최대 용량(메모리)를 2배로 늘려 재할당
@@ -62,12 +62,12 @@ void PQ_Enqueue(PriorityQueue* PQ, PQNode NewNode)
 	{
 		// 삽입한 노드가 뿌리노드(0)가 아니고, 
 		// 삽입한 노드보다 부모노드의 우선순위가 더 크다면, 부모노드와 위치를 교체
-		HEAP_SwapNodes(PQ, CurrentPosition, ParentPosition);
+		PQ_SwapNodes(PQ, CurrentPosition, ParentPosition);
 
 		// 두 노드의 위치를 교체한 것에 맞춰서,
 		// 삽입한 노드 인덱스와 그것의 부모노드 인덱스도 변경해 줌.
 		CurrentPosition = ParentPosition;
-		ParentPosition = HEAP_GetParent(CurrentPosition);
+		ParentPosition = PQ_GetParent(CurrentPosition);
 	}
 
 	// 노드를 새로 삽입했으므로, 실제 노드 개수를 +1 증가시킴
@@ -94,10 +94,10 @@ void PQ_Dequeue(PriorityQueue* PQ, PQNode* Root)
 	PQ->UsedSize--;
 
 	// 우선순위 큐의 최고 깊이 가장 우측 노드(H->UsedSize)와 0으로 초기화된 뿌리노드의 위치를 교체함 (p.311)
-	HEAP_SwapNodes(PQ, 0, PQ->UsedSize);
+	PQ_SwapNodes(PQ, 0, PQ->UsedSize);
 
 	// 우선순위 큐의 최고 깊이 가장 우측 노드가 올라간 뿌리노드 자리의 양쪽 자식노드 인덱스 저장
-	LeftPosition = HEAP_GetLeftChild(0);
+	LeftPosition = PQ_GetLeftChild(0);
 	RightPosition = LeftPosition + 1; // 항상 배열 기반 Heap 에서는 '오른쪽 자식노드 인덱스 = 왼쪽 자식노드 인덱스 + 1' 임을 기억할 것! (p.313)
 
 	// 힙 순서 속성 (= 힙의 모든 노드는 부모노드보다 크다)를 만족할 때까지 자식노드와 부모노드 위치 교체를 반복
@@ -138,7 +138,7 @@ void PQ_Dequeue(PriorityQueue* PQ, PQNode* Root)
 		if (PQ->Nodes[SelectedChild].Priority < PQ->Nodes[ParentPosition].Priority)
 		{
 			// 교체할 자식노드가 부모노드보다 우선순위가 작다면, 힙 순서 속성이 깨진 것이므로, 둘의 위치를 교체함 (p.311)
-			HEAP_SwapNodes(PQ, ParentPosition, SelectedChild);
+			PQ_SwapNodes(PQ, ParentPosition, SelectedChild);
 			ParentPosition = SelectedChild;
 		}
 		else
@@ -148,7 +148,7 @@ void PQ_Dequeue(PriorityQueue* PQ, PQNode* Root)
 		}
 
 		// 다음 순회에서 비교할 왼쪽 / 오른쪽 자식노드 위치값 업데이트
-		LeftPosition = HEAP_GetLeftChild(ParentPosition);
+		LeftPosition = PQ_GetLeftChild(ParentPosition);
 		RightPosition = LeftPosition + 1;
 	} // 반복문 탈출!
 
