@@ -57,11 +57,29 @@ int PQ_GetLeftChild(int Index)
 // 우선순위 큐의 두 노드 위치 교환
 void PQ_SwapNodes(PriorityQueue* PQ, int Index1, int Index2)
 {
+	// 복사할 메모리 사이즈 (= PQNode 단일 구조체 크기) 저장
+	int CopySize = sizeof(PQNode);
 
+	// 첫 번째 PQNode(= Index1)를 임시 저장할 메모리 동적 할당
+	PQNode* Temp = (PQNode*)malloc(CopySize);
+
+	// 첫 번째 PQNode 데이터를 Temp 자유 메모리에 임시 복사 (memcpy() 관련 설명 하단 참고)
+	memcpy(Temp, &PQ->Nodes[Index1], CopySize);
+
+	// 두 번째 PQNode 데이터를 첫 번째 PQNode 메모리에 복사
+	memcpy(&PQ->Nodes[Index1], &PQ->Nodes[Index2], CopySize);
+
+	// Temp 에 임시로 복사해 둔 첫 번째 PQNode 데이터를 두 번째 PQNode 메모리에 복사
+	// 이제 첫 번째 노드와 두 번째 노드의 데이터가 서로 교체됨! -> 두 노드 위치 교환 완료!
+	memcpy(&PQ->Nodes[Index2], Temp, CopySize);
+
+	// 두 노드 위치 교환 완료 후, 불필요한 임시 메모리 반납
+	free(Temp);
 }
 
 // 우선순위 큐의 노드 배열이 비었는지 확인
 int PQ_IsEmpty(PriorityQueue* PQ)
 {
-
+	// 우선순위 큐 노드 배열 개수가 0개인 지 확인
+	return (PQ->UsedSize == 0);
 }
