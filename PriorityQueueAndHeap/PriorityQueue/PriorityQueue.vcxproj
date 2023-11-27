@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PriorityQueue.c" />
+    <ClCompile Include="Test_PriorityQueue.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PriorityQueue.h" />
