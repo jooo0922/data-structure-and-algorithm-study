@@ -32,7 +32,7 @@ typedef struct tagPriorityQueue
 
 PriorityQueue* PQ_Create(int InitialSize); // 우선순위 큐 구조체 생성
 void PQ_Destroy(PriorityQueue* PQ); // 우선순위 큐 구조체 메모리 해제
-void PQ_Enqueue(PriorityQueue* PQ, PQNode NewData); // 우선순위 큐 노드 삽입
+void PQ_Enqueue(PriorityQueue* PQ, PQNode NewNode); // 우선순위 큐 노드 삽입
 void PQ_Dequeue(PriorityQueue* PQ, PQNode* Root); // 우선순위 큐 최솟값 노드 삭제 (= 뿌리노드 삭제)
 int PQ_GetParent(int Index); // 주어진 노드의 부모노드 탐색
 int PQ_GetLeftChild(int Index); // 주어진 노드의 왼쪽 자식노드 탐색 (오른쪽 자식노드 = 왼쪽 자식노드 위치 + 1)
