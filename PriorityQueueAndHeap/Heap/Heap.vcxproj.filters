@@ -18,6 +18,9 @@
     <ClCompile Include="Heap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Heap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Heap.h">
