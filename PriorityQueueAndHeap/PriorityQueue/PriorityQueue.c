@@ -21,7 +21,11 @@ PriorityQueue* PQ_Create(int InitialSize)
 // 우선순위 큐 구조체 메모리 해제
 void PQ_Destroy(PriorityQueue* PQ)
 {
+	// 우선순위 큐 노드 배열 메모리 해제
+	free(PQ->Nodes);
 
+	// 우선순위 큐 구조체 메모리 해제
+	free(PQ);
 }
 
 // 우선순위 큐 노드 삽입
