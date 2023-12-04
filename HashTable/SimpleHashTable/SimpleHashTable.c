@@ -38,5 +38,8 @@ void SHT_DestroyHashTable(HashTable* HT)
 // 해시 함수 (나눗셈법)
 int SHT_Hash(KeyType Key, int TableSize)
 {
-
+	// 해시 함수를 나눗셈법 알고리즘으로 구현
+	// 입력값(Key)을 해시 테이블 크기(TableSize)로 나눈 나머지값을 테이블의 주소값으로 반환함.
+	// 이때, 나눗셈법으로 해싱한 주소값은 0 ~ (테이블 크기 - 1) 사이의 주소 반환을 보장함! (p.337 참고)
+	return Key % TableSize;
 }
