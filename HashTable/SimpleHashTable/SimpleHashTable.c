@@ -31,7 +31,12 @@ void SHT_Set(HashTable* HT, KeyType Key, ValueType Value)
 // 해시 테이블 노드 데이터 읽기
 ValueType SHT_Get(HashTable* HT, KeyType Key)
 {
-
+	// 두 번째 매개변수로 입력받은 Key 값으로 재해싱하여 주소값 반환
+	// (참고로, 나눗셈법 알고리즘은 동일한 Key 값이 입력되면 항상 동일한 주소값을 반환해 줌!)
+	int Address = SHT_Hash(Key, HT->TableSize);
+	
+	// 입력받은 Key 값에 대응되는 해시 테이블 노드의 Value 를 반환
+	return HT->Table[Address].Value;
 }
 
 // 해시 테이블 구조체 메모리 해제
