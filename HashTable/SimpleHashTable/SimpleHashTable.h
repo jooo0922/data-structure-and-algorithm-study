@@ -31,5 +31,10 @@ typedef struct tagHashTable
 	Node* Table; // 해시 테이블 노드 배열
 } HashTable;
 
+HashTable* SHT_CreateHashTable(int TableSize); // 해시 테이블 구조체 생성
+void SHT_Set(HashTable* HT, KeyType Key, ValueType Value); // 해시 테이블 노드 추가
+ValueType SHT_Get(HashTable* HT, KeyType Key); // 해시 테이블 노드 데이터 읽기
+void SHT_DestroyHashTable(HashTable* HT); // 해시 테이블 구조체 메모리 해제
+int SHT_Hash(KeyType Key, int TableSize); // 해시 함수 (나눗셈법)
 
 #endif // !SIMPLE_HASHTABLE_H
