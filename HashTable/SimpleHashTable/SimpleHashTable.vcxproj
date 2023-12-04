@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SimpleHashTable.c" />
+    <ClCompile Include="Test_SimpleHashTable.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimpleHashTable.h" />
