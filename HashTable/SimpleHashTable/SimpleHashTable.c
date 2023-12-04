@@ -20,7 +20,12 @@ HashTable* SHT_CreateHashTable(int TableSize)
 // 해시 테이블 노드 추가
 void SHT_Set(HashTable* HT, KeyType Key, ValueType Value)
 {
+	// 나눗셈법으로 해싱한 테이블의 주소값 반환
+	int Address = SHT_Hash(Key, HT->TableSize);
 
+	// 해싱한 주소값을 노드 배열의 인덱스로 삼아, 해당 노드의 멤버 값 초기화
+	HT->Table[Address].Key = Key;
+	HT->Table[Address].Value = Value;
 }
 
 // 해시 테이블 노드 데이터 읽기
