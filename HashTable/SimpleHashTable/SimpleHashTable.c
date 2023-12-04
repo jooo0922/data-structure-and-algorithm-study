@@ -42,7 +42,11 @@ ValueType SHT_Get(HashTable* HT, KeyType Key)
 // 해시 테이블 구조체 메모리 해제
 void SHT_DestroyHashTable(HashTable* HT)
 {
+	// 해시 테이블 노드 배열 메모리 해제
+	free(HT->Table);
 
+	// 해시 테이블 구조체 메모리 해제
+	free(HT);
 }
 
 // 해시 함수 (나눗셈법)
