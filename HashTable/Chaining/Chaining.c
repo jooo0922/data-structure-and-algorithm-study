@@ -99,7 +99,42 @@ void CHT_DestroyHashTable(HashTable* HT)
 // 해시 테이블 노드 삽입
 void CHT_Set(HashTable* HT, KeyType Key, ValueType Value)
 {
+	// 매개변수로 전달받은 Key 값으로 주소값을 해시함.
+	int Address = CHT_Hash(Key, strlen(Key), HT->TableSize);
+	
+	// 새로운 노드 생성
+	Node* NewNode = CHT_CreateNode(Key, Value);
 
+	if (HT->Table[Address] == NULL)
+	{
+		// 해싱한 주소값이 비어있는 경우 
+		// = 이 해시값으로 저장된 노드가 없는 경우
+		// = 해시값 충돌이 발생하지 않은 경우!
+
+		// 별다른 조치 없이 곧바로 해당 해시값에 새로운 노드 저장
+		HT->Table[Address] = NewNode;
+	}
+	else
+	{
+		// 해싱한 주소값이 비어있지 않은 경우
+		// = 이전에 이 해시값으로 저장된 노드가 이미 하나 이상 존재하는 경우
+		// = 해시값 출동이 발생한 경우!
+
+		/* 새로운 노드를 현재 해시값으로 저장된 링크드리스트의 '헤드'로 삽입! */
+
+		// 현재 이 해시값으로 저장된 링크드리스트의 헤드노드를 가져온다.
+		List L = HT->Table[Address];
+
+		// 새로운 노드의 다음노드 포인터가 위에서 가져온 헤드노드를 가리키도록 한다.
+		NewNode->Next = L;
+
+		// 새로운 노드를 링크드리스트의 헤드노드로 등록한다.
+		HT->Table[Address] = NewNode;
+
+		// 현재 Key 값으로 노드를 추가하려고 시도했을 때, 
+		// 해시값 충돌이 발생했음을 알리는 콘솔 출력!
+		printf("Collision occured : Key(%s), Address(%d)\n", Key, Address);
+	}
 }
 
 // 해시 테이블 노드 탐색
