@@ -105,7 +105,45 @@ void CHT_Set(HashTable* HT, KeyType Key, ValueType Value)
 // 해시 테이블 노드 탐색
 ValueType CHT_Get(HashTable* HT, KeyType Key)
 {
+	// 매개변수로 전달받은 Key 값으로 주소값을 해시함.
+	int Address = CHT_Hash(Key, strlen(Key), HT->TableSize);
 
+	// 해싱한 주소로 저장된 링크드리스트를 가져온다.
+	List TheList = HT->Table[Address];
+	List Target = NULL;
+
+	// 링크드리스트 NULL 체크
+	if (TheList == NULL)
+	{
+		return NULL;
+	}
+
+	// 루프 무한반복 (== 원하는 노드를 찾을 때까지 링크드리스트 순차탐색)
+	while (1)
+	{
+		if (strcmp(TheList->Key, Key) == 0)
+		{
+			// strcmp() 는 두 문자열의 일치 여부를 비교하는 함수.
+			// strcmp() 에서 0을 반환하면, 두 문자열이 일치한다는 뜻이고,
+			// 즉, 현재 링크드리스트(TheList)에서 Key 값이 일치하는 노드를 찾았다는 뜻! -> 반복문 종료!
+			Target = TheList;
+			break;
+		}
+
+		// 위에서 아직 원하는 노드를 찾지 못했다면,
+		// TheList 변수에 현재 링크드리스트(TheList) 상의 다음 노드 주소값으로 업데이트해줌!
+		if (TheList->Next == NULL)
+		{
+			break;
+		}
+		else
+		{
+			TheList = TheList->Next;
+		}
+	}
+
+	// 찾은 노드의 Value 값 반환
+	return Target->Value;
 }
 
 // 해시 함수 (자릿수 접기 + 나눗셈법)
