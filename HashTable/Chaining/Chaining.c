@@ -32,7 +32,24 @@ void CHT_DestroyHashTable(HashTable* HT)
 // 해시 테이블(의 링크드리스트) 노드 생성
 Node* CHT_CreateNode(KeyType Key, ValueType Value)
 {
+	// Node 구조체 크기 만큼의 힙 메모리 할당
+	Node* NewNode = (Node*)malloc(sizeof(Node));
 
+	// Node 구조체의 Key 멤버에 (매개변수 Key 문자열 길이 + 1) 만큼의 동적 배열 할당 후, strcpy() 로 문자열 복사
+	// 길이에 + 1 더한 이유는, 종료문자('\0')를 포함하기 위함.
+	NewNode->Key = (char*)malloc(sizeof(char) * (strlen(Key) + 1));
+	strcpy_s(NewNode->Key, sizeof(char) * (strlen(Key) + 1), Key);
+
+	// Node 구조체의 Value 멤버에 (매개변수 Value 문자열 길이 + 1) 만큼의 동적 배열 할당 후, strcpy() 로 문자열 복사
+	// 길이에 + 1 더한 이유는, 종료문자('\0')를 포함하기 위함.
+	NewNode->Value = (char*)malloc(sizeof(char) * (strlen(Value) + 1));
+	strcpy_s(NewNode->Value, sizeof(char) * (strlen(Value) + 1), Value);
+
+	// Node 구조체의 다음 노드 포인터를 NULL 초기화
+	NewNode->Next = NULL;
+
+	// 생성된 Node 구조체 주소값 반환
+	return NewNode;
 }
 
 // 해시 테이블(의 링크드리스트) 노드 메모리 해제
