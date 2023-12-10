@@ -18,6 +18,9 @@
     <ClCompile Include="Chaining.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Chaining.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chaining.h">

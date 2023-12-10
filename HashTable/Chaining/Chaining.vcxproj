@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chaining.c" />
+    <ClCompile Include="Test_Chaining.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chaining.h" />
