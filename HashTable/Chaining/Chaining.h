@@ -43,6 +43,8 @@ void CHT_DestroyHashTable(HashTable* HT); // 해시 테이블 구조체 메모�
 Node* CHT_CreateNode(KeyType Key, ValueType Value); // 해시 테이블(의 링크드리스트) 노드 생성
 void CHT_DestroyNode(Node* TheNode); // 해시 테이블(의 링크드리스트) 노드 메모리 해제
 
+void CHT_DestroyList(List L); // 해시 테이블의 링크드리스트 메모리 해제
+
 void CHT_Set(HashTable* HT, KeyType Key, ValueType Value); // 해시 테이블 노드 삽입
 ValueType CHT_Get(HashTable* HT, KeyType Key); // 해시 테이블 노드 탐색
 int CHT_Hash(KeyType Key, int KeyLength, int TableSize); // 해시 함수 (자릿수 접기 + 나눗셈법)
