@@ -23,12 +23,6 @@ HashTable* CHT_CreateHashTable(int TableSize)
 	return HT;
 }
 
-// 해시 테이블 구조체 메모리 해제
-void CHT_DestroyHashTable(HashTable* HT)
-{
-
-}
-
 // 해시 테이블(의 링크드리스트) 노드 생성
 Node* CHT_CreateNode(KeyType Key, ValueType Value)
 {
@@ -55,7 +49,51 @@ Node* CHT_CreateNode(KeyType Key, ValueType Value)
 // 해시 테이블(의 링크드리스트) 노드 메모리 해제
 void CHT_DestroyNode(Node* TheNode)
 {
+	// 노드의 각 문자열 멤버변수에 할당된 메모리 반납
+	free(TheNode->Key);
+	free(TheNode->Value);
 
+	// 노드 메모리 반납
+	free(TheNode);
+}
+
+// 해시 테이블의 링크드리스트 메모리 해제
+void CHT_DestroyList(List L)
+{
+	// 링크드리스트 NULL 체크
+	if (L == NULL)
+	{
+		return;
+	}
+
+	// 링크드리스트의 현재 노드를 기준으로, 다음 노드가 존재할 경우,
+	// 재귀적으로 함수를 호출하여 다음 노드 메모리 해제
+	if (L->Next != NULL)
+	{
+		CHT_DestroyList(L->Next);
+	}
+
+	// 링크드리스트의 현재 노드 메모리 해제
+	CHT_DestroyNode(L);
+}
+
+// 해시 테이블 구조체 메모리 해제
+void CHT_DestroyHashTable(HashTable* HT)
+{
+	int i = 0;
+	for (i = 0; i < HT->TableSize; i++)
+	{
+		// 해시테이블의 각 주소값(= 해시값. i)을 순회하며
+		// 그 주소값으로 저장된 링크드리스트 메모리를 순차적으로 해제
+		List L = HT->Table[i];
+		CHT_DestroyList(L);
+	}
+
+	// 링크드리스트 배열(여러 개의 링크드리스트로 이루어진 동적 배열) 멤버변수 Table 의 메모리 해제
+	free(HT->Table);
+
+	// HashTable 구조체 메모리 해제
+	free(HT);
 }
 
 // 해시 테이블 노드 삽입
