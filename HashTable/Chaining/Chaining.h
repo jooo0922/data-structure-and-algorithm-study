@@ -27,14 +27,24 @@ typedef struct tagNode
 	struct tagNode* Next; // 링크드리스트 상에서 다음 노드에 대한 포인터 주소값
 } Node;
 
-// 해시 테이블의 각 해시값이 가리킬 링크드리스트 타입을 별칭으로 선언
+// 체이닝 기반 해시 테이블의 각 해시값이 가리킬 링크드리스트 타입을 별칭으로 선언
 typedef Node* List;
 
-// 해시 테이블 구조체 타입을 별칭으로 선언
+// 체이닝 기반 해시 테이블 구조체 타입을 별칭으로 선언
 typedef struct tagHashTable
 {
 	int TableSize; // 해시 테이블 크기(= 노드 개수)
 	List* Table; // 해시 테이블의 각 해시값이 가리킬 링크드리스트 주소값 (정확히는 링크드리스트 첫 번째 요소, 즉, 헤드노드의 주소값!)
 } HashTable;
+
+HashTable* CHT_CreateHashTable(int TableSize); // 해시 테이블 구조체 생성
+void CHT_DestroyHashTable(HashTable* HT); // 해시 테이블 구조체 메모리 해제
+
+Node* CHT_CreateNode(KeyType Key, ValueType Value); // 해시 테이블(의 링크드리스트) 노드 생성
+void CHT_DestroyNode(Node* TheNode); // 해시 테이블(의 링크드리스트) 노드 메모리 해제
+
+void CHT_Set(HashTable* HT, KeyType Key, ValueType Value); // 해시 테이블 노드 삽입
+ValueType CHT_Get(HashTable* HT, KeyType Key); // 해시 테이블 노드 탐색
+int CHT_Hash(KeyType Key, int KeyLength, int TableSize); // 해시 함수 (자릿수 접기 + 나눗셈법)
 
 #endif // !CHAINING_H
