@@ -35,7 +35,16 @@ HashTable* OAHT_CreateHashTable(int TableSize)
 // 해시 테이블 구조체 메모리 해제
 void OAHT_DestroyHashTable(HashTable* HT)
 {
+	// 해시 테이블 각 요소의 메모리 해제(== Key, Value 초기화)
+	int i = 0;
+	for (int i = 0; i < HT->TableSize; i++)
+	{
+		OAHT_ClearElement(&(HT->Table[i]));
+	}
 
+	// 해시 테이블 구조체 메모리 해제
+	free(HT->Table);
+	free(HT);
 }
 
 // 해시 테이블 요소 메모리 해제 -> 정확히는, 해당 요소의 Key, Value 초기화
