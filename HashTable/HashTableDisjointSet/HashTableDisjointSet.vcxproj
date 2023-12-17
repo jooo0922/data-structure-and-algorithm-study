@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="HashTableDisjointSet.c" />
+    <ClCompile Include="Test_HashTableDisjointSet.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HashTableDisjointSet.h" />
