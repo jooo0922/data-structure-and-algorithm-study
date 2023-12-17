@@ -110,11 +110,11 @@ void OAHT_Set(HashTable** HT, KeyType Key, ValueType Value)
 	// 새로운 요소의 Key 삽입
 	// (참고로, 문자열 메모리 동적할당 시, KeyLen + 1 해준 것은, 종료문자('\0') 포함 목적!)
 	(*HT)->Table[Address].Key = (char*)malloc(sizeof(char) * (KeyLen + 1));
-	strcpy((*HT)->Table[Address].Key, Key);
+	strcpy_s((*HT)->Table[Address].Key, sizeof(char) * (KeyLen + 1), Key);
 
 	// 새로운 요소의 Value 삽입
 	(*HT)->Table[Address].Value = (char*)malloc(sizeof(char) * (strlen(Value) + 1));
-	strcpy((*HT)->Table[Address].Value, Value);
+	strcpy_s((*HT)->Table[Address].Value, sizeof(char) * (strlen(Value) + 1), Value);
 
 	// 삽입된 새로운 요소의 상태를 OCCUPIED 로 변경
 	(*HT)->Table[Address].Status = OCCUPIED;
