@@ -43,5 +43,15 @@ typedef struct tagHasTable
 	ElementType* Table; // 해시 테이블 각 요소 타입(ElementType)의 동적 배열(의 첫 번째 요소 주소값)
 } HashTable;
 
+HashTable* OAHT_CreateHashTable(int TableSize); // 해시 테이블 구조체 생성
+void OAHT_DestroyHashTable(HashTable* HT); // 해시 테이블 구조체 메모리 해제
+void OAHT_ClearElement(ElementType* Element); // 해시 테이블 요소 메모리 해제
+
+void OAHT_Set(HashTable** HT, KeyType Key, ValueType Value); // 해시 테이블 요소 삽입
+ValueType OAHT_Get(HashTable* HT, KeyType Key); // 해시 테이블 요소 탐색
+int OAHT_Hash(KeyType Key, int KeyLength, int TableSize); // 해시 함수 (해시 주소값 계산용)
+int OAHT_Hash2(KeyType Key, int KeyLength, int TableSize); // 해시 함수 (탐사 이동폭 계산용 -> 이중 해싱)
+
+void OAHT_Rehash(HashTable** HT); // 해시 테이블 재해싱
 
 #endif // !OPEN_ADDRESSING_H
