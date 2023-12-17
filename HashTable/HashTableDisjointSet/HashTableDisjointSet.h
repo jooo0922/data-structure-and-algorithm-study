@@ -56,4 +56,7 @@ int HTDS_Hash2(KeyType Key, int KeyLength, int TableSize); // 해시 함수 (탐
 
 void HTDS_Rehash(HashTable** HT); // 해시 테이블 재해싱
 
+void HTDS_UnionSet(ElementType Set1, ElementType Set2); // 두 분리집합 합집합 연산
+ValueType HTDS_FindSet(ElementType Element); // 특정 요소가 포함된 집합 탐색
+
 #endif // !HASH_TABLE_DISJOINT_SET_H
