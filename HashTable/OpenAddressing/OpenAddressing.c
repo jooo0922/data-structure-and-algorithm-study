@@ -127,5 +127,32 @@ int OAHT_Hash2(KeyType Key, int KeyLength, int TableSize)
 // 해시 테이블 재해싱
 void OAHT_Rehash(HashTable** HT)
 {
+	int i = 0;
 
+	// 현재 해시테이블 요소들의 동적 배열(의 주소값) 임시 저장
+	ElementType* OldTable = (*HT)->Table;
+
+	// 현재 해시테이블보다 2배 더 큰 새로운 해시테이블 생성
+	HashTable* NewHT = OAHT_CreateHashTable((*HT)->TableSize * 2);
+
+	// 재해싱 알림 출력
+	printf("\nRehashed. New table size is : %d\n\n", NewHT->TableSize);
+
+	// 현재 해시테이블 요소들 중, 점유 상태인 요소들의 [Key, Value] 를 가지고서
+	// 새로운 해시테이블 요소로 추가
+	for (i = 0; i < (*HT)->TableSize; i++)
+	{
+		if (OldTable[i].Status == OCCUPIED)
+		{
+			OAHT_Set(&NewHT, OldTable[i].Key, OldTable[i].Value);
+		}
+	}
+
+	// 기존 해시테이블 메모리 해제
+	OAHT_DestroyHashTable((*HT));
+
+	// 이중 포인터로 선언된 매개변수를 de-referencing 하여,
+	// 기존 해시테이블 주소값이 저장된 외부 포인터 변수에 접근한 뒤,
+	// 새로운 해시테이블 주소값을 할당
+	(*HT) = NewHT;
 }
