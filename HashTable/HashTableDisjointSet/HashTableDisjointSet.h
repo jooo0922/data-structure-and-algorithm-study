@@ -37,7 +37,7 @@ typedef struct tagElementType
 } ElementType;
 
 // 개방 주소법 기반 해시 테이블 구조체 타입을 별칭으로 선언
-typedef struct tagHasTable
+typedef struct tagHashTable
 {
 	int OccupiedCount; // 해시 테이블에서 점유된 요소의 개수
 	int TableSize; // 해시 테이블 크기(= 요소 개수)
