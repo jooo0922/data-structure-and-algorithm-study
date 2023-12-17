@@ -39,7 +39,7 @@ void HTDS_DestroyHashTable(HashTable* HT)
 	int i = 0;
 	for (int i = 0; i < HT->TableSize; i++)
 	{
-		OAHT_ClearElement(&(HT->Table[i]));
+		HTDS_ClearElement(&(HT->Table[i]));
 	}
 
 	// 해시 테이블 구조체 메모리 해제
@@ -81,13 +81,13 @@ void HTDS_Set(HashTable** HT, KeyType Root, KeyType Key, ValueType Value)
 	// 현재 해시테이블 점유율이 50%(== 0.5) 초과 시, 재해싱
 	if (Usage > 0.5)
 	{
-		OAHT_Rehash(HT);
+		HTDS_Rehash(HT);
 	}
 
 	// 해시테이블에 삽입할 요소의 Key 길이, 해시값, 탐사 이동폭 계산
 	KeyLen = strlen(Key);
-	Address = OAHT_Hash(Key, KeyLen, (*HT)->TableSize);
-	StepSize = OAHT_Hash2(Key, KeyLen, (*HT)->TableSize);
+	Address = HTDS_Hash(Key, KeyLen, (*HT)->TableSize);
+	StepSize = HTDS_Hash2(Key, KeyLen, (*HT)->TableSize);
 
 	// 해싱된 주소값에 이미 어떤 요소가 점유되어 있고,
 	// 점유된 요소의 Key 값과 삽입할 요소의 Key 값이 다를 때, 
@@ -119,11 +119,12 @@ void HTDS_Set(HashTable** HT, KeyType Root, KeyType Key, ValueType Value)
 	(*HT)->Table[Address].Value = (char*)malloc(sizeof(char) * (strlen(Value) + 1));
 	strcpy_s((*HT)->Table[Address].Value, sizeof(char) * (strlen(Value) + 1), Value);
 
+	// 새로운 요소의 뿌리노드 Key 삽입
+	(*HT)->Table[Address].Root = (char*)malloc(sizeof(char) * (strlen(Root) + 1));
+	strcpy_s((*HT)->Table[Address].Root, sizeof(char) * (strlen(Root) + 1), Root);
+
 	// 삽입된 새로운 요소의 상태를 OCCUPIED 로 변경
 	(*HT)->Table[Address].Status = OCCUPIED;
-
-	// 삽입된 새로운 요소의 뿌리노드 초기화
-	(*HT)->Table[Address].Root = Root;
 
 	// 해시테이블의 점유 요소 개수를 +1 증가
 	(*HT)->OccupiedCount++;
@@ -139,8 +140,8 @@ ValueType HTDS_Get(HashTable* HT, KeyType Key)
 	int KeyLen = strlen(Key);
 
 	// 탐색할 요소의 해시값, 탐사 이동폭 계산
-	int Address = OAHT_Hash(Key, KeyLen, HT->TableSize);
-	int StepSize = OAHT_Hash2(Key, KeyLen, HT->TableSize);
+	int Address = HTDS_Hash(Key, KeyLen, HT->TableSize);
+	int StepSize = HTDS_Hash2(Key, KeyLen, HT->TableSize);
 
 	// 해시값 충돌이 발생하지 않을 때까지 탐색할 요소가 저장된 해시값을 계속 탐사해나감. 
 	while (HT->Table[Address].Status != EMPTY &&
@@ -214,7 +215,7 @@ void HTDS_Rehash(HashTable** HT)
 	ElementType* OldTable = (*HT)->Table;
 
 	// 현재 해시테이블보다 2배 더 큰 새로운 해시테이블 생성
-	HashTable* NewHT = OAHT_CreateHashTable((*HT)->TableSize * 2);
+	HashTable* NewHT = HTDS_CreateHashTable((*HT)->TableSize * 2);
 
 	// 재해싱 알림 출력
 	printf("\nRehashed. New table size is : %d\n\n", NewHT->TableSize);
@@ -225,12 +226,12 @@ void HTDS_Rehash(HashTable** HT)
 	{
 		if (OldTable[i].Status == OCCUPIED)
 		{
-			OAHT_Set(&NewHT, OldTable[i].Root, OldTable[i].Key, OldTable[i].Value);
+			HTDS_Set(&NewHT, OldTable[i].Root, OldTable[i].Key, OldTable[i].Value);
 		}
 	}
 
 	// 기존 해시테이블 메모리 해제
-	OAHT_DestroyHashTable((*HT));
+	HTDS_DestroyHashTable((*HT));
 
 	// 이중 포인터로 선언된 매개변수를 de-referencing 하여,
 	// 기존 해시테이블 주소값이 저장된 외부 포인터 변수에 접근한 뒤,
@@ -245,7 +246,8 @@ void HTDS_UnionSet(HashTable* HT, KeyType Key1, KeyType Key2)
 	// 뿌리노드를 Key1 으로 교체!
 	for (int i = 0; i < HT->TableSize; i++)
 	{
-		if (strcmp(HT->Table[i].Root, Key2) == 0)
+		if (HT->Table[i].Status == OCCUPIED && 
+			strcmp(HT->Table[i].Root, Key2) == 0)
 		{
 			HT->Table[i].Root = Key1;
 		}
@@ -259,8 +261,8 @@ KeyType HTDS_FindSet(HashTable* HT, KeyType Key)
 	int KeyLen = strlen(Key);
 
 	// 탐색할 요소의 해시값, 탐사 이동폭 계산
-	int Address = OAHT_Hash(Key, KeyLen, HT->TableSize);
-	int StepSize = OAHT_Hash2(Key, KeyLen, HT->TableSize);
+	int Address = HTDS_Hash(Key, KeyLen, HT->TableSize);
+	int StepSize = HTDS_Hash2(Key, KeyLen, HT->TableSize);
 
 	// 해시값 충돌이 발생하지 않을 때까지 탐색할 요소가 저장된 해시값을 계속 탐사해나감. 
 	while (HT->Table[Address].Status != EMPTY &&
