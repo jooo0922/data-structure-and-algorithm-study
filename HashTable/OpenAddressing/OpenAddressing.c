@@ -129,7 +129,25 @@ void OAHT_Set(HashTable** HT, KeyType Key, ValueType Value)
 // 해시 테이블 요소 탐색
 ValueType OAHT_Get(HashTable* HT, KeyType Key)
 {
+	// Key 문자열 길이 저장
+	int KeyLen = strlen(Key);
 
+	// 탐색할 요소의 해시값, 탐사 이동폭 계산
+	int Address = OAHT_Hash(Key, KeyLen, HT->TableSize);
+	int StepSize = OAHT_Hash2(Key, KeyLen, HT->TableSize);
+
+	// 해시값 충돌이 발생하지 않을 때까지 탐색할 요소가 저장된 해시값을 계속 탐사해나감. 
+	while (HT->Table[Address].Status != EMPTY &&
+		strcmp(HT->Table[Address].Key, Key) != 0)
+	{
+		// 해시값 충돌이 발생되지 않을 때까지
+		// 기존 해시값(Address)에 이중 해시함수로 계산된 탐사 이동폭(StepSize)을
+		// 계속 더하면서 탐색할 요소가 저장된 새로운 주소값을 계속 탐사해나감.
+		Address = (Address + StepSize) % HT->TableSize;
+	}
+
+	// 해시값 충돌이 발생하지 않는 주소값을 찾은 후, 해당 요소의 Value 반환
+	return HT->Table[Address].Value;
 }
 
 // 해시 함수 (해시 주소값 계산용)
