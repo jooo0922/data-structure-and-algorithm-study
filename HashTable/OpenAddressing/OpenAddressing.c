@@ -66,7 +66,64 @@ void OAHT_ClearElement(ElementType* Element)
 // 해시 테이블 요소 삽입
 void OAHT_Set(HashTable** HT, KeyType Key, ValueType Value)
 {
+	// Key 길이, 해시값, 탐사 이동폭 변수 선언
+	int KeyLen, Address, StepSize;
 
+	// 해시테이블 점유율 변수 선언
+	double Usage;
+
+	// 현재 해시테이블 점유율 계산 (int 타입 결과값을 double 타입으로 형변환)
+	Usage = (double)(*HT)->OccupiedCount / (*HT)->TableSize;
+
+	// 현재 해시테이블 점유율이 50%(== 0.5) 초과 시, 재해싱
+	if (Usage > 0.5)
+	{
+		OAHT_Rehash(HT);
+	}
+
+	// 해시테이블에 삽입할 요소의 Key 길이, 해시값, 탐사 이동폭 계산
+	KeyLen = strlen(Key);
+	Address = OAHT_Hash(Key, KeyLen, (*HT)->TableSize);
+	StepSize = OAHT_Hash2(Key, KeyLen, (*HT)->TableSize);
+
+	// 해싱된 주소값에 이미 어떤 요소가 점유되어 있고,
+	// 점유된 요소의 Key 값과 삽입할 요소의 Key 값이 다를 때, 
+	// (strcmp() 는 두 문자열 비교 결과가 같을 때에만 0을 반환)
+	// 즉, '해시값 충돌'이 발생했을 때의 처리
+	while ((*HT)->Table[Address].Status != EMPTY &&
+			strcmp((*HT)->Table[Address].Key, Key) != 0)
+	{
+		// 해시값 충돌이 발생했음을 출력
+		printf("Collision occured! : Key(%s), Address(%d), StepSize(%d)\n", Key, Address, StepSize);
+
+		// 해시값 충돌이 발생되지 않을 때까지
+		// 기존 해시값(Address)에 이중 해시함수로 계산된 탐사 이동폭(StepSize)을
+		// 계속 더하면서 삽입할 요소가 자리잡을 수 있는 새로운 주소값을 계속 탐사해나감.
+		// 이때, '% TableSize' 로 나머지 연산을 해주는 것은,
+		// p.365 에서 테이블의 끝을 넘어가는 경우, 첫 주소 칸으로 돌아가서 마저 탐사하는 동작을 구현한 코드!
+		Address = (Address + StepSize) % (*HT)->TableSize;
+	}
+
+	// 여기까지 무사히 넘어왔다면, 충돌이 발생하지 않는 해시값을 찾은 상태이므로,
+	// 해당 해시값(주소값) 자리에 새로운 요소의 [Key, Value] 쌍을 삽입
+
+	// 새로운 요소의 Key 삽입
+	// (참고로, 문자열 메모리 동적할당 시, KeyLen + 1 해준 것은, 종료문자('\0') 포함 목적!)
+	(*HT)->Table[Address].Key = (char*)malloc(sizeof(char) * (KeyLen + 1));
+	strcpy((*HT)->Table[Address].Key, Key);
+
+	// 새로운 요소의 Value 삽입
+	(*HT)->Table[Address].Value = (char*)malloc(sizeof(char) * (strlen(Value) + 1));
+	strcpy((*HT)->Table[Address].Value, Value);
+
+	// 삽입된 새로운 요소의 상태를 OCCUPIED 로 변경
+	(*HT)->Table[Address].Status = OCCUPIED;
+
+	// 해시테이블의 점유 요소 개수를 +1 증가
+	(*HT)->OccupiedCount++;
+
+	// 새로운 해시값 주소에 요소가 삽입되었음을 출력
+	printf("Key(%s) entered at address(%d)\n", Key, Address);
 }
 
 // 해시 테이블 요소 탐색
