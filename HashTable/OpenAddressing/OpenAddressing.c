@@ -78,13 +78,50 @@ ValueType OAHT_Get(HashTable* HT, KeyType Key)
 // 해시 함수 (해시 주소값 계산용)
 int OAHT_Hash(KeyType Key, int KeyLength, int TableSize)
 {
+	int i = 0;
+	int HashValue = 0; // 자릿수 접기로 누산할 해시값 변수 초기화
 
+	// 문자열 개수만큼 순회하며 해시값 누산
+	for (i = 0; i < KeyLength; i++)
+	{
+		// P.344 ~ 346 예제처럼, 최대 문자열 길이가 10개이고,
+		// 테이블 크기가 12289로 설정되어 14자리 bits 로 표현 가능하다는 전제 하에,
+		// 해시값을 누산할 때마다 누산값을 이진수 상에서 3칸식 Left Shift 해주면,
+		// 주어진 14 자리의 bits 를 모두 활용해서 표현함으로써,
+		// 10개의 문자열 길이로 0 ~ 12288 사이의 주소값을 모두 계산 가능함!
+		// (자세한 설명은 p.345 ~ 346 참고)
+		HashValue = (HashValue << 3) + Key[i];
+
+		/*
+			참고로, char 타입은 + 같은 산술연산자의 피연산자로 사용될 시,
+			ASCII 코드로 자동 변환되어 처리됨!
+		*/
+	}
+
+	// 자릿수 접기로 누산한 해시값을 나눗셈법으로 나머지 연산함
+	HashValue = HashValue % TableSize;
+
+	// 최종 계산된 해시값 반환
+	return HashValue;
 }
 
 // 해시 함수 (탐사 이동폭 계산용 -> 이중 해싱)
 int OAHT_Hash2(KeyType Key, int KeyLength, int TableSize)
 {
+	int i = 0;
+	int HashValue = 0; // 자릿수 접기로 누산할 해시값 변수 초기화
 
+	// 문자열 개수만큼 순회하며 해시값 누산
+	for (i = 0; i < KeyLength; i++)
+	{
+		HashValue = (HashValue << 2) + Key[i];
+	}
+
+	// 자릿수 접기로 누산한 해시값을 나눗셈법으로 나머지 연산함
+	HashValue = HashValue % (TableSize - 3);
+
+	// 최종 계산된 해시값 반환
+	return HashValue + 1;
 }
 
 // 해시 테이블 재해싱
