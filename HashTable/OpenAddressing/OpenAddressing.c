@@ -38,10 +38,20 @@ void OAHT_DestroyHashTable(HashTable* HT)
 
 }
 
-// 해시 테이블 요소 메모리 해제
+// 해시 테이블 요소 메모리 해제 -> 정확히는, 해당 요소의 Key, Value 초기화
 void OAHT_ClearElement(ElementType* Element)
 {
+	// 해당 요소 점유 상태가 EMPTY 라면,
+	// 아직 해당 요소의 Key, Value 메모리 블록이 0으로 초기화되어 있는 상태이므로,
+	// 메모리 초기화를 생략함.
+	if (Element->Status == EMPTY)
+	{
+		return;
+	}
 
+	// 만약 점유 상태가 OCCUPIED 라면, 해당 요소의 Key, Value 블록 메모리 해제
+	free(Element->Key);
+	free(Element->Value);
 }
 
 // 해시 테이블 요소 삽입
