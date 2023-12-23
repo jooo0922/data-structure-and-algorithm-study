@@ -134,7 +134,29 @@ void AddVertex(Graph* G, Vertex* V)
 // 정점 구조체의 간선 리스트(== 인접 정점 리스트)에 새로운 간선 삽입
 void AddEdge(Vertex* V, Edge* E)
 {
+	if (V->AdjacencyList == NULL)
+	{
+		// 정점의 간선 리스트의 헤드노드가 NULL 인 경우, (== 추가된 간선이 없음)
+		// 입력받은 간선 E 를 바로 추가
+		V->AdjacencyList = E;
+	}
+	else
+	{
+		// 정점의 간선 리스트가 NULL 이 아닌 경우, (== 이미 추가된 간선이 존재)
 
+		// 간선 리스트의 헤드노드 (== 첫 번째 간선) 임시로 캐싱
+		Edge* AdjacencyList = V->AdjacencyList;
+
+		// 간선 리스트를 순차탐색하여 테일노드(리스트의 마지막 간선)을 찾아 캐싱
+		while (AdjacencyList->Next != NULL)
+		{
+			AdjacencyList = AdjacencyList->Next;
+		}
+
+		// 리스트의 마지막 간선의 Next 포인터가 
+		// 입력받은 간선 E 를 가리키도록 주소값 할당
+		AdjacencyList->Next = E;
+	}
 }
 
 // 그래프 출력
