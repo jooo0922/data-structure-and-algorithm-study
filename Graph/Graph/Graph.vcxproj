@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Graph.c" />
+    <ClCompile Include="Test_Graph.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h" />

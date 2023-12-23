@@ -18,6 +18,9 @@
     <ClCompile Include="Graph.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Graph.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h">
