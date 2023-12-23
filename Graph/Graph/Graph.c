@@ -78,19 +78,57 @@ void DestroyVertex(Vertex* V)
 // 간선 구조체 생성
 Edge* CreateEdge(Vertex* From, Vertex* Target, int Weight)
 {
+	// Edge 구조체 크기 만큼의 힙 메모리 할당
+	// malloc() 이 할당한 힙 메모리 주소값 반환 시, Edge* 타입의 포인터 주소로 형변환하여 반환.
+	Edge* E = (Edge*)malloc(sizeof(Edge));
 
+	// Edge 구조체 멤버변수 초기화
+	E->From = From;
+	E->Target = Target;
+	E->Next = NULL;
+	E->Weight = Weight;
+
+	// 생성된 간선 구조체 주소값 반환
+	return E;
 }
 
 // 간선 구조체 메모리 해제
 void DestroyEdge(Edge* E)
 {
-
+	// 간선 구조체 메모리 반납
+	free(E);
 }
 
 // 그래프 구조체의 정점 리스트에 새로운 정점 삽입
 void AddVertex(Graph* G, Vertex* V)
 {
+	// 그래프의 정점 리스트를 임시 캐싱
+	Vertex* VertexList = G->Vertices;
 
+	if (VertexList == NULL)
+	{
+		// 그래프의 정점 리스트의 헤드노드가 NULL 인 경우, (== 추가된 정점이 없음)
+		// 입력받은 정점 V 를 바로 추가
+		G->Vertices = V;
+	}
+	else
+	{
+		// 그래프의 정점 리스트가 NULL 이 아닌 경우, (== 이미 추가된 정점이 존재)
+		
+		// 정점 리스트를 순차탐색하여 테일노드(리스트의 마지막 정점)을 찾아 캐싱
+		while (VertexList->Next != NULL)
+		{
+			VertexList = VertexList->Next;
+		}
+
+		// 리스트의 마지막 정점의 Next 포인터가 
+		// 입력받은 정점 V 를 가리키도록 주소값 할당
+		VertexList->Next = V;
+	}
+
+	// 정점의 인덱스는 항상 그래프에 추가된 순서대로 할당.
+	// 또한, 그래프의 전체 정점 개수를 +1 증가시킴.
+	V->Index = G->VertexCount++;
 }
 
 // 정점 구조체의 간선 리스트(== 인접 정점 리스트)에 새로운 간선 삽입
