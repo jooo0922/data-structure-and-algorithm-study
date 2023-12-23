@@ -41,10 +41,24 @@ typedef struct tagEdge
 	Vertex* Target; // 간선의 끝 정점 포인터
 } Edge;
 
+// 그래프 구조체 타입을 별칭으로 선언
 typedef struct tagGraph
 {
 	Vertex* Vertices; // 그래프 상의 전체 정점 리스트 포인터 (정확히는, 그래프 상의 전체 정점들 중 맨 첫 번째 정점의 주소값이 담긴 포인터!)
 	int VertexCount; // 그래프 상의 전체 정점 개수
 } Graph;
+
+Graph* CreateGraph(); // 그래프 구조체 생성
+void DestroyGraph(Graph* G); // 그래프 구조체 메모리 해제
+
+Vertex* CreateVertex(VElementType Data); // 정점 구조체 생성
+void DestroyVertex(Vertex* V); // 정점 구조체 메모리 해제
+
+Edge* CreateEdge(Vertex* From, Vertex* Target, int Weight); // 간선 구조체 생성
+void DestroyEdge(Edge* E); // 간선 구조체 메모리 해제
+
+void AddVertex(Graph* G, Vertex* V); // 그래프 구조체의 정점 리스트에 새로운 정점 삽입
+void AddEdge(Vertex* V, Edge* E); // 정점 구조체의 간선 리스트(== 인접 정점 리스트)에 새로운 간선 삽입
+void PrintGraph(Graph* G); // 그래프 출력
 
 #endif // !GRAPH_H
