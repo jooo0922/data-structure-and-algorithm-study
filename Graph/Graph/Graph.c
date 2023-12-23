@@ -20,7 +20,21 @@ Graph* CreateGraph()
 // 그래프 구조체 메모리 해제
 void DestroyGraph(Graph* G)
 {
+	// 그래프의 정점 리스트가 NULL 이 될때까지 정점 메모리 반납을 반복
+	while (G->Vertices != NULL)
+	{
+		// 그래프의 첫 번째 정점(리스트의 헤드노드)의 다음 정점을 임시로 캐싱
+		Vertex* vertices = G->Vertices->Next; 
 
+		// 그래프의 첫 번째 정점 메모리 반납
+		DestroyVertex(G->Vertices);
+
+		// 캐싱해 둔 다음 정점을 그래프의 새로운 첫 번째 정점으로 업데이트
+		G->Vertices = vertices;
+	}
+
+	// 그래프의 정점 리스트 메모리 반납 완료 후, 그래프 구조체 메모리 반납
+	free(G);
 }
 
 // 정점 구조체 생성
