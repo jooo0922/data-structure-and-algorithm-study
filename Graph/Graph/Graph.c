@@ -20,7 +20,7 @@ Graph* CreateGraph()
 // 그래프 구조체 메모리 해제
 void DestroyGraph(Graph* G)
 {
-	// 그래프의 정점 리스트가 NULL 이 될때까지 정점 메모리 반납을 반복
+	// 그래프의 정점 리스트가 NULL 이 될때까지 정점(Vertex) 메모리 반납을 반복
 	while (G->Vertices != NULL)
 	{
 		// 그래프의 첫 번째 정점(리스트의 헤드노드)의 다음 정점을 임시로 캐싱
@@ -40,13 +40,39 @@ void DestroyGraph(Graph* G)
 // 정점 구조체 생성
 Vertex* CreateVertex(VElementType Data)
 {
+	// Vertex 구조체 크기 만큼의 힙 메모리 할당
+	// malloc() 이 할당한 힙 메모리 주소값 반환 시, Vertex* 타입의 포인터 주소로 형변환하여 반환.
+	Vertex* V = (Vertex*)malloc(sizeof(Vertex));
 
+	// Vertex 구조체 멤버변수 초기화
+	V->Data = Data;
+	V->Next = NULL;
+	V->AdjacencyList = NULL;
+	V->Visited = NotVisited;
+	V->Index = -1;
+
+	// 생성된 정점 구조체 주소값 반환
+	return V;
 }
 
 // 정점 구조체 메모리 해제
 void DestroyVertex(Vertex* V)
 {
+	// 정점의 간선 리스트가 NULL 이 될때까지 간선(Edge) 메모리 반납을 반복
+	while (V->AdjacencyList != NULL)
+	{
+		// 정점의 첫 번째 간선(리스트의 헤드노드)의 다음 간선을 임시로 캐싱
+		Edge* Edge = V->AdjacencyList->Next;
 
+		// 정점의 첫 번째 간선 메모리 반납
+		DestroyEdge(V->AdjacencyList);
+
+		// 캐싱해 둔 다음 간선을 그래프의 새로운 첫 번째 간선으로 업데이트
+		V->AdjacencyList = Edge;
+	}
+
+	// 정점의 간선 리스트 메모리 반납 완료 후, 정점 구조체 메모리 반납
+	free(V);
 }
 
 // 간선 구조체 생성
