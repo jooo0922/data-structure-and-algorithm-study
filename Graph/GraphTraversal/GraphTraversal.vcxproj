@@ -142,6 +142,7 @@
     <ClCompile Include="GraphTraversal.c" />
     <ClCompile Include="Graph.c" />
     <ClCompile Include="LinkedQueue.c" />
+    <ClCompile Include="Test_GraphTraversal.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h" />

@@ -24,6 +24,9 @@
     <ClCompile Include="LinkedQueue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_GraphTraversal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h">
