@@ -21,9 +21,15 @@
     <ClCompile Include="Graph.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LinkedQueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -141,9 +141,11 @@
   <ItemGroup>
     <ClCompile Include="GraphTraversal.c" />
     <ClCompile Include="Graph.c" />
+    <ClCompile Include="LinkedQueue.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="LinkedQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
