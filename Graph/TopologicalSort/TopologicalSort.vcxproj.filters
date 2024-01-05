@@ -18,5 +18,19 @@
     <ClCompile Include="TopologicalSort.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LinkedList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
