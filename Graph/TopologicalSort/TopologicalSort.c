@@ -35,7 +35,7 @@ void TS_DFS(Vertex* V, Node** List)
 		// 인접 정점(== 간선의 끝점(E->Target))을 아직 방문하지 않은 경우, 깊이 우선 탐색을 재귀 호출함
 		if (E->Target != NULL && E->Target->Visited == NotVisited)
 		{
-			DFS(E->Target);
+			TS_DFS(E->Target, List);
 		}
 
 		// 다음 인접 정점을 순회하기 위해 캐싱된 간선을 업데이트함.
@@ -55,7 +55,7 @@ void TS_DFS(Vertex* V, Node** List)
 	*/
 
 	// 깊이 우선 탐색 결과, '더 이상 방문할 인접 정점이 없는 정점' 의 데이터 출력
-	printf("%d ", V->Data);
+	printf("%c\n", V->Data);
 
 	// '더 이상 방문할 인접 정점이 없는 정점' 을 링크드리스트의 노드로 만듦.
 	NewHead = SLL_CreateNode(V);
