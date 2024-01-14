@@ -134,6 +134,40 @@ void Prim(Graph* G, Vertex* StartVertex, Graph* MST)
 
 	/* 프림 알고리즘 진행 결과를 바탕으로 MST(최소 신장 트리) 간선 재구축 */
 
+	// 기존 그래프 정점 개수만큼 반복문 순회
+	for (i = 0; i < G->VertexCount; i++)
+	{
+		int FromIndex, ToIndex;
+
+		// 현재 그래프 정점이 MST 트리 상에서의 부모 정점(= 이전 정점)이 없다면 
+		// 간선을 만들 수 없으므로, 다음 순회로 넘어감
+		if (Precedences[i] == NULL)
+		{
+			continue;
+		}
+
+		// 현재 그래프 정점의 'MST 트리 상에서의' 부모 정점 인덱스 캐싱
+		FromIndex = Precedences[i]->Index;
+
+		// 현재 그래프 정점의 인덱스 캐싱
+		ToIndex = i;
+
+		// MST 트리 상의 부모 정점 -> 현재 정점 방향의 간선을 생성한 뒤,
+		// MST 트리 상의 부모 정점에 간선을 등록
+		AddEdge(MSTVertices[FromIndex],
+			CreateEdge(MSTVertices[FromIndex], MSTVertices[ToIndex], Weights[i])
+		);
+
+		// 현재 정점 -> MST 트리 상의 부모 정점 방향의 간선을 생성한 뒤,
+		// 현재 정점에 간선을 등록
+		AddEdge(MSTVertices[ToIndex],
+			CreateEdge(MSTVertices[ToIndex], MSTVertices[FromIndex], Weights[i])
+		);
+
+		// 위와 같이, 두 정점 사이가 '상호 연결' 되었고, 두 간선의 가중치도 동일하므로,
+		// MST 를 방향성이 없는 '무방향성 그래프' 로 구축하려는 것!
+	}
+
 
 	/* 캐싱에 사용되었던 메모리 반납 */
 }
