@@ -298,4 +298,14 @@ void Kruskal(Graph* G, Graph* MST)
 			DS_UnionSet(VertexSet[FromIndex], VertexSet[ToIndex]);
 		}
 	}
+
+
+	/* 캐싱을 위해 생성했던 동적 배열 및 분리집합 구조체 메모리 반납 */ 
+	for (i = 0; i < G->VertexCount; i++)
+	{
+		DS_DestroySet(VertexSet[i]);
+	}
+
+	free(VertexSet);
+	free(MSTVertices);
 }
