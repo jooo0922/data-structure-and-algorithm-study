@@ -27,6 +27,9 @@
     <ClCompile Include="DisjointSet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_MST.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h">

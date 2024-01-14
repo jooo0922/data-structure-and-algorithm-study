@@ -143,6 +143,7 @@
     <ClCompile Include="Graph.c" />
     <ClCompile Include="MST.c" />
     <ClCompile Include="PriorityQueue.c" />
+    <ClCompile Include="Test_MST.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.h" />
