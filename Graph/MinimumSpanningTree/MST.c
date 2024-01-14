@@ -170,6 +170,12 @@ void Prim(Graph* G, Vertex* StartVertex, Graph* MST)
 
 
 	/* 캐싱에 사용되었던 메모리 반납 */
+	free(Fringes);
+	free(Precedences);
+	free(MSTVertices);
+	free(Weights);
+
+	PQ_Destroy(PQ);
 }
 
 // 크루스칼 알고리즘으로 최소 신장 트리 구축
