@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphTraversal", "GraphTrav
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopologicalSort", "TopologicalSort\TopologicalSort.vcxproj", "{F877C027-5B37-49AD-BDC1-1959E656224F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinimumSpanningTree", "MinimumSpanningTree\MinimumSpanningTree.vcxproj", "{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{F877C027-5B37-49AD-BDC1-1959E656224F}.Release|x64.Build.0 = Release|x64
 		{F877C027-5B37-49AD-BDC1-1959E656224F}.Release|x86.ActiveCfg = Release|Win32
 		{F877C027-5B37-49AD-BDC1-1959E656224F}.Release|x86.Build.0 = Release|Win32
+		{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}.Debug|x64.ActiveCfg = Debug|x64
+		{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}.Debug|x64.Build.0 = Debug|x64
+		{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}.Debug|x86.ActiveCfg = Debug|Win32
+		{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}.Debug|x86.Build.0 = Debug|Win32
+		{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}.Release|x64.ActiveCfg = Release|x64
+		{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}.Release|x64.Build.0 = Release|x64
+		{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}.Release|x86.ActiveCfg = Release|Win32
+		{C83F506B-6BFE-44C9-A0DD-01FCE99E957B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
