@@ -141,12 +141,13 @@
   <ItemGroup>
     <ClCompile Include="DisjointSet.c" />
     <ClCompile Include="Graph.c" />
-    <ClCompile Include="MinimumSpanningTree.c" />
+    <ClCompile Include="MST.c" />
     <ClCompile Include="PriorityQueue.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="MST.h" />
     <ClInclude Include="PriorityQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

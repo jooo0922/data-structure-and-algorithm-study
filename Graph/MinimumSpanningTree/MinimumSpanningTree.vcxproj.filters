@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MinimumSpanningTree.c">
+    <ClCompile Include="MST.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graph.c">
@@ -36,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DisjointSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
