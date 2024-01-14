@@ -190,11 +190,63 @@ void Kruskal(Graph* G, Graph* MST)
 	Vertex* CurrentVertex = NULL;
 
 	// MST 에 추가할 정점 구조체를 새로 만들어서 캐싱해 둘 동적 배열
-	Vertex* MSTVertices = (Vertex**)malloc(sizeof(Vertex*) * G->VertexCount);
+	Vertex** MSTVertices = (Vertex**)malloc(sizeof(Vertex*) * G->VertexCount);
 
 	// 각 정점을 뿌리노드로 하는 분리집합 구조체를 만들어 캐싱해 둘 동적 배열
-	DisjointSet* VertexSet = (DisjointSet**)malloc(sizeof(DisjointSet*) * G->VertexCount);
+	DisjointSet** VertexSet = (DisjointSet**)malloc(sizeof(DisjointSet*) * G->VertexCount);
 
 	// 그래프의 모든 정점들을 가중치 오름차순으로 관리하기 위해 사용할 우선순위 큐 생성
 	PriorityQueue* PQ = PQ_Create(10);
+
+
+	/* 
+		1. 그래프의 간선을 가중치 순으로 오름차순 정렬하고,
+		2. 각 정점별로 분리집합 구조체를 생성하는 준비 작업 수행 (p.430 - 431)
+	*/
+	
+	i = 0;
+
+	// 순회할 현재 정점 초기화
+	CurrentVertex = G->Vertices;
+
+	// 그래프 상의 정점들을 모두 순회
+	while (CurrentVertex != NULL)
+	{
+		// 현재 정점의 간선들을 순회할 때 사용할 캐싱 변수 선언
+		Edge* CurrentEdge;
+
+		// 각 정점별로 분리집합 생성 후, 동적 배열에 캐싱
+		VertexSet[i] = DS_MakeSet(CurrentVertex);
+
+		// MST(이하 '최소 신장 트리')에 추가할 정점 구조체를 
+		// 새롭게 생성하여 MST 그래프에 추가
+		MSTVertices[i] = CreateVertex(CurrentVertex->Data);
+		AddVertex(MST, MSTVertices[i]);
+
+		// 현재 정점의 간선들을 순회
+		CurrentEdge = CurrentVertex->AdjacencyList;
+		while (CurrentEdge != NULL)
+		{
+			// 현재 순회중인 간선을 우선순위 큐에 노드로 만들어 Enqueue
+			// -> 우선순위 큐는 힙 자료구조로 구현되어 있어, 가중치 순으로 오름차순 정렬될 것임!
+			PQNode NewNode = { CurrentEdge->Weight, CurrentEdge };
+			PQ_Enqueue(PQ, NewNode);
+
+			// 다음 순회할 간선 캐시 업데이트
+			CurrentEdge = CurrentEdge->Next;
+		}
+
+		// 다음 순회할 정점 캐시 업데이트
+		CurrentVertex = CurrentVertex->Next;
+
+		i++;
+	}
+
+
+	/* 
+		크루스칼 알고리즘 진행
+	
+		별개의 분리집합에 속하는 두 정점을 간선으로 연결하고,
+		각 분리집합을 합집합 수행
+	*/
 }
