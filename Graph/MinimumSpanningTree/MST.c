@@ -7,7 +7,7 @@ void Prim(Graph* G, Vertex* StartVertex, Graph* MST)
 
 	int i = 0;
 
-	// 시작 정점을 우선순위 큐에 맨 처음 Enqueue 할 노드로 구현
+	// MST 에 추가할 시작 정점을 우선순위 큐에 맨 처음 Enqueue 할 노드로 구현
 	PQNode StartNode = { 0, StartVertex };
 
 	// 우선순위 큐 생성
@@ -65,6 +65,71 @@ void Prim(Graph* G, Vertex* StartVertex, Graph* MST)
 
 
 	/* 우선순위 큐를 활용하여 프림 알고리즘 진행 */
+
+	// MST 에 시작 정점으로 추가할 노드를 우선순위 큐에 가장 먼저 Enqueue
+	PQ_Enqueue(PQ, StartNode);
+
+	// 시작 정점은 간선이 없으므로, 가중치를 0으로 변경
+	Weights[StartVertex->Index] = 0;
+
+	// 우선순위 큐가 비게 될 때까지 프림 알고리즘 반복
+	while (!PQ_IsEmpty(PQ))
+	{
+		// 우선순위 큐에서 Dequeue 한 최솟값 노드를 캐싱해 둘 변수 선언
+		PQNode Popped;
+
+		// 프림 알고리즘에서는 우선순위 큐로 후보 정점들을 관리하므로,
+		// Dequeue 하면 최소 가중치를 갖는 후보 정점(= 최솟값 노드)을 반환받음.
+		PQ_Dequeue(PQ, &Popped);
+		CurrentVertex = (Vertex*)Popped.Data;
+
+		// Dequeue 한 최소 가중치 후보 정점을 Fringes 동적 배열에 캐싱
+		Fringes[CurrentVertex->Index] = CurrentVertex;
+
+		// Dequeue 한 최소 가중치 정점에 연결된 간선들을 모두 순회
+		CurrentEdge = CurrentVertex->AdjacencyList;
+		while (CurrentEdge != NULL)
+		{
+			// 최소 가중치 정점은 이미 MST 에 추가가 확정된 정점이므로,
+			// 최소 가중치 정점들의 간선에 연결된 인접 정점은 결국, '새로운 후보 정점!'
+			// 따라서, 이 반복문은 '새로운 후보 정점들'에 대해서 순회하고 있는 것임!
+			Vertex* TargetVertex = CurrentEdge->Target;
+
+			/*
+				새로운 후보 정점을 우선순위 큐에 Enqueue 하기 전,
+				두 가지 조건을 먼저 검사해줘야 함.
+
+				1. 해당 후보 정점이 Fringes 에 아직 캐싱되어 있지 않은지
+
+				2. 해당 후보 정점이 이미 다른 간선의 가중치로 이전에 등록되었을 때,
+				그 가중치보다 더 작은 간선의 가중치로 업데이트하려는 것인지
+				(or 최대 가중치 MAX_WEIGHT 보다 작은 가중치로 업데이트 하려는 것인지)
+
+				이 두 가지 조건을 충족해야만 우선순위 큐에 
+				후보 정점을 추가하여 관리할 수 있게 됨.
+			
+				참고로, 2번 검사 조건이 와닿지 않는다면,
+				본문 p.422 에서 B-C-F 정점 사이클 생성 방지하는 과정을 살펴보면 됨.
+				이 과정을 코드로 구현한 것이 2번 검사 조건!
+			*/
+			if (Fringes[TargetVertex->Index] == NULL &&
+				CurrentEdge->Weight < Weights[TargetVertex->Index])
+			{
+				// 새로운 후보 정점을 우선순위 큐에 노드로 만들어 Enqueue
+				PQNode NewNode = { CurrentEdge->Weight, TargetVertex };
+				PQ_Enqueue(PQ, NewNode);
+
+				// 새로운 후보 정점의 '부모 정점'을 Precedences 동적 배열에 캐싱
+				Precedences[TargetVertex->Index] = CurrentEdge->From;
+
+				// 새로운 후보 정점의 '가중치'를 Weights 동적 배열에 캐싱
+				Weights[TargetVertex->Index] = CurrentEdge->Weight;
+			}
+
+			// 다음 순회할 간선 캐시 업데이트
+			CurrentEdge = CurrentEdge->Next;
+		}
+	}
 
 
 	/* 프림 알고리즘 진행 결과를 바탕으로 MST(최소 신장 트리) 간선 재구축 */
