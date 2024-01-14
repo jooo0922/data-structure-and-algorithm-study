@@ -178,8 +178,23 @@ void Prim(Graph* G, Vertex* StartVertex, Graph* MST)
 	PQ_Destroy(PQ);
 }
 
+
 // 크루스칼 알고리즘으로 최소 신장 트리 구축
 void Kruskal(Graph* G, Graph* MST)
 {
+	/* 크루스칼 알고리즘에 사용할 동적 배열 할당 */
 
+	int i;
+
+	// 그래프 정점 순회 시, 현재 정점을 캐싱할 변수 선언
+	Vertex* CurrentVertex = NULL;
+
+	// MST 에 추가할 정점 구조체를 새로 만들어서 캐싱해 둘 동적 배열
+	Vertex* MSTVertices = (Vertex**)malloc(sizeof(Vertex*) * G->VertexCount);
+
+	// 각 정점을 뿌리노드로 하는 분리집합 구조체를 만들어 캐싱해 둘 동적 배열
+	DisjointSet* VertexSet = (DisjointSet**)malloc(sizeof(DisjointSet*) * G->VertexCount);
+
+	// 그래프의 모든 정점들을 가중치 오름차순으로 관리하기 위해 사용할 우선순위 큐 생성
+	PriorityQueue* PQ = PQ_Create(10);
 }
