@@ -249,4 +249,53 @@ void Kruskal(Graph* G, Graph* MST)
 		별개의 분리집합에 속하는 두 정점을 간선으로 연결하고,
 		각 분리집합을 합집합 수행
 	*/
+
+	// 우선순위 큐가 비게 될 때까지 크루스칼 알고리즘 반복
+	while (!PQ_IsEmpty(PQ))
+	{
+		Edge* CurrentEdge;
+		int FromIndex;
+		int ToIndex;
+		PQNode Popped;
+
+		// 가중치 오름차순으로 정렬된 우선순위 큐에서
+		// 가중치가 가장 낮은 간선부터 Dequeue (p.431 참고)
+		PQ_Dequeue(PQ, &Popped);
+		CurrentEdge = (Edge*)Popped.Data;
+
+		// Dequeue 된 간선의 시작 정점, 끝 정점, 가중치 출력
+		printf("%c - %c : %d\n",
+			CurrentEdge->From->Data,
+			CurrentEdge->Target->Data,
+			CurrentEdge->Weight);
+
+		// 간선의 시작 정점 인덱스 캐싱
+		FromIndex = CurrentEdge->From->Index;
+
+		// 간선의 끝 정점 인덱스 캐싱
+		ToIndex = CurrentEdge->Target->Index;
+
+		// 간선의 양 끝 정점이 서로 다른 분리집합에 속하는 지 검사
+		// (p.429 > 사이클이 생기지 않기 위한 조건을 검사하는 부분을 코드로 구현)
+		if (DS_FindSet(VertexSet[FromIndex]) != DS_FindSet(VertexSet[ToIndex]))
+		{
+			// 별개의 분리집합에 속하는 두 정점을 간선으로 연결
+			
+			// 간선의 시작 정점 -> 끝 정점 방향의 간선 생성 후, 시작 정점에 추가
+			AddEdge(MSTVertices[FromIndex],
+				CreateEdge(MSTVertices[FromIndex], MSTVertices[ToIndex], CurrentEdge->Weight)
+			);
+
+			// 간선의 끝 정점 -> 시작 정점 방향의 간선 생성 후, 끝 정점에 추가
+			AddEdge(MSTVertices[ToIndex],
+				CreateEdge(MSTVertices[ToIndex], MSTVertices[FromIndex], CurrentEdge->Weight)
+			);
+
+			// 위와 같이, 두 정점 사이가 '상호 연결' 되었고, 두 간선의 가중치도 동일하므로,
+			// MST 를 방향성이 없는 '무방향성 그래프' 로 구축하려는 것!
+
+			// 간선으로 연결한 두 정점이 속한 분리집합을 항상 '합집합'으로 합치기
+			DS_UnionSet(VertexSet[FromIndex], VertexSet[ToIndex]);
+		}
+	}
 }
