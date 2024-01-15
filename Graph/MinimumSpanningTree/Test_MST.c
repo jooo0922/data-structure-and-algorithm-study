@@ -79,5 +79,11 @@ int main()
 	// I 정점에 간선 추가
 	AddEdge(I, CreateEdge(I, G, 106));
 
+
+	// 프림 알고리즘으로 최소 신장 트리 구축 및 출력
+	printf("Prim's Algorithm\n");
+	Prim(graph, B, PrimMST);
+	PrintGraph(PrimMST);
+
 	return 0;
 }
