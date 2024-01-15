@@ -90,5 +90,10 @@ int main()
 	Kruskal(graph, KruskalMST);
 	PrintGraph(KruskalMST);
 
+	// 그래프 메모리 반납
+	DestroyGraph(PrimMST);
+	DestroyGraph(KruskalMST);
+	DestroyGraph(graph);
+
 	return 0;
 }
