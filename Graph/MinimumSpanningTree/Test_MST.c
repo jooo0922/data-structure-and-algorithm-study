@@ -85,5 +85,10 @@ int main()
 	Prim(graph, B, PrimMST);
 	PrintGraph(PrimMST);
 
+	// 크루스칼 알고리즘으로 최소 신장 트리 구축 및 출력
+	printf("Kruskal's Algorithm...\n");
+	Kruskal(graph, KruskalMST);
+	PrintGraph(KruskalMST);
+
 	return 0;
 }
