@@ -158,6 +158,9 @@ void Dijkstra(Graph* G, Vertex* StartVertex, Graph* MST)
 
 		// MST 트리 상의 부모 정점 -> 현재 정점 방향의 간선을 생성한 뒤,
 		// MST 트리 상의 부모 정점에 간선을 등록
+		// 이때, 간선의 가중치로 입력되는 Weight[i] 에는 '해당 간선의 가중치'가 아니라,
+		// 시작 정점에서 해당 간선의 끝 정점(ShortestPathVertices[ToIndex]) 사이의 최단 경로 길이가 저장되어 있음.
+		// 따라서, 이 간선의 가중치에는 간선의 끝 정점까지 이르는 '최단 경로 길이값'이 저장될 것임!
 		AddEdge(ShortestPathVertices[FromIndex],
 			CreateEdge(ShortestPathVertices[FromIndex], ShortestPathVertices[ToIndex], Weights[i])
 		);
