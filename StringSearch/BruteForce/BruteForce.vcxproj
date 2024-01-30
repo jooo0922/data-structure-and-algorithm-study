@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BruteForce.c" />
+    <ClCompile Include="Test_BruteForce.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BruteForce.h" />
