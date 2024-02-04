@@ -89,7 +89,7 @@ int KarpRabin(char* Text, int TextSize, int Start, char* Pattern, int PatternSiz
 }
 
 // p.463 기존 해시 함수 
-// (패턴의 해시값과 최초의 하위 문자열 해시값 계산)
+// (패턴의 해시값과 최초의 하위 문자열 해시값 H₀ 계산)
 int Hash(char* String, int Size)
 {
 	// 하위 문자열을 순회할 때 사용할 인덱스 값 초기화
@@ -103,7 +103,23 @@ int Hash(char* String, int Size)
 
 		왜 아래 코드처럼 구현된 것인지는
 		노란색 필기노트에 정리해 둠.
-	*/	
+	*/
+	/*
+		이 예제에서 구현된 Hash 함수들은
+		해시 테이블의 사이즈 q, 즉, 최대 해시값을
+		32 bits signed int 타입으로 표현할 수 있는 최대 정수값인
+		'2,147,483,647' 로 가정함.
+
+		따라서, 이 최대 해시값 q 를 넘는 해시값이 계산될 경우,
+		그냥 overflow 된 최대 해시값 q 를 그대로 반환해도 아무런 문제가 없음.
+		따라서, 최대 해시값 q 에 대한 나머지 연산(== 나눗셈법)을 생략함.
+
+		왜냐하면, 카프-라빈 문자열 탐색에서
+		해시 함수를 사용하는 목적은 문자열을 더 빠르게 비교하기 위함이지,
+
+		실제 해시 테이블 자료구조처럼 해시 충돌, 테이블 크기 overflow 등의
+		케이스를 엄밀하게 처리할 필요가 없기 때문임.
+	*/
 	for (i = 0; i < Size; i++)
 	{
 		HashValue = String[i] + (HashValue * 2);
@@ -115,7 +131,41 @@ int Hash(char* String, int Size)
 
 // p.465 최적화된 해시 함수 
 // (이전 하위 문자열 해시값 Hᵢ₋₁ 을 사용하여 현재 탐색할 하위 문자열 해시값 Hᵢ 계산)
+/*
+	매개변수는 다음과 같음
+
+	1. String : 본문 문자열
+	2. Start : 현재 탐색중인 하위 문자열의 시작 위치
+	3. Size : 현재 탐색중인 하위 문자열의 길이 (== 패턴 문자열의 길이)
+	4. HashPrev : 이전 하위 문자열의 해시값 Hᵢ₋₁
+	5. Coefficient : p.465 최적화된 해시 함수 내의 계수 2ᵐ⁻¹ 를 미리 계산하여 전달할 매개변수
+*/
 int ReHash(char* String, int Start, int Size, int HashPrev, int Coefficient)
 {
+	if (Start == 0)
+	{
+		/*
+			하위 문자열의 시작 위치가 0이면,
+			결국 최초의 하위 문자열 해시값 H₀ 을 구하려는 것이므로,
+			
+			그냥 이전 하위 문자열의 해시값 (HashPrev)을 반환함.
 
+			그런데, 애초에 최초의 하위 문자열 해시값 H₀ 의
+			이전 하위 문자열 해시값 H₀₋₁ 자체는 존재하지 않는 값이므로,
+			애초부터 int Start 매개변수에 0을 넘겨주면 안됨.
+		
+			애초에 최초의 하위 문자열 해시값 H₀ 은 ReHash() 함수가 아닌,
+			Hash() 함수로 구해야 하므로, 이 block 은 일종의 예외처리 부분이라고 보면 됨.
+		*/
+		return HashPrev;
+	}
+
+	/*
+		p.465 최적화된 해시 함수 코드로 구현
+
+		참고로, Hash() 함수에서와 마찬가지로
+		최대 해시값 q 에 대한 나머지 연산 mod q 를 생략함.
+	*/
+	return String[Start + Size - 1] +
+		((HashPrev - Coefficient * String[Start - 1]) * 2);
 }
