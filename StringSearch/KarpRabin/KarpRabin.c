@@ -1,4 +1,6 @@
 #include "KarpRabin.h"
+#include <stdio.h>
+#include <math.h> // pow() 를 사용하기 위해 포함
 
 // 카프-라빈 알고리즘
 /*
