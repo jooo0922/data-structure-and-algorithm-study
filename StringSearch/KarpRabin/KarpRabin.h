@@ -11,7 +11,7 @@
 int KarpRabin(char* Text, int TextSize, int Start, char* Pattern, int PatternSize);
 
 // p.463 기존 해시 함수 
-// (패턴의 해시값과 최초의 하위 문자열 해시값 계산)
+// (패턴의 해시값과 최초의 하위 문자열 해시값 H₀ 계산)
 int Hash(char* String, int Size);
 
 // p.465 최적화된 해시 함수 
