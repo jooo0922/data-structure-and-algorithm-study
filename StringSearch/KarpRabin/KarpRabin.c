@@ -92,7 +92,25 @@ int KarpRabin(char* Text, int TextSize, int Start, char* Pattern, int PatternSiz
 // (패턴의 해시값과 최초의 하위 문자열 해시값 계산)
 int Hash(char* String, int Size)
 {
+	// 하위 문자열을 순회할 때 사용할 인덱스 값 초기화
+	int i = 0;
 
+	// p.463 기존 해시 함수로 계산된 해시값을 저장할 변수 초기화
+	int HashValue = 0;
+
+	/*
+		for 문을 이용하여 p.463 기존 해시 함수를 코드로 구현
+
+		왜 아래 코드처럼 구현된 것인지는
+		노란색 필기노트에 정리해 둠.
+	*/	
+	for (i = 0; i < Size; i++)
+	{
+		HashValue = String[i] + (HashValue * 2);
+	}
+
+	// 계산된 해시값 최종 반환
+	return HashValue;
 }
 
 // p.465 최적화된 해시 함수 
