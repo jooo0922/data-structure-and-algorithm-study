@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="KarpRabin.c" />
+    <ClCompile Include="Test_KarpRabin.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KarpRabin.h" />
