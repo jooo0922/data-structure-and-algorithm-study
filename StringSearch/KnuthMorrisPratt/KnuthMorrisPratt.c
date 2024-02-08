@@ -73,6 +73,15 @@ void Preprocess(char* Pattern, int PatternSize, int* Border)
 }
 
 // KMP 알고리즘
+/*
+	매개변수는 다음과 같음
+
+	1. Text : 본문 문자열
+	2. TextSize : 본문 문자열 크기
+	3. Start : 본문 문자열을 탐색할 위치
+	4. Pattern : 탐색할 단어 문자열
+	5. PatternSize : 탐색할 단어 문자열 크기
+*/
 int KnuthMorrisPratt(char* Text, int TextSize, int Start, char* Pattern, int PatternSize)
 {
 	// 본문 상의 탐색 위치
