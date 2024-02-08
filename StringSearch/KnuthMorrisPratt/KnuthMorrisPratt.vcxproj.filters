@@ -18,6 +18,9 @@
     <ClCompile Include="KnuthMorrisPratt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_KnuthMorrisPratt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KnuthMorrisPratt.h">
