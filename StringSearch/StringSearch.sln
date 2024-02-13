@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KarpRabin", "KarpRabin\Karp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KnuthMorrisPratt", "KnuthMorrisPratt\KnuthMorrisPratt.vcxproj", "{F821D8E0-A382-45A3-B5AD-D0FB895A6C1E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BoyreMoore", "BoyreMoore\BoyreMoore.vcxproj", "{8CFC83A5-EC65-4627-A357-C836A176567C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{F821D8E0-A382-45A3-B5AD-D0FB895A6C1E}.Release|x64.Build.0 = Release|x64
 		{F821D8E0-A382-45A3-B5AD-D0FB895A6C1E}.Release|x86.ActiveCfg = Release|Win32
 		{F821D8E0-A382-45A3-B5AD-D0FB895A6C1E}.Release|x86.Build.0 = Release|Win32
+		{8CFC83A5-EC65-4627-A357-C836A176567C}.Debug|x64.ActiveCfg = Debug|x64
+		{8CFC83A5-EC65-4627-A357-C836A176567C}.Debug|x64.Build.0 = Debug|x64
+		{8CFC83A5-EC65-4627-A357-C836A176567C}.Debug|x86.ActiveCfg = Debug|Win32
+		{8CFC83A5-EC65-4627-A357-C836A176567C}.Debug|x86.Build.0 = Debug|Win32
+		{8CFC83A5-EC65-4627-A357-C836A176567C}.Release|x64.ActiveCfg = Release|x64
+		{8CFC83A5-EC65-4627-A357-C836A176567C}.Release|x64.Build.0 = Release|x64
+		{8CFC83A5-EC65-4627-A357-C836A176567C}.Release|x86.ActiveCfg = Release|Win32
+		{8CFC83A5-EC65-4627-A357-C836A176567C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
