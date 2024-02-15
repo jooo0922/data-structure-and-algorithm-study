@@ -117,7 +117,33 @@ int BoyreMoore(char* Text, int TextSize, int Start, char* Pattern, int PatternSi
 // 나쁜 문자 이동 테이블 구축
 void BuildBCT(char* Pattern, int PatternSize, int* BadCharTable)
 {
+	int i;
+	int j;
 
+	for (i = 0; i < 128; i++)
+	{
+		/*
+			모든 아스키 문자(총 128개)를 입력할 수 있는
+			정적 배열인 int BadCharTable[128] 을
+			모두 -1 로 초기화
+		*/
+		BadCharTable[i] = -1;
+	}
+
+	for ( j = 0; j < PatternSize; j++)
+	{
+		/*
+			패턴 내의 각 문자의 아스키 코드 자리에
+			패턴 상의 해당 문자의 위치값을 기록함.
+
+			이때, 동일한 아스키 코드의 문자라면,
+			이전의 위치값을 덮어씀으로써,
+
+			패턴 상에서 가장 오른쪽에 위치하는 문자의 위치값이
+			최종적으로 테이블에 기록되도록 함.
+		*/
+		BadCharTable[Pattern[j]] = j;
+	}
 }
 
 // 착한 접미부 이동 테이블 구축
