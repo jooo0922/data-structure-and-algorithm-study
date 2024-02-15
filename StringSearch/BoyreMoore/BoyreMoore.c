@@ -149,7 +149,74 @@ void BuildBCT(char* Pattern, int PatternSize, int* BadCharTable)
 // 착한 접미부 이동 테이블 구축
 void BuildGST(char* Pattern, int PatternSize, int* PosOfBorder, int* GoodSuffTable)
 {
+	/* 착한 접미부 이동의 첫 번째 경우에 대한 테이블 구축 */
+	
+	// 패턴 내의 접미부 X 의 시작 위치
+	int i = PatternSize;
 
+	// 각 접미부 X 의 가장 넓은 경계의 시작 위치
+	int j = PatternSize + 1;
+
+	// 빈 문자열인 접미부의 가장 넓은 경계의 시작 위치는 '패턴 길이 + 1' 로 할당 (p.485)
+	PosOfBorder[i] = j;
+
+	// 각 패턴의 접미부 X 순회
+	while (i > 0)
+	{
+		/*
+			반복문을 돌리면서
+			접미부 X 를 경계로 갖는
+			가장 큰 하위 문자열 Y 의 시작 위치가 나올 때까지 탐색
+		*/
+		while (j <= PatternSize && Pattern[i - 1] != Pattern[j - 1])
+		{
+			// calloc() 에 의해 0으로 초기화된 테이블에 이동거리를 계산하여 할당
+			if (GoodSuffTable[j] == 0)
+			{
+				GoodSuffTable[j] = j - i;
+			}
+
+			j = PosOfBorder[j];
+		}
+
+		i--;
+		j--;
+
+		// 접미부의 가장 넓은 경계의 시작 위치를 테이블에 할당
+		PosOfBorder[i] = j;
+	}
+
+
+	/* 착한 접미부 이동의 두 번째 경우에 대한 테이블 구축 */
+
+	// 첫 접미부의 가장 넓은 경계의 시작 위치를 캐싱
+	j = PosOfBorder[0];
+
+	// 두 번째 경우의 테이블을 구축할 땐 패턴을 왼쪽부터 읽어나감 (p.487)
+	for (i = 0; i < PatternSize; i++)
+	{
+		/*
+			이동거리가 0 으로 남아있는 항목에만 
+			첫 접미부의 가장 넓은 경계의 시작 위치를
+			이동 거리로 입력함.
+		*/
+		if (GoodSuffTable[i] == 0)
+		{
+			GoodSuffTable[i] = j;
+		}
+
+		/*
+			접미부의 시작 위치가
+			'첫 접미부의 가장 넓은 경계의 시작 위치'를 넘어서면,
+
+			입력할 이동거리를
+			'현재 접미부 시작 위치 - 1' 로 변경함 (p.487 참고)
+		*/
+		if (i == j)
+		{
+			j = PosOfBorder[j];
+		}
+	}
 }
 
 // 더 큰 이동거리 비교 함수
