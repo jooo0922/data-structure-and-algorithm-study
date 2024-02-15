@@ -222,5 +222,12 @@ void BuildGST(char* Pattern, int PatternSize, int* PosOfBorder, int* GoodSuffTab
 // 더 큰 이동거리 비교 함수
 int Max(int A, int B)
 {
-
+	if (A > B)
+	{
+		return A;
+	}
+	else
+	{
+		return B;
+	}
 }
