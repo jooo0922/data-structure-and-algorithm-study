@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoyreMoore.c" />
+    <ClCompile Include="Test_BoyreMoore.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoyreMoore.h" />
