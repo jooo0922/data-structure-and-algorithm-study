@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> // calloc() 을 사용하기 위해 포함
 #include "BoyreMoore.h"
 
 // .txt 파일에서 읽어올 본문 한 줄의 크기를 매크로 전처리기로 선언
@@ -78,12 +79,36 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
+	// 나쁜 문자 이동 테이블 메모리 할당 (정적 배열)
+	int BadCharTable[128];
+
+	/*
+		착한 접미부 이동 테이블 메모리 할당 (동적 배열)
+
+		calloc() 을 사용하여
+		할당된 배열의 메모리의 값들을 0으로 초기화함.
+
+		또한, p.485 테이블처럼
+		패턴 맨 끝에 빈 문자열에 대한 테이블도 구성해야 하므로,
+		실제 패턴 크기보다 1만큼 더 크게 메모리를 할당함.
+	*/
+	// 이동 거리
+	int* GoodSuffTable = (int*)calloc(PatternSize + 1, sizeof(int));
+	// 각 접미부 X 의 가장 넓은 경계의 시작 위치
+	int* PosOfBorder = (int*)calloc(PatternSize + 1, sizeof(int));
+
+	// 나쁜 문자 이동 테이블 구축
+	BuildBCT(Pattern, PatternSize, BadCharTable);
+
+	// 착한 접미부 이동 테이블 구축
+	BuildGST(Pattern, PatternSize, PosOfBorder, GoodSuffTable);
+
 	// 파일 포인터 fp 가 가리키는 파일에서 한 줄 크기(MAX_BUFFER)만큼 문자열을 읽어와서 Text 정적 배열에 저장
 	// 더 이상 읽어올 문자열이 없을 때까지(즉, 반환값이 NULL 일 때까지) 문자열 읽기를 반복
 	while (fgets(Text, MAX_BUFFER, fp) != NULL)
 	{
 		// .txt 본문을 한 줄 단위로 보이어 무어 알고리즘 문자열 탐색 수행
-		int Position = BoyreMoore(Text, strlen(Text), 0, Pattern, PatternSize);
+		int Position = BoyreMoore(Text, strlen(Text), 0, Pattern, PatternSize, BadCharTable, GoodSuffTable, PosOfBorder);
 
 		// 탐색한 줄 수 카운팅
 		Line++;
@@ -99,6 +124,10 @@ int main(int argc, char** argv)
 			printf("line:%d, column:%d : %s", Line, Position + 1, Text);
 		}
 	}
+
+	// 문자열 탐색 종료 후, calloc() 으로 동적 할당했던 테이블 메모리 반납
+	free(PosOfBorder);
+	free(GoodSuffTable);
 
 	// 문자열 탐색 종료 후, 파일 포인터 fp 가 가리키는 파일 닫기
 	fclose(fp);

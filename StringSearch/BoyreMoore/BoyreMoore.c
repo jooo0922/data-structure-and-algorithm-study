@@ -1,5 +1,4 @@
 #include "BoyreMoore.h"
-#include <stdlib.h> // calloc() 을 사용하기 위해 포함
 
 // 보이어 무어 알고리즘
 /*
@@ -11,26 +10,8 @@
 	4. Pattern : 탐색할 단어 문자열
 	5. PatternSize : 탐색할 단어 문자열 크기
 */
-int BoyreMoore(char* Text, int TextSize, int Start, char* Pattern, int PatternSize)
+int BoyreMoore(char* Text, int TextSize, int Start, char* Pattern, int PatternSize, int* BadCharTable, int* GoodSuffTable, int* PosOfBorder)
 {
-	// 나쁜 문자 이동 테이블 메모리 할당 (정적 배열)
-	int BadCharTable[128];
-
-	/*
-		착한 접미부 이동 테이블 메모리 할당 (동적 배열)
-
-		calloc() 을 사용하여 
-		할당된 배열의 메모리의 값들을 0으로 초기화함.
-		
-		또한, p.485 테이블처럼
-		패턴 맨 끝에 빈 문자열에 대한 테이블도 구성해야 하므로,
-		실제 패턴 크기보다 1만큼 더 크게 메모리를 할당함.
-	*/
-	// 이동 거리
-	int* GoodSuffTable = (int*)calloc(PatternSize + 1, sizeof(int));
-	// 각 접미부 X 의 가장 넓은 경계의 시작 위치
-	int* PosOfBorder = (int*)calloc(PatternSize + 1, sizeof(int));
-
 	// 본문 탐색 위치
 	int i = Start;
 
@@ -39,12 +20,6 @@ int BoyreMoore(char* Text, int TextSize, int Start, char* Pattern, int PatternSi
 
 	// 패턴과 일치하는 본문 상의 시작 위치를 저장할 변수 초기화
 	int Position = -1;
-	
-	// 나쁜 문자 이동 테이블 구축
-	BuildBCT(Pattern, PatternSize, BadCharTable);
-
-	// 착한 접미부 이동 테이블 구축
-	BuildGST(Pattern, PatternSize, PosOfBorder, GoodSuffTable);
 
 	// 본문의 문자열 순회
 	while (i <= TextSize - PatternSize)
@@ -105,10 +80,6 @@ int BoyreMoore(char* Text, int TextSize, int Start, char* Pattern, int PatternSi
 			i += Max(GoodSuffTable[j + 1], j - BadCharTable[Text[i + j]]);
 		}
 	}
-
-	// 문자열 탐색 종료 후, calloc() 으로 동적 할당했던 테이블 메모리 반납
-	free(PosOfBorder);
-	free(GoodSuffTable);
 
 	// 패턴과 일치하는 본문 상의 하위 문자열 시작 위치 반환
 	return Position;
