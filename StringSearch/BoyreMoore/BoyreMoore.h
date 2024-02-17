@@ -8,7 +8,7 @@
 */
 
 // 보이어 무어 알고리즘
-int BoyreMoore(char* Text, int TextSize, int Start, char* Pattern, int PatternSize);
+int BoyreMoore(char* Text, int TextSize, int Start, char* Pattern, int PatternSize, int* BadCharTable, int* GoodSuffTable, int* PosOfBorder);
 
 // 나쁜 문자 이동 테이블 구축
 void BuildBCT(char* Pattern, int PatternSize, int* BadCharTable);
