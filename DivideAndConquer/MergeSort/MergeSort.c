@@ -55,7 +55,7 @@ void Merge(int DataSet[], int StartIndex, int MiddleIndex, int EndIndex)
 	int LeftIndex = StartIndex;
 
 	// 오른쪽 하위 데이터(B)의 현재 인덱스 초기화
-	int RightIndex = MiddleIndex;
+	int RightIndex = MiddleIndex + 1;
 
 	// 새롭게 메모리를 할당할 빈 데이터(본문의 C)의 현재 인덱스 초기화
 	int DestIndex = 0;
@@ -113,3 +113,27 @@ void Merge(int DataSet[], int StartIndex, int MiddleIndex, int EndIndex)
 	free(Destination);
 }
 
+int main()
+{
+	// 병합정렬할 원본 데이터를 정적 배열로 선언
+	int DataSet[] = { 334, 6, 4, 2, 3, 1, 5, 117, 12, 34 };
+
+	// 원본 데이터 길이를 저장
+	int Length = sizeof DataSet / sizeof DataSet[0];
+
+	// 원본 데이터를 순회할 인덱스 초기화
+	int i = 0;
+
+	// 원본 데이터 병합정렬
+	MergeSort(DataSet, 0, Length - 1);
+
+	// 병합정렬된 원본 데이터를 순회하며 출력
+	for (i = 0; i < Length; i++)
+	{
+		printf("%d ", DataSet[i]);
+	}
+
+	printf("\n");
+
+	return 0;
+}
