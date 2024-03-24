@@ -30,3 +30,17 @@ ULONG Power(int Base, int Exponent)
 		return (NewBase * NewBase) * Base;
 	}
 }
+
+int main()
+{
+	// 거듭제곱의 밑 초기화
+	int Base = 2;
+
+	// 거듭제곱의 지수 초기화
+	int Exponent = 30;
+
+	// 거듭제곱 알고리즘 계산 결과 출력
+	printf("%d^%d = %lu\n", Base, Exponent, Power(Base, Exponent));
+
+	return 0;
+}
