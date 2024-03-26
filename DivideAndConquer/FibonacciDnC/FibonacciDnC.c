@@ -102,3 +102,16 @@ ULONG Fibonacci(int N)
 	*/
 	return A.Data[0][1];
 }
+
+int main()
+{
+	int N = 46;
+
+	// 46 번째 피보나치 수를 분할 정복으로 계산
+	ULONG Result = Fibonacci(N);
+
+	// 46 번째 피보나치 수 출력
+	printf("Fibonacci(%d) = %lu\n", N, Result);
+
+	return 0;
+}
