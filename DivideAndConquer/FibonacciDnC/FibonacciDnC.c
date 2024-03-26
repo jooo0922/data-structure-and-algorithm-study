@@ -81,3 +81,24 @@ Matrix2x2 Matrix2x2_Power(Matrix2x2 A, int n)
 	// n = 1 이면, 최초의 행렬 a 을 그대로 반환
 	return A;
 }
+
+// n 번째 피보나치 수 계산 함수
+ULONG Fibonacci(int N)
+{
+	Matrix2x2 A;
+
+	// 최초의 행렬 [[1, 1], [1, 0]] 초기화
+	A.Data[0][0] = 1;
+	A.Data[0][1] = 1;
+	A.Data[1][0] = 1;
+	A.Data[1][1] = 0;
+
+	// 분할 정복으로 n 번째 피보나치 수 계산
+	A = Matrix2x2_Power(A, N);
+
+	/*
+		최초의 행렬 A 를 분할 정복으로 거듭제곱한 결과인
+		[[Fₙ₊₁, Fₙ], [Fₙ, Fₙ₋₁]] 의 1행 2열의 성분값인 Fₙ 반환
+	*/
+	return A.Data[0][1];
+}
