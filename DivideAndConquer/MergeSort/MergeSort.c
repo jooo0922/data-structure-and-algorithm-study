@@ -37,6 +37,40 @@ void MergeSort(int DataSet[], int StartIndex, int EndIndex)
 	Merge(DataSet, StartIndex, MiddleIndex, EndIndex);
 }
 
+// 최솟값 반환 util 함수
+int getMin(int x, int y) { return (x < y) ? x : y; }
+
+// 반복 병합정렬(재귀 x) 함수
+// https://www.geeksforgeeks.org/iterative-merge-sort 참고
+void IterativeMergeSort(int DataSet[], int Length)
+{
+	// 분할된 하위 데이터 크기
+	int subDataSetSize; 
+
+	// 병합정렬할 현재 하위 데이터의 시작 인덱스
+	int startIndex; 
+
+	/*
+		이미 subDataSet 이 1개로 분할(= subDataSetSize)되어 있다고 가정하고,
+		bottom -> top 방향으로 iterative 하게 병합정렬 진행
+	*/
+	// 바깥 쪽 for 문에서는 분할된 하위 데이터(subDataSetSize) 크기를 2배씩 늘려나감
+	for (subDataSetSize = 1; subDataSetSize < Length - 1; subDataSetSize *= 2)
+	{
+		// 안쪽 for 문에서는 현재 분할된 하위 데이터 크기를 기준으로 병합 정렬할 하위 데이터의 시작, 중간, 끝 지점 인덱스 계산
+		for (startIndex = 0; startIndex < Length - 1; startIndex += 2 * subDataSetSize)
+		{
+			// 병합정렬할 현재 하위 데이터의 중간 지점 인덱스 계산
+			int middleIndex = getMin(startIndex + subDataSetSize - 1, Length - 1);
+
+			// 병합정렬할 현재 하위 데이터의 끝 지점 인덱스 계산
+			int endIndex = getMin(startIndex + 2 * subDataSetSize - 1, Length - 1);
+
+			Merge(DataSet, startIndex, middleIndex, endIndex);
+		}
+	}
+}
+
 // 분할된 두 하위 데이터를 '정렬하며 합치기' (본문 p.527 ~ p.529 과정을 코드로 구현)
 /*
 	매개변수 목록
@@ -125,7 +159,10 @@ int main()
 	int i = 0;
 
 	// 원본 데이터 병합정렬
-	MergeSort(DataSet, 0, Length - 1);
+	//MergeSort(DataSet, 0, Length - 1);
+
+	// 원본 데이터를 재귀 없이 병합정렬
+	IterativeMergeSort(DataSet, Length);
 
 	// 병합정렬된 원본 데이터를 순회하며 출력
 	for (i = 0; i < Length; i++)
