@@ -44,3 +44,15 @@ ULONG Fibonacci(int N)
 
 	return Result;
 }
+
+int main()
+{
+	// 46번째 피보나치 수를 동적 계획법으로 계산
+	int N = 46;
+	ULONG Result = Fibonacci(N);
+
+	// 46번째 피보나치 수 출력
+	printf("Fibonacci(%d) = %lu \n", N, Result);
+
+	return 0;
+}
