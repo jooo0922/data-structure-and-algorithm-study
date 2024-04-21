@@ -14,3 +14,16 @@ typedef struct structLCSTable
 	*/
 	int** Data;
 } LCSTable;
+
+// LCS(최장 공통 부분 수열)의 길이를 저장하는 LCS 테이블 구축 함수 (동적 계획법)
+/*
+	매개변수 정리
+
+	- char* X, char* Y : 최장 공통 부분 수열을 비교할 두 문자열
+	- int i, int j : 두 문자열 X, Y 의 길이이자, LCS 테이블 상에서 최장 공통 부분 수열의 길이값이 저장된 위치
+	- LCSTable* Table : LCS 알고리즘을 최적 부분 구조로 풀기 위해, 부분 문제들의 해를 저장해 둘 테이블
+*/
+int LCS(char* X, char* Y, int i, int j, LCSTable* Table)
+{
+
+}
