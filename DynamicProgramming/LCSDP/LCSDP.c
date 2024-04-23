@@ -152,6 +152,48 @@ void LCS_TraceBack(char* X, char* Y, int m, int n, LCSTable* Table, char* LCS)
 	}
 }
 
+// LCS 테이블 출력 함수
+void LCS_PrintTable(LCSTable* Table, char* X, char* Y, int LEN_X, int LEN_Y)
+{
+	// 현재 순회중인 테이블의 행과 열을 각각 0으로 초기화
+	int i = 0;
+	int j = 0;
+
+	// 4칸 공백 출력
+	printf("%4s", "");
+
+	// 문자열 Y 출력 후 개행
+	for (i = 0; i < LEN_Y + 1; i++)
+	{
+		printf("%c ", Y[i]);
+	}
+
+	printf("\n");
+
+	// 테이블의 각 행(row) 출력
+	for (i = 0; i < LEN_X + 1; i++)
+	{
+		if (i == 0)
+		{
+			// 각 행의 첫 2칸은 공백 출력
+			printf("%2s", "");
+		}
+		else
+		{
+			// 문자열 X 의 각 문자들을 각 행마다 1칸 공백 입력 후, 왼쪽 정렬하여 출력
+			printf("%-2c", X[i - 1]);
+		}
+
+		// LCS 테이블에 저장된 길이값을 각 행마다 출력
+		for (j = 0; j < LEN_Y + 1; j++)
+		{
+			printf("%d ", Table->Data[i][j]);
+		}
+
+		printf("\n");
+	}
+}
+
 /*
 	sprintf()
 
@@ -164,4 +206,26 @@ void LCS_TraceBack(char* X, char* Y, int m, int n, LCSTable* Table, char* LCS)
 	첫 번째 매개변수 LCS: 생성된 문자열이 저장될 버퍼.
 	두 번째 매개변수 "%c%s": 생성될 문자열의 서식을 지정하는 포맷 문자열.
 	세 번째 매개변수 X[m-1]와 네 번째 매개변수 TempLCS: 포맷 문자열에서 %c와 %s에 해당하는 데이터. %c에는 X[m-1]에 해당하는 문자가, %s에는 TempLCS에 해당하는 문자열이 삽입됨.
+*/
+
+/*
+	"%4s", "%-2c"
+
+
+	위 포맷 지정자는 
+	문자열에 공백과 정렬 방향을 설정하여 출력시킴.
+
+	예를 들어, "%4s" 는
+	출력할 문자열이 최소 4칸을 차지하도록 하며,
+	만약 문자열이 4칸보다 적으면 오른쪽 정렬시키고,
+	남은 칸들은 공백 문자로 출력함.
+
+	ex> printf("%4s", "hi"); 는 '__hi' 로 출력됨.
+
+
+	또한, "%-2c" 는
+	출력할 단일 문자가 2칸을 차지하도록 하며,
+	남는 칸들은 모두 공백 문자로 출력하고, 단일 문자를 '왼쪽' 정렬함.
+
+	ex> printf("%-2c*", "A"); 는 'A_*' 로 출력됨.
 */
