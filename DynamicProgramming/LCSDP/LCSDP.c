@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS // 보안 경고 메시지를 무시하는 전처리기 지시문 (sprintf_s() 함수 변경 메시지 무시 목적)
+
 #include <stdio.h> // printf(), scanf() 같은 입출력 함수 선언이 포함된 헤더파일
 #include <string.h> // strlen(), strcpy() 같은 문자열 처리 함수 선언이 포함된 헤더파일
 #include <stdlib.h> // malloc(), free() 같은 메모리 할당 함수 선언이 포함된 헤더파일
@@ -33,13 +35,13 @@ int LCS(char* X, char* Y, int i, int j, LCSTable* Table)
 		LCS 알고리즘의 첫 번째 점화식을 사용하여 
 		가장 작은 부분 문제의 해를 LCS 테이블의 첫 번째 행과 열에 각각 채움
 	*/
-	for ( m = 0; m <= i; m++)
+	for (m = 0; m <= i; m++)
 	{
 		// LCS 테이블의 첫 번째 열을 채움
 		Table->Data[m][0] = 0;
 	}
 
-	for (n = 0; n <= i; n++)
+	for (n = 0; n <= j; n++)
 	{
 		// LCS 테이블의 첫 번째 행을 채움
 		Table->Data[0][n] = 0;
@@ -49,12 +51,12 @@ int LCS(char* X, char* Y, int i, int j, LCSTable* Table)
 		이후의 상위 문제의 해부터는
 		테이블의 두 번째 행과 열부터 각각 채워나감
 	*/
-	for ( m = 0; m <= i; m++)
+	for (m = 1; m <= i; m++)
 	{
-		for (n = 0; n <= j; n++)
+		for (n = 1; n <= j; n++)
 		{
 			// 두 번째 점화식의 조건에 따라 부분 문제의 해를 채움
-			if (X[m - 1] == Y[m - 1])
+			if (X[m - 1] == Y[n - 1])
 			{
 				/*
 					아래와 같이 테이블에 저장되어 있는
@@ -192,6 +194,70 @@ void LCS_PrintTable(LCSTable* Table, char* X, char* Y, int LEN_X, int LEN_Y)
 
 		printf("\n");
 	}
+}
+
+int main()
+{
+	// LCS 를 구할 두 문자열 초기화
+	char* X = "GOOD MORNING.";
+	char* Y = "GUTEN MORGEN.";
+
+	// LCS 문자열을 저장할 정적 배열 선언
+	char* Result;
+
+	// 두 문자열의 길이값 초기화
+	int LEN_X = strlen(X);
+	int LEN_Y = strlen(Y);
+
+	int i = 0;
+
+	// LCS 문자열의 길이값을 저장할 변수 초기화
+	int Length = 0;
+
+	// LCS 테이블 선언
+	LCSTable Table;
+
+	// int 타입 동적 배열(int*)를 담는 동적 배열(int**) 메모리 동적 할당
+	/*
+		실제 문자열 X 길이보다 + 1 만큼 더 할당하는 이유는,
+		가장 작은 부분 문제의 해 (0)을 저장할
+		테이블의 첫 번째 행과 열을 위한 것! (p.557 참고)  
+	*/
+	Table.Data = (int**)malloc(sizeof(int*) * (LEN_X + 1));
+
+	// LCS 테이블(2차원 배열)의 안쪽 동적 배열(int*) 메모리 동적 할당 및 초기화
+	for (i = 0; i < LEN_X + 1; i++)
+	{
+		// 안쪽 동적 배열에 메모리 동적 할당
+		Table.Data[i] = (int*)malloc(sizeof(int) * (LEN_Y + 1));
+
+		// 안쪽 동적 배열의 모든 메모리 블록을 0으로 초기화
+		memset(Table.Data[i], 0, sizeof(int) * (LEN_Y + 1));
+	}
+
+	// 동적 계획법으로 LCS(최장 공통 부분 수열) 길이 계산 및 LCS 테이블 구축
+	Length = LCS(X, Y, LEN_X, LEN_Y, &Table);
+
+	// 구축된 LCS 테이블 출력
+	LCS_PrintTable(&Table, X, Y, LEN_X, LEN_Y);
+
+	// 구축된 LCS 테이블의 가장 오른쪽 아래 요소에 저장된 LCS 길이값으로 동적 할당할 배열 크기 계산
+	size_t TableSize = sizeof(Table.Data[LEN_X][LEN_Y] + 1);
+
+	// LCS 문자열을 저장할 동적 배열 메모리 할당
+	Result = (char*)malloc(TableSize);
+
+	// 동적 배열의 메모리 블록을 0으로 초기화
+	memset(Result, 0, TableSize);
+
+	// LCS 테이블을 역추적하여 실제 LCS 문자열 구하기
+	LCS_TraceBack(X, Y, LEN_X, LEN_Y, &Table, Result);
+
+	// LCS 문자열 및 길이 출력
+	printf("\n");
+	printf("LCS:\"%s\" (Length:%d)\n", Result, Length);
+
+	return 0;
 }
 
 /*
