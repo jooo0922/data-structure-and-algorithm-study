@@ -87,3 +87,81 @@ int LCS(char* X, char* Y, int i, int j, LCSTable* Table)
 	*/
 	return Table->Data[i][j];
 }
+
+// LCS 테이블을 거꾸로 추적하여 LCS 문자열을 구하는 함수
+/*
+	매개변수 정리
+
+	- char* X, char* Y : 최장 공통 부분 수열을 비교할 두 문자열
+	- int m, int n : LCS 테이블 상에서 현재 순회중인 셀의 위치값
+	- LCSTable* Table : LCS 알고리즘을 최적 부분 구조로 풀기 위해, 부분 문제들의 해를 저장해 둘 테이블
+	- LCS : LCS 테이블을 역추척하며 LCS 문자열 요소를 저장할 동적 배열
+*/
+void LCS_TraceBack(char* X, char* Y, int m, int n, LCSTable* Table, char* LCS)
+{
+	// 가장 작은 부분 문제의 해가 담긴 셀 (첫 번째 행과 열)에 도달하면 재귀 호출 종료
+	if (m == 0 || n == 0)
+	{
+		return;
+	}
+
+	if (Table->Data[m][n] > Table->Data[m][n - 1]
+		&& Table->Data[m][n] > Table->Data[m - 1][n]
+		&& Table->Data[m][n] > Table->Data[m - 1][n - 1])
+	{
+		/*
+			현재 셀이 왼쪽, 위쪽, 왼쪽 위 셀보다 크면,
+			현재 셀의 요소를 LCS 배열에 삽입하고,
+			왼쪽 위 셀로 이동하여 재귀 호출
+
+			참고로, 현재 셀은 Table->Data[m][n] 을 의미!
+		*/
+
+		// 기존 LCS 문자열을 정적 배열에 임시 저장
+		char TempLCS[100];
+		strcpy(TempLCS, LCS);
+
+		// 현재 셀에 저장된 길이값에 해당하는 문자 요소를 LCS 문자열에 추가
+		/*
+			참고로, 새로 추가할 문자 요소를
+			sprintf() 를 사용하여 기존 문자열 '앞'에 붙이는 이유는,
+			LCS 테이블을 '오른쪽 아래 -> 왼쪽 위' 방향으로 순회하므로,
+			문자 요소를 추가하는 순서 또한 거꾸로 되어야 함!
+		*/
+		sprintf(LCS, "%c%s", X[m - 1], TempLCS);
+
+		// 왼쪽 위 셀로 이동하여 재귀 순회
+		LCS_TraceBack(X, Y, m - 1, n - 1, Table, LCS);
+	}
+	else if (Table->Data[m][n] > Table->Data[m - 1][n]
+		&& Table->Data[m][n] == Table->Data[m][n - 1])
+	{
+		/*
+			현재 셀이 위쪽 셀보다 크고, 왼쪽 셀과는 같을 경우,
+			왼쪽 셀로 이동하여 재귀 순회
+		*/
+		LCS_TraceBack(X, Y, m, n - 1, Table, LCS);
+	}
+	else
+	{
+		/*
+			p.563 의 2번, 3번 과정의 조건 중 어느 하나에도 해당되지 않으면,
+			위쪽 셀로 이동하여 재귀 순회
+		*/
+		LCS_TraceBack(X, Y, m - 1, n, Table, LCS);
+	}
+}
+
+/*
+	sprintf()
+
+	포맷 지정자로 새로운 문자열을 생성한 후,
+	생성한 문자열을 첫 번째 매개변수로 전달받은 문자열 버퍼에 저장함.
+
+	위 예제 코드에서는 
+	sprintf(LCS, "%c%s", X[m-1], TempLCS); 와 같이 사용됨.
+
+	첫 번째 매개변수 LCS: 생성된 문자열이 저장될 버퍼.
+	두 번째 매개변수 "%c%s": 생성될 문자열의 서식을 지정하는 포맷 문자열.
+	세 번째 매개변수 X[m-1]와 네 번째 매개변수 TempLCS: 포맷 문자열에서 %c와 %s에 해당하는 데이터. %c에는 X[m-1]에 해당하는 문자가, %s에는 TempLCS에 해당하는 문자열이 삽입됨.
+*/
