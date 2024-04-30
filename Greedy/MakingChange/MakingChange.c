@@ -88,7 +88,23 @@ int CountCoins(int Amount, int CoinUnit)
 }
 
 // 거스름돈 출력 함수
+/*
+	매개변수 정리
+
+	- int CoinUnits[] : 입력받은 동전 단위들의 배열
+	- int Change[] : 거스름돈 총액. 즉, 각 동전 단위별 갯수 -> 부분해 집합
+	- int Size : 입력받은 동전 단위 가짓수
+*/
 void PrintChange(int CoinUnits[], int Change[], int Size)
 {
+	int i = 0;
 
+	/*
+		입력받은 동전 단위들을 순회하며
+		거스름돈 총액을 구성하는 각 동전들의 갯수를 출력함
+	*/
+	for (i = 0; i < Size; i++)
+	{
+		printf("%8d원 : %d개\n", CoinUnits[i], Change[i]);
+	}
 }
