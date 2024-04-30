@@ -18,6 +18,9 @@
     <ClCompile Include="MakingChange.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestMakingChange.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MakingChange.h">

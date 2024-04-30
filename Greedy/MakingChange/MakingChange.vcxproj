@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MakingChange.c" />
+    <ClCompile Include="TestMakingChange.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MakingChange.h" />
