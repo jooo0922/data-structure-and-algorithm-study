@@ -105,6 +105,6 @@ void PrintChange(int CoinUnits[], int Change[], int Size)
 	*/
 	for (i = 0; i < Size; i++)
 	{
-		printf("%8d원 : %d개\n", CoinUnits[i], Change[i]);
+		printf("%8d won : %d\n", CoinUnits[i], Change[i]);
 	}
 }
