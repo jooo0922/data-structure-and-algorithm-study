@@ -51,9 +51,40 @@ void GetChange(int Price, int Pay, int CoinUnits[], int Change[], int Size)
 }
 
 // 거스름돈 계산 시, 각 동전 단위별 갯수 반환 함수 (실행 가능성 검사 및 해 검사)
+/*
+	매개변수 정리
+
+	- int Amount : 거스름돈 총액에서 현재까지 차감되고 남은 거스름돈 액수
+	- int CoinUnit : 현재 순회에서 선택한 가장 큰 동전 단위 -> 근시안적으로 고른 부분 문제의 최적해
+*/
 int CountCoins(int Amount, int CoinUnit)
 {
+	// 동전 갯수
+	int CoinCount = 0;
 
+	// 반복문을 돌며 차감하기 위해 남은 거스름돈 액수를 복사함
+	int CurrentAmount = Amount;
+
+	/*
+		현재 순회에서 선택한 가장 큰 동전 단위보다 
+		남은 거스름돈 액수가 더 작아질 때까지 
+		(-> p.574 2번 과정에서 말한 '문제의 제약조건'을 검사한 것.
+		즉, '거스름돈 총액을 넘기지 않을 때까지만' 동전 갯수를 카운팅하는 것.) 
+
+		반복문을 순회하며 
+		현재 순회에서 선택한 동전 단위의 갯수를 계속 늘려나감
+	*/
+	while (CurrentAmount >= CoinUnit)
+	{
+		// 동전 갯수 카운딩
+		CoinCount++;
+
+		// 반복문을 돌며 복사된 남은 거스름돈 액수를 차감해나감.
+		CurrentAmount = CurrentAmount - CoinUnit;
+	}
+
+	// 반복문 종료 후, 지금까지 카운팅된 동전 갯수 반환
+	return CoinCount;
 }
 
 // 거스름돈 출력 함수
