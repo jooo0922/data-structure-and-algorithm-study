@@ -16,7 +16,7 @@
 #define MAX_CHAR 256
 
 // 허프만 코딩으로 압축할 각 문자의 접두어 코드 최대 크기를 bits 단위로 선언
-#define MAX_BITS 8
+#define MAX_BIT 8
 
 // 허프만 코딩에 사용할 각 사용자 정의 자료형을 별칭으로 선언
 typedef unsigned int UINT;
@@ -47,8 +47,18 @@ typedef struct TagBitBuffer
 // 각 기호에 대한 접두어 코드 탐색을 쉽게 하도록 만든 '접두어 코드 테이블'을 표현한 자료형을 별칭으로 선언 (p.591 의 '접두어 코드 테이블')
 typedef struct TagHuffmanCode
 {
-	UCHAR Code[MAX_BITS]; // 각 기호에 대한 접두어 코드를 최대 8 bits(MAX_CHAR)까지 저장한 정적 배열
+	UCHAR Code[MAX_BIT]; // 각 기호에 대한 접두어 코드를 최대 8 bits(MAX_CHAR)까지 저장한 정적 배열
 	int Size; // 각 기호에 대한 접두어 코드의 크기
-};
+} HuffmanCode;
+
+HuffmanNode* Huffman_CreateNode(SymbolInfo NewData); // 허프만 트리 노드 생성
+void Huffman_DestroyNode(HuffmanNode* Node); // 허프만 트리 노드 메모리 해제
+void Huffman_DestroyTree(HuffmanNode* Node); // 허프만 트리 메모리 해제
+void Huffman_AddBit(BitBuffer* Buffer, char Bit); // 압축 데이터 테이블(Buffer)에 변환된 접두어 코드(Bits) 기록
+void Huffman_Encode(HuffmanNode** Tree, UCHAR* Source, BitBuffer* Encoded, HuffmanCode CodeTable[MAX_CHAR]); // 주어진 문자열(Source)을 허프만 코딩으로 데이터 압축 (압축된 데이터는 Encoded 에 기록)
+void Huffman_Decode(HuffmanNode* Tree, BitBuffer* Encoded, UCHAR* Decoded); // 압축 데이터 테이블(Encoded)을 허프만 코딩으로 데이터 압축 해제 (압축 해제된 문자열은 Decoded 에 기록)
+void Huffman_BuildPrefixTree(HuffmanNode** Tree, SymbolInfo SymbolInfoTable[MAX_CHAR]); // 허프만 트리 구축
+void Huffman_BuildCodeTable(HuffmanNode* Tree, HuffmanCode CodeTable[MAX_CHAR], UCHAR Code[MAX_BIT], int Size); // 각 기호에 대한 접두어 코드 테이블 구축
+void Huffman_PrintBinary(BitBuffer* Buffer); // 압축 데이터 테이블 출력
 
 #endif // !HUFFMAN_H
