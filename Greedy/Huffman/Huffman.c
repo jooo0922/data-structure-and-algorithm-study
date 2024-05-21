@@ -25,7 +25,18 @@ void Huffman_DestroyNode(HuffmanNode* Node)
 // 허프만 트리 메모리 해제
 void Huffman_DestroyTree(HuffmanNode* Node)
 {
+	if (Node == NULL)
+	{
+		// 허프만 트리를 재귀적으로 순회하면서 매개변수로 전달받은 자식노드가 NULL 이면 함수 종료
+		return;
+	}
 
+	// 현재 순회중인 허프만 트리 노드의 왼쪽과 오른쪽 자식노드에 대해 각각 재귀 호출
+	Huffman_DestroyTree(Node->Left);
+	Huffman_DestroyTree(Node->Right);
+
+	// 현재 순회중인 허프만 트리 노드 메모리 해제
+	Huffman_DestroyNode(Node);
 }
 
 // 압축 데이터 테이블(Buffer)에 변환된 접두어 코드(Bits) 기록
