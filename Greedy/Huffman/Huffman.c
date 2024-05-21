@@ -19,7 +19,7 @@ HuffmanNode* Huffman_CreateNode(SymbolInfo NewData)
 // 허프만 트리 노드 메모리 해제
 void Huffman_DestroyNode(HuffmanNode* Node)
 {
-
+	free(Node);
 }
 
 // 허프만 트리 메모리 해제
