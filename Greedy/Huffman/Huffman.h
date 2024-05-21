@@ -41,7 +41,17 @@ typedef struct TagHuffmanNode
 typedef struct TagBitBuffer
 {
 	UCHAR* Buffer; // 압축 데이터 테이블을 표현하는 배열
-	UINT Size; // 압축 데이터 테이블의 크기
+	UINT Size; // 압축 데이터 테이블의 크기 (단위는 bit)
+	/*
+		주!
+
+		여기서 UINT Size 값은 
+		realloc() 된 전체 Buffer 의 메모리 크기가 아닌, 
+		
+		Huffman_AddBit() 함수 내부에서
+		비트 마스킹 연산에 의해 UCHAR* Buffer 메모리 블록에 '실제로 쓰여진 데이터(접두어 코드)의 크기'
+		만을 기록 및 추적하기 위해 선언해 둔 멤버변수!
+	*/
 } BitBuffer;
 
 // 각 기호에 대한 접두어 코드 탐색을 쉽게 하도록 만든 '접두어 코드 테이블'을 표현한 자료형을 별칭으로 선언 (p.591 의 '접두어 코드 테이블')
