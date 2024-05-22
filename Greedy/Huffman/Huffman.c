@@ -97,10 +97,98 @@ void Huffman_Decode(HuffmanNode* Tree, BitBuffer* Encoded, UCHAR* Decoded)
 
 }
 
-// 허프만 트리 구축
+// 허프만 트리 구축 (p.589 ~ p.590 과정 코드로 구현)
+/*
+	매개변수 정리
+
+	- HuffmanNode** Tree : 해당 함수에서 구축하려는 허프만 트리의 최상위 노드
+	- SymbolInfo SymbolInfoTable[MAX_CHAR] : 압축할 문자열에 등장하는 각 기호와 빈도 수를 기록한 테이블
+*/
 void Huffman_BuildPrefixTree(HuffmanNode** Tree, SymbolInfo SymbolInfoTable[MAX_CHAR])
 {
+	// 반복문을 순회할 인덱스 변수 초기화
+	int i = 0;
 
+	// 노드집합(우선순위 큐)에 마지막으로 남게 될 노드를 Dequeue 하여 저장할 변수 선언 (p.590 하단 참고)
+	PQNode Result;
+
+	// 노드집합으로 사용할 우선순위 큐 생성 (우선순위 큐 사용 이유 관련 하단 필기 참고)
+	PriorityQueue* PQ = PQ_Create(0);
+
+	// 압축할 문자열의 최대 길이만큼 반복문 순회
+	for (i = 0; i < MAX_CHAR; i++)
+	{
+		// 압축할 문자열에 등장하는 각 기호와 그것의 빈도 수를 기록한 테이블을 순회함
+		if (SymbolInfoTable[i].Frequency > 0)
+		{
+			// 각 기호와 빈도 수 데이터를 갖는 허프만 트리 노드(즉, 기호를 갖는 잎 노드) 생성
+			// -> 허프만 트리에서 기호는 잎 노드에만 저장된다고 했었지? p.589 참고!
+			HuffmanNode* BitNode = Huffman_CreateNode(SymbolInfoTable[i]);
+
+			// 해당 허프만 트리 노드의 '빈도 수'를 '우선순위'로 삼는 우선순위 큐 노드 생성
+			PQNode NewNode;
+			NewNode.Priority = SymbolInfoTable[i].Frequency;
+			NewNode.Data = BitNode; // PriorityQueue.h 에서 다른 예제들에서의 재사용성을 위해, PQNode.Data 타입은 void* 로 지정해놨었지?
+
+			// 기호와 빈도 수를 갖는 각각의 잎 노드를 노드집합(우선순위 큐)에 추가 (p.589)
+			PQ_Enqueue(PQ, NewNode);
+		}
+	}
+
+	// 노드집합(우선순위 큐)에 단 하나의 노드만 남을 때까지 탐욕 알고리즘 반복 수행 (p.590 하단)
+	while (PQ->UsedSize > 1)
+	{
+		// 해 선택 단계에서 고른 노드 2개의 부모노드로 추가할 허프만 트리 노드 생성
+		SymbolInfo NewData = { 0, 0 };
+		HuffmanNode* BitNode = Huffman_CreateNode(NewData);
+		HuffmanNode* Left;
+		HuffmanNode* Right;
+
+		// 새로 만든 허프만 트리 부모노드에 대응되는, 노드집합(우선순위 큐)에 추가할 우선순위 큐 노드 생성
+		PQNode QLeft;
+		PQNode QRight;
+		PQNode NewNode;
+
+		// 해 선택 -> 현 시점에서 빈도가 가장 작은 노드 2개를 노드집합(우선순위 큐)에서 선택 (근시안적인 해)
+		PQ_Dequeue(PQ, &QLeft);
+		PQ_Dequeue(PQ, &QRight);
+
+		// 노드집합에서 선택한 2개의 우선순위 큐 노드에 대응되는 허프만 트리 노드 주소값 복사
+		Left = (HuffmanNode*)QLeft.Data;
+		Right = (HuffmanNode*)QRight.Data;
+
+		// 선택한 2개의 노드에 대한 허프만 트리 부모노드의 멤버변수 값 초기화
+		// 이때, 부모노드의 빈도 수는 선택한 2개의 노드의 빈도 수의 합으로 지정 (p.589 상단)
+		BitNode->Data.Symbol = 0;
+		BitNode->Data.Frequency = Left->Data.Frequency + Right->Data.Frequency;
+
+		// 부모노드의 왼쪽, 오른쪽 자식 노드 포인터 멤버에 각각 선택한 2개의 허프만 트리 노드 주소값 할당
+		BitNode->Left = Left;
+		BitNode->Right = Right;
+
+		// 허프만 트리 부모노드에 대응되는 우선순위 큐 부모노드의 멤버변수 값 초기화
+		// 마찬가지로, 부모노드의 '빈도 수'를 '우선순위'로 지정 
+		NewNode.Priority = BitNode->Data.Frequency;
+		NewNode.Data = BitNode;
+
+		// 생성한 부모노드를 노드집합(우선순위 큐)에 추가 (p.590)
+		PQ_Enqueue(PQ, NewNode);
+	}
+
+	/*
+		노드집합(우선순위 큐)에 단 하나의 노드만 남게 되어 while 문을 탈출한 뒤,
+		최종적으로 남아있는 노드(= 허프만 트리 자체)를 Dequeue 하여 꺼내오기. (p.590 하단)
+	*/
+	PQ_Dequeue(PQ, &Result);
+
+	/*
+		꺼내온 우선순위 큐(노드집합) 노드에 대응되는 허프만 트리 노드의 주소값을
+		매개변수로 전달받은 허프만 트리 이중 포인터를 de-referencing 하여 저장
+		
+		-> 이렇게 하면, 외부에서 전달한 HuffmanNode* 타입의 포인터 변수에
+		완성된 허프만 트리 노드의 주소값이 저장될 것임!
+	*/
+	*Tree = (HuffmanNode*)Result.Data;
 }
 
 // 각 기호에 대한 접두어 코드 테이블 구축
@@ -192,4 +280,41 @@ void Huffman_PrintBinary(BitBuffer* Buffer)
 	참고로, >>= 는
 	좌변의 비트마스크 변수 Mask 를 right shift 한 뒤,
 	그 결과값을 Mask 에 대입시키는 연산자!
+*/
+
+/*
+	허프만 트리 구축 함수인 Huffman_BuildPrefixTree() 에서 
+	우선순위 큐를 사용하는 이유
+
+
+	우선, 허프만 트리 자체를 우선순위 큐(즉, Priority 값을 기준 힙 자료구조)로
+	구현하려는 것은 절대 아님!
+
+	다만, p.589 에서
+	허프만 트리를 구축하는 알고리즘에서
+	'탐욕 알고리즘'이 사용된다고 했었지?
+
+	허프만 트리를 구축하는 과정에서
+	'현재 상태에서 가장 좋은 해',
+
+	즉, '근시안적인 해'는 '빈도가 낮은 기호'를
+	먼저 선택하여 상위에 더 많은 부모 노드를 추가하여
+	빈도가 낮은 기호를 갖는 노드의 경로를 길게 가져가는 것이라고 했지?
+
+	그래야 허프만 트리의 압축률이 높아진다고 했으니까!
+
+	이때, 노드집합에서 '빈도가 낮은 노드들을 우선적으로' 뽑으려면,
+	허프만 트리 노드의 빈도(Frequency) 값을 우선순위(Priority) 삼는
+	우선순위 큐에 허프만 트리의 각 노드들을 임시로 보관해두면 딱 좋겠지!
+
+	왜냐? 우선순위 큐에서 Dequeue 할 때에는,
+	항상 현재 상태에서 우선순위가 가장 낮은 노드들부터,
+	즉, '현재 상태에서 빈도가 가장 낮은 노드들부터' Dequeue 되니까!
+
+	그래서 허프만 트리의 각 노드들을 보관해두는 노드 집합(일종의 Node Pool)을
+	우선순위 큐로 관리하면,
+
+	해당 우선순위 큐로부터 Dequeue 하는 행위 자체가
+	탐욕 알고리즘의 근시안적인 해를 선택하는 행위에 해당하기 때문에
+	탐욕 알고리즘이 사용된 허프만 트리 구축 과정에서 써먹기 아주 좋은 자료구조임!
 */
