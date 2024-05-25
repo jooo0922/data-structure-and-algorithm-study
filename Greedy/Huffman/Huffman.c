@@ -421,7 +421,31 @@ void Huffman_BuildCodeTable(HuffmanNode* Tree, HuffmanCode CodeTable[MAX_CHAR], 
 // 압축 데이터 테이블 출력
 void Huffman_PrintBinary(BitBuffer* Buffer)
 {
+	int i;
 
+	// 압축 데이터 테이블(Buffer)를 순회
+	for (i = 0; i < Buffer->Size; i++)
+	{
+		// 압축 데이터 테이블(Buffer)에서 비트 마스킹으로 접두어 코드를 읽을 때 사용할 비트마스크 변수
+		UCHAR Mask = 0x80; // 1000 0000
+
+		// right shift 로 8 bits 접두어 코드 내에서 비트마스킹을 수행할 자릿수 결정 (관련 필기 하단 참고)
+		Mask >>= i % 8;
+
+		/*
+			압축 데이터 테이블(Buffer->Buffer) 상에서
+			현재 순회 중인 8 bits 접두어 코드(Buffer->Buffer[i/8]) 와
+			비트마스킹 변수 간의 Bitwise AND 연산을 수행했을 때,
+
+			결과값이 현재 비트마스킹 변수와 일치(== Mask)한다면,
+			현재 순회 중인 접두어 코드 상에서
+			현재 비트마스킹 하고 있는 자릿 수에 1이 기록되어 있다는 뜻.
+
+			즉, 압축 데이터 테이블(Encoded)에서 읽은 비트가 1 이면 1을 출력하고,
+			0 이면 0을 출력하라는 뜻!
+		*/
+		printf("%d", (Buffer->Buffer[i / 8] & Mask) == Mask);
+	}
 }
 
 /*
