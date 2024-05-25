@@ -192,9 +192,90 @@ void Huffman_BuildPrefixTree(HuffmanNode** Tree, SymbolInfo SymbolInfoTable[MAX_
 }
 
 // 각 기호에 대한 접두어 코드 테이블 구축
+/*
+	매개변수 정리
+
+	- HuffmanNode** Tree : 구축된 허프만 트리
+	- HuffmanCode CodeTable[MAX_CHAR] : 해당 함수에서 구축하려는 각 기호에 대한 접두어 코드 테이블
+		-> 8 bits ASCII 코드 갯수(2^8 = 256개)만큼 테이블 정적 배열을 매개변수로 선언
+	- UCHAR Code[MAX_BIT] : 허프만 트리를 순회하면서 누산해 갈 8 bits 까지 저장 가능한 접두어 코드 배열
+	- int Size : 허프만 트리를 순회하면서 누산해 갈 접두어 코드의 길이
+*/
 void Huffman_BuildCodeTable(HuffmanNode* Tree, HuffmanCode CodeTable[MAX_CHAR], UCHAR Code[MAX_BIT], int Size)
 {
+	if (Tree == NULL)
+	{
+		// 비어있는 허프만 트리 노드를 마주쳤을 경우 함수 종료
+		return;
+	}
 
+	if (Tree->Left != NULL)
+	{
+		// 현재 순회중인 노드에 왼쪽 자식노드가 존재한다면, 접두어 코드 배열에 0으로 저장
+		// (p. 588 > 왼쪽 자식노드는 접두어 코드를 0으로 읽는댔지?)
+		Code[Size] = 0;
+
+		// 왼쪽 자식노드에 대해 재귀호출
+		/*
+			접두어 코드 배열인 Code 를 재귀호출 시 넘겨줄 경우,
+			
+			다른 재귀 호출에서 저장한 접두어 코드들까지 모두 담겨있는 
+			접두어 코드 배열이 넘어가는 것으로 착각할 수 있음.
+			(= 즉, 각 잎 노드까지 도달했을 때, 
+			그 잎 노드에 저장된 기호와 무관한 접두어 코드들까지 
+			Code 배열에 저장되어 있는 것으로 착각할 수 있다는 뜻!)
+
+			그러나, 지금 접두어 코드 배열 Code 의 '주소값'을 넘겨주는 게 아니라,
+			접두어 코드 배열 Code '자체'를 '매개변수에 복사해서' 넘겨주고 있음.
+
+			이 말은 즉, 다른 재귀 호출에서 접두어 코드 배열 Code 에 값을 넣더라도,
+			현재 재귀 호출에서 매개변수로 전달받은 Code 에는 아무런 영향을 주지 않는다는 뜻!
+
+			-> 결국, Code 배열에는 각 재귀 호출이 '잎 노드를 만날 때 까지의 접두어 코드만'
+			저장되어 있으니 걱정 안해도 됨!
+		*/
+		Huffman_BuildCodeTable(Tree->Left, CodeTable, Code, Size + 1);
+	}
+
+	if (Tree->Right != NULL)
+	{
+		// 현재 순회중인 노드에 오른쪽 자식노드가 존재한다면, 접두어 코드 배열에 1로 저장
+		// (p. 588 > 오른쪽 자식노드는 접두어 코드를 0으로 읽는댔지?)
+		Code[Size] = 1;
+
+		// 오른쪽 자식노드에 대해 재귀호출
+		Huffman_BuildCodeTable(Tree->Right, CodeTable, Code, Size + 1);
+	}
+
+	if (Tree->Left == NULL && Tree->Right == NULL)
+	{
+		/*
+			현재 노드가 NULL 은 아니여서 이 if block 까지 도달했으나,
+			두 자식노드가 모두 존재하지 않는다면? -> '잎 노드'라고 봐야겠지!
+
+			허프만 트리를 순회하다가, 기호가 저장된 잎 노드를 발견하면,
+
+			접두어 코드 테이블(CodeTable)에 
+			해당 기호에 대한 접두어 코드(Code[MAX_BIT])와
+			접두어 코드의 길이(Size)를 저장함.
+		*/
+		int i;
+
+		for (i = 0; i < Size; i++)
+		{
+			/*
+				현재까지 누산된 접두어 코드의 길이(Size)만큼
+				현재까지 저장된 접두어 코드 배열인 Code 를 순회하며 CodeTable 에 저장함
+
+				이때, 현재 잎 노드에 저장된 ASCII 코드(Tree->Data.Symbol)를
+				정수형으로 자동변환하여 테이블의 index 로 삼을 수 있음!
+			*/
+			CodeTable[Tree->Data.Symbol].Code[i] = Code[i];
+		}
+
+		// 접두어 코드 테이블(CodeTable)에 저장된 접두어 코드의 '길이' 도 같이 저장함.
+		CodeTable[Tree->Data.Symbol].Size = Size;
+	}
 }
 
 // 압축 데이터 테이블 출력
