@@ -88,7 +88,71 @@ void Huffman_AddBit(BitBuffer* Buffer, char Bit)
 // 주어진 문자열(Source)을 허프만 코딩으로 데이터 압축 (압축된 데이터는 Encoded 에 기록)
 void Huffman_Encode(HuffmanNode** Tree, UCHAR* Source, BitBuffer* Encoded, HuffmanCode CodeTable[MAX_CHAR])
 {
+	int i = 0,
+		j = 0;
 
+	// 8 bits ASCII 코드의 개수(2^8 = 256개)만큼 SymbolInfo 정적 배열 테이블 선언
+	SymbolInfo SymbolInfoTable[MAX_CHAR];
+
+	// Huffman_BuildCodeTable() 함수로 접두어 코드 테이블 구축 시, 접두어 코드를 담는 임시 배열 선언
+	UCHAR Temporary[MAX_BIT];
+
+	// ASCII 코드 개수인 256 회만큼 반복 순회하며 ASCII 기호 및 빈도 초기화
+	for (i = 0; i < MAX_CHAR; i++)
+	{
+		// SymbolInfo.Symbol 은 UCHAR 타입이므로, 정수형 i 를 할당하면 ASCII 문자로 자동 변환되어 저장
+		SymbolInfoTable[i].Symbol = i;
+
+		// 각 기호의 빈도를 우선 0으로 초기화
+		SymbolInfoTable[i].Frequency = 0;
+	}
+
+	i = 0;
+
+	// 종료문자 null('\0')을 만날 때까지 압축할 원본 문자열 순회
+	while (Source[i] != '\0')
+	{
+		/*
+			현재 순회중인 원본 문자열 상의 ASCII 기호(Source[i++])를
+			SymbolInfo 테이블 상의 '인덱스'로 자동 변환하여,
+
+			그것에 대응되는 기호 정보(SymbolInfoTable[Source[i++]])를 찾고,
+			원본 문자열에서 같은 기호를 찾을 때마다, 빈도 수를 늘려나감.
+
+			-> 이로써, SymbolInfoTable 는
+			256 개의 8 bits ASCII 코드들의 목록과,
+			각 ASCII 코드들이 원본 문자열 Source 에서 등장하는
+			기호의 빈도를 저장한 테이블이 되었음!
+		*/
+		SymbolInfoTable[Source[i++]].Frequency++;
+	}
+
+	// SymbolInfoTable 넘겨줘서 허프만 트리 구축
+	Huffman_BuildPrefixTree(Tree, SymbolInfoTable);
+
+	// 원본 문자열을 접두어 코드로 압축 시, 각 기호의 접두어 코드를 참조하기 위한 접두어 코드 테이블 구축
+	// (p.591 참고)
+	Huffman_BuildCodeTable(*Tree, CodeTable, Temporary, 0);
+
+	i = 0;
+
+	// 종료문자 null('\0')을 만날 때까지 압축할 원본 문자열 다시 순회
+	while (Source[i] != '\0')
+	{
+		// 현재 순회중인 문자(CodeTable[Source[i]])의 접두어 코드 길이를 저장
+		int BitCount = CodeTable[Source[i]].Size;
+
+		/*
+			현재 순회중인 문자(CodeTable[Source[i]])의 접두어 코드 길이만큼 순회하며 
+			압축 데이터 테이블(Encoded)에 비트 단위로 접두어 코드(.Code[j]) 기록 
+		*/
+		for (j = 0; j < BitCount; j++)
+		{
+			Huffman_AddBit(Encoded, CodeTable[Source[i]].Code[j]);
+		}
+
+		i++;
+	}
 }
 
 // 압축 데이터 테이블(Encoded)을 허프만 코딩으로 데이터 압축 해제 (압축 해제된 문자열은 Decoded 에 기록)
