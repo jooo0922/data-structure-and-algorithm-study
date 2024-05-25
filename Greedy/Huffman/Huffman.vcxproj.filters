@@ -21,6 +21,9 @@
     <ClCompile Include="PriorityQueue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Huffman.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Huffman.h">

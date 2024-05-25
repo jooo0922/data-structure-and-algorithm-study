@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Huffman.c" />
     <ClCompile Include="PriorityQueue.c" />
+    <ClCompile Include="Test_Huffman.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Huffman.h" />
