@@ -158,7 +158,83 @@ void Huffman_Encode(HuffmanNode** Tree, UCHAR* Source, BitBuffer* Encoded, Huffm
 // 압축 데이터 테이블(Encoded)을 허프만 코딩으로 데이터 압축 해제 (압축 해제된 문자열은 Decoded 에 기록)
 void Huffman_Decode(HuffmanNode* Tree, BitBuffer* Encoded, UCHAR* Decoded)
 {
+	int i = 0;
 
+	// 압축 해제 버퍼 테이블(= Decoded. p.592 빈 테이블 참고)을 순회할 인덱스값 초기화
+	int Index = 0;
+
+	// 구축된 허프만 트리의 최상위 노드 주소값을 현재 노드에 저장
+	HuffmanNode* Current = Tree;
+
+	// 압축 데이터 테이블(Encoded)를 순회 -> p.592 ~ 594 과정을 코드로 구현한 것!
+	for (i = 0; i <= Encoded->Size; i++)
+	{
+		// 압축 데이터 테이블(Encoded)에서 비트 마스킹으로 접두어 코드를 읽을 때 사용할 비트마스크 변수
+		// 비트 마스킹 관련 https://github.com/jooo0922/cpp-study/blob/main/TBCppStudy/Chapter3_9/Chapter3_9.cpp 참고
+		UCHAR Mask = 0x80; // 1000 0000
+
+		// 압축 데이터 테이블(Encoded)에서 접두어 코드를 읽으며 허프만 트리를 순회 시, '잎 노드'를 만났을 때의 처리
+		if (Current->Left == NULL && Current->Right == NULL)
+		{
+			// 압축 해제 버퍼 테이블(Decoded)에 '잎 노드'에 저장된 기호를 저장함
+			Decoded[Index++] = Current->Data.Symbol;
+
+			// p.592 ~ 594 과정처럼, 압축 해제 버퍼에 기호를 추가하고 나면 뿌리 노드로 돌아감.
+			Current = Tree;
+		}
+
+		// right shift 로 8 bits 접두어 코드 내에서 비트마스킹을 수행할 자릿수 결정 (관련 필기 하단 참고)
+		Mask >>= i % 8;
+
+		if ((Encoded->Buffer[i / 8] & Mask) != Mask)
+		{
+			/*
+				압축 데이터 테이블(Encoded->Buffer) 상에서
+				현재 순회 중인 8 bits 접두어 코드(Encoded->Buffer[i/8]) 와
+				비트마스킹 변수 간의 Bitwise AND 연산을 수행했을 때,
+
+				결과값이 현재 비트마스킹 변수와 불일치(!= Mask)한다면,
+				현재 순회 중인 접두어 코드 상에서
+				현재 비트마스킹 하고 있는 자릿 수에 0이 기록되어 있다는 뜻.
+
+				즉, 압축 데이터 테이블(Encoded)에서 읽은 비트가 0이므로,
+				왼쪽 자식 노드(Current->Left)로 이동함.
+			*/
+			/*
+				참고로, Encoded->Buffer[i/8] 로 읽으면,
+				
+				i 가 0 ~ 7 일 때까지는 
+				압축 데이터 테이블(Encoded->Buffer) 상에서 첫 8 bits 의 인덱스인 0으로 읽어서
+				Encoded->Buffer[0] 으로 읽음.
+
+				Encoded->Buffer 가 UCHAR* 타입의 정적 배열이므로,
+				unsigned char 타입의 크기인 1byte(= 8bits) 단위로 비트들을 읽어올 것임!
+
+				같은 원리로,
+				i 가 8 ~ 15 일 때까지는
+				압축 데이터 테이블 상에서 두 번째 8 bits 를 읽어오겠지!
+			*/
+			Current = Current->Left;
+		}
+		else
+		{
+			/*
+				반대로, 결과값이 현재 비트마스킹 변수와 일치(== Mask)한다면,
+				현재 순회 중인 접두어 코드 상에서
+				현재 비트마스킹 하고 있는 자릿 수에 1이 기록되어 있다는 뜻.
+
+				즉, 압축 데이터 테이블(Encoded)에서 읽은 비트가 1이므로,
+				오른쪽 자식 노드(Current->Right)로 이동함.
+			*/
+			Current = Current->Right;
+		}
+	}
+
+	/*
+		압축 데이터 테이블(Encoded)를 모두 읽고 나서 반복문을 탈출하면, 
+		압축 해제 버퍼 테이블(Decoded)의 마지막에 종료 문자를 추가하고 함수를 종료함.
+	*/
+	Decoded[Index] = '\0';
 }
 
 // 허프만 트리 구축 (p.589 ~ p.590 과정 코드로 구현)
