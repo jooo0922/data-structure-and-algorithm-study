@@ -18,6 +18,9 @@
     <ClCompile Include="MakingChangeDP.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestMakingChangeDP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MakingChangeDP.h">

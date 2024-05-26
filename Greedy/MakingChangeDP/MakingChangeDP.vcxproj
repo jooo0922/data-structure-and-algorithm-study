@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MakingChangeDP.c" />
+    <ClCompile Include="TestMakingChangeDP.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MakingChangeDP.h" />
