@@ -38,4 +38,13 @@
 // 탈출구로 향하는 길 표식(즉, 백트래킹의 '진짜 해')
 #define MARKED '+'
 
+
+/* enum 선언 */
+
+// 미로 내의 이동 방향
+enum DIRECTION { NORTH, SOUTH, EAST, WEST };
+
+// 각 후보해(= 미로 내 경로)들의 이동 가능 여부를 검사한 결과값
+enum RESULT { FAIL, SUCCEED };
+
 #endif // !MAZESOLVER
