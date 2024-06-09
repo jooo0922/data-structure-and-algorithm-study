@@ -181,7 +181,77 @@ int MoveTo(MazeInfo* Maze, Position* Current, int Direction)
 // 각 후보해들(= 다음 이동 경로)의 이동 가능 여부를 실제로 검사
 int GetNextStep(MazeInfo* Maze, Position* Current, int Direction, Position* Next)
 {
+	/*
+		현재 위치(Current)로부터 이동할 
+		다음 이동 경로(Direction)를 검사했을 때,
 
+		미로 데이터의 경계 부분(즉, 미로 데이터의 끝부분)에 해당한다면,
+		이동 불가한 경로이므로 FAIL 을 반환함.
+	*/
+	switch (Direction)
+	{
+	case NORTH:
+		// 후보해(다음 이동 경로)의 위치값 계산
+		Next->X = Current->X;
+		Next->Y = Current->Y - 1;
+
+		// 만약, 다음 경로가 미로 데이터의 북쪽 끝에 해당한다면, 이동 불가 경로 처리
+		if (Next->Y == -1)
+		{
+			return FAIL;
+		}
+
+		break;
+	case SOUTH:
+		// 후보해(다음 이동 경로)의 위치값 계산
+		Next->X = Current->X;
+		Next->Y = Current->Y + 1;
+
+		// 만약, 다음 경로가 미로 데이터의 남쪽 끝에 해당한다면, 이동 불가 경로 처리
+		if (Next->Y == Maze->RowSize)
+		{
+			return FAIL;
+		}
+
+		break;
+	case EAST:
+		// 후보해(다음 이동 경로)의 위치값 계산
+		Next->X = Current->X + 1;
+		Next->Y = Current->Y;
+
+		// 만약, 다음 경로가 미로 데이터의 동쪽 끝에 해당한다면, 이동 불가 경로 처리
+		if (Next->Y == Maze->ColumnSize)
+		{
+			return FAIL;
+		}
+
+		break;
+	case WEST:
+		// 후보해(다음 이동 경로)의 위치값 계산
+		Next->X = Current->X - 1;
+		Next->Y = Current->Y;
+
+		// 만약, 다음 경로가 미로 데이터의 서쪽 끝에 해당한다면, 이동 불가 경로 처리
+		if (Next->Y == -1)
+		{
+			return FAIL;
+		}
+
+		break;
+	}
+
+	// 다음 경로가 벽('#')이거나 이미 지나온 경로('+')라면, 이동 불가 경로 처리
+	if (Maze->Data[Next->Y][Next->X] == WALL)
+	{
+		return FAIL;
+	}
+	if (Maze->Data[Next->Y][Next->X] == MARKED)
+	{
+		return FAIL;
+	}
+
+	// 후보해(다음 이동 경로)의 이동 가능 여부 검사를 모두 통과했다면 SUCCEED 반환
+	return SUCCEED;
 }
 
 // 미로 데이터 파일을 입력받아 MazeInfo 구조체에 데이터를 복사
