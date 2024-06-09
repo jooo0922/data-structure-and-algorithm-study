@@ -73,4 +73,25 @@ typedef struct tagMazeInfo
 	char** Data;
 } MazeInfo;
 
+
+/* 함수 프로토타입 선언 */
+
+// 미로 데이터의 시작점 S 탐색 및 MoveTo() 재귀 호출의 entry point
+int Solve(MazeInfo* Maze);
+
+/*
+	현 위치에서 다음 부분해 목록(= 다음 이동 경로)들의 
+	이동 가능 여부를 재귀적으로 검사함.
+
+	이동 가능한 부분해가 존재하지 않을 경우,
+	백트래킹을 실행함.
+*/
+int MoveTo(MazeInfo* Maze, Position* Current, int Direction);
+
+// 각 후보해들(= 다음 이동 경로)의 이동 가능 여부를 실제로 검사
+int GetNextStep(MazeInfo* Maze, Position* Current, int Direction, Position* Next);
+
+// 미로 데이터 파일을 입력받아 MazeInfo 구조체에 데이터를 복사
+int GetMaze(char* FilePath, MazeInfo* Maze);
+
 #endif // !MAZESOLVER
