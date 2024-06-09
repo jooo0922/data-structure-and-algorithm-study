@@ -47,4 +47,30 @@ enum DIRECTION { NORTH, SOUTH, EAST, WEST };
 // 각 후보해(= 미로 내 경로)들의 이동 가능 여부를 검사한 결과값
 enum RESULT { FAIL, SUCCEED };
 
+
+/* 구조체 선언 */
+
+// 미로 상의 위치 자료구조에 대한 구조체 선언
+typedef struct tagPosition
+{
+	int X;
+	int Y;
+} Position;
+
+// 미로 데이터 구조체 선언
+typedef struct tagMazeInfo
+{
+	int ColumnSize; // 미로 데이터 너비
+	int RowSize; // 미로 데이터 높이
+
+	/*
+		행(row) * 열(column) 방향으로 각 문자들을 출력해서
+		미로 데이터를 시각화할 것이므로, 
+
+		각 방향의 문자열들을 각각 저장하기 위해
+		char 타입 2차원 배열을 이중 포인터 멤버변수로 선언함.
+	*/
+	char** Data;
+} MazeInfo;
+
 #endif // !MAZESOLVER
