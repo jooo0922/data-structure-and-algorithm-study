@@ -20,4 +20,22 @@
 // 입력된 파일로부터 읽어들인 미로 데이터의 전체 열(ColunmSize) 개수를 저장하는 변수의 초기값
 #define INIT_VALUE -1
 
+
+/* 미로 데이터를 시각화할 문자열 매크로 상수 선언 */
+
+// 시작점
+#define START 'S'
+
+// 탈출구
+#define GOAL 'G'
+
+// 길
+#define WAY ' '
+
+// 벽
+#define WALL '#'
+
+// 탈출구로 향하는 길 표식(즉, 백트래킹의 '진짜 해')
+#define MARKED '+'
+
 #endif // !MAZESOLVER
