@@ -45,6 +45,14 @@
 enum DIRECTION { NORTH, SOUTH, EAST, WEST };
 
 // 각 후보해(= 미로 내 경로)들의 이동 가능 여부를 검사한 결과값
+/*
+	FAIL 은 순서 상 0 으로,
+	SUCCEED 는 순서 상 1 로 선언되므로,
+	
+	예제 코드 상에서
+	FAIL 을 반환하면 false 와 같은 역할을,
+	SUCCEED 를 반환하며 true 와 같은 역할을 할 것임!
+*/
 enum RESULT { FAIL, SUCCEED };
 
 
