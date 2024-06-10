@@ -347,7 +347,6 @@ int GetMaze(char* FilePath, MazeInfo* Maze)
 
 	/* 파일 다시 읽기 */
 
-
 	// 파일 내의 미로 데이터들을 동적 할당된 MazeInfo 구조체의 2차원 배열에 복사
 	for (i = 0; i < RowSize; i++)
 	{
