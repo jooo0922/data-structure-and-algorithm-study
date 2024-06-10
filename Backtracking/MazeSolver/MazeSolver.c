@@ -257,5 +257,113 @@ int GetNextStep(MazeInfo* Maze, Position* Current, int Direction, Position* Next
 // 미로 데이터 파일을 입력받아 MazeInfo 구조체에 데이터를 복사
 int GetMaze(char* FilePath, MazeInfo* Maze)
 {
+	// 파일에서 읽어들인 미로 데이터의 행과 열을 순회할 때 사용할 인덱스 초기화
+	int i = 0;
+	int j = 0;
 
+	// 입력된 파일로부터 읽어들인 미로 데이터의 전체 행과 열 개수를 저장할 변수 초기화
+	int RowSize = 0;
+	int ColumnSize = INIT_VALUE;
+
+	// C언어에서 파일 입출력을 다룰 때 사용하는 파일 구조체 포인터 변수 선언
+	FILE* fp;
+
+	// 입력된 파일로부터 미로 데이터를 한 번에 읽어들일 수 있는 최대 길이만큼의 문자열 버퍼 메모리 할당
+	char buffer[MAX_BUFFER];
+
+
+	/* 파일 열기 */
+
+	// 입력받은 파일 경로를 '읽기 모드("r"('R'ead mode))'로 열기 시도
+	if (fopen_s(&fp, FilePath, "r") != 0)
+	{
+		/*
+			파일 열기 성공 시,
+			fopen_s() 함수가 0을 반환하고,
+			실패하면 에러 코드를 반환하므로,
+
+			반환값이 0이 아닐 경우의 예외 처리 적용
+		*/
+		printf("Cannot open file:%s\n", FilePath);
+		return FAIL;
+	}
+
+
+	/* 파일 읽기 (미로 데이터의 전체 행과 열 개수 계산) */
+
+	// 파일 포인터 fp 가 가리키는 파일에서 한 줄 크기(MAX_BUFFER)만큼 문자열을 읽어와서 buffer 정적 배열에 저장
+	// 더 이상 읽어올 문자열이 없을 때까지(즉, 반환값이 NULL 일 때까지) 문자열 읽기를 반복
+	while (fgets(buffer, MAX_BUFFER, fp) != NULL)
+	{
+		// 한 줄씩 읽을 때마다 미로 데이터의 전체 행 개수를 증가시킴
+		RowSize++;
+
+		if (ColumnSize == INIT_VALUE)
+		{
+			/*
+				아직 미로 데이터의 전체 열 개수가 아직 초기값이라면, 
+				읽어들인 문자열 한 줄의 길이(strlen(buffer) -1)를 
+				전체 열 개수로 초기화함
+			*/
+			ColumnSize = strlen(buffer) - 1;
+		}
+		else if (ColumnSize != strlen(buffer) - 1)
+		{
+			/*
+				전체 열 개수가 초기값이 아님에도,
+				현재 읽어들인 한 줄 크기의 문자열이 기존 문자열 길이와 다르다면,
+				현재 미로 데이터의 포맷이 잘못되었다는 뜻!
+
+				-> 파일 포인터 fp 가 가리키는 파일 닫고 함수 종료
+			*/
+			printf("Maze data in file:%s is not valid.\n", FilePath);
+			fclose(fp);
+			return FAIL;
+		}
+	}
+
+	// MazeInfo 구조체에 파일로부터 읽어들인 미로 데이터의 전체 행과 열 개수 입력
+	Maze->RowSize = RowSize;
+	Maze->ColumnSize = ColumnSize;
+
+	// MazeInfo 구조체에 미로 데이터를 저장할 2차원 배열의 바깥쪽 배열 메모리 동적 할당
+	Maze->Data = (char**)malloc(sizeof(char*) * RowSize);
+
+	// MazeInfo 구조체에 미로 데이터를 저장할 2차원 배열의 안쪽 배열 메모리 동적 할당
+	for (i = 0; i < RowSize; i++)
+	{
+		Maze->Data[i] = (char*)malloc(sizeof(char) * ColumnSize);
+	}
+
+
+	/* 파일 되감기 */
+
+	/*
+		이미 한 번 파일을 처음부터 끝까지 읽었으므로,
+		파일을 다시 읽기 위해 파일 포인터를 파일의 시작으로 되돌림.
+	*/
+	rewind(fp);
+
+
+	/* 파일 다시 읽기 */
+
+
+	// 파일 내의 미로 데이터들을 동적 할당된 MazeInfo 구조체의 2차원 배열에 복사
+	for (i = 0; i < RowSize; i++)
+	{
+		// 되감기한 파일로부터 한 줄 크기(MAX_BUFFER)만큼 문자열을 읽어오기
+		fgets(buffer, MAX_BUFFER, fp);
+
+		// 2차원 배열에 읽어온 문자열을 하나씩 복사하기
+		for (j = 0; j < ColumnSize; j++)
+		{
+			Maze->Data[i][j] = buffer[j];
+		}
+	}
+
+
+	/* 파일 닫기 */
+	fclose(fp);
+
+	return SUCCEED;
 }
