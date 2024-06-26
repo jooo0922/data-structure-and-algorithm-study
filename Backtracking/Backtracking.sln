@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.34601.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MazeSolver", "MazeSolver\MazeSolver.vcxproj", "{DEB1FFEA-D234-4A52-B860-538075D2AF33}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NQueens", "NQueens\NQueens.vcxproj", "{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{DEB1FFEA-D234-4A52-B860-538075D2AF33}.Release|x64.Build.0 = Release|x64
 		{DEB1FFEA-D234-4A52-B860-538075D2AF33}.Release|x86.ActiveCfg = Release|Win32
 		{DEB1FFEA-D234-4A52-B860-538075D2AF33}.Release|x86.Build.0 = Release|Win32
+		{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}.Debug|x64.ActiveCfg = Debug|x64
+		{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}.Debug|x64.Build.0 = Debug|x64
+		{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}.Debug|x86.ActiveCfg = Debug|Win32
+		{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}.Debug|x86.Build.0 = Debug|Win32
+		{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}.Release|x64.ActiveCfg = Release|x64
+		{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}.Release|x64.Build.0 = Release|x64
+		{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}.Release|x86.ActiveCfg = Release|Win32
+		{F8AFCB45-8CC5-4BA7-9DB2-FCC527608733}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
