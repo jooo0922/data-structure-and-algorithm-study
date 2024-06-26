@@ -19,6 +19,6 @@ void PrintSolution(int Columns[], int NumberOfQueens);
 int IsThreatened(int Columns[], int NewRow);
 
 // 백트래킹으로 N개의 퀸의 모든 해 탐색
-void FindSolutionForQueen(int Columns[], int Row, int NumberOfQueens, int* SolutionCount)
+void FindSolutionForQueen(int Columns[], int Row, int NumberOfQueens, int* SolutionCount);
 
 #endif // !NQUEENS_H
