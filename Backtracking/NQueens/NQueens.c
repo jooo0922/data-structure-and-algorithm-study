@@ -43,7 +43,29 @@ void FindSolutionForQueen(int Columns[], int Row, int NumberOfQueens, int* Solut
 // 새로 놓은 퀸(새로운 부분해)가 기존에 놓인 퀸(이전 상위 부분해)을 위협하는지 여부 검사
 int IsThreatened(int Columns[], int NewRow)
 {
+	// 현재 순회 중인 행
+	int CurrentRow = 0;
 
+	// 새로 놓인 퀸의 위협 여부를 저장한 결과값. 0 또는 1
+	int Threatened = 0;
+
+	// 첫 번째 행에서 새 퀸이 놓이기 직전까지의 행 순회
+	while (CurrentRow < NewRow)
+	{
+		if (Columns[NewRow] == Columns[CurrentRow] // 수직 방향 위협 검사
+			|| abs(Columns[NewRow] - Columns[CurrentRow]) == abs(NewRow - CurrentRow)) // 대각선 방향 위협 검사
+		{
+			// 위협이 감지되면 결과값을 변경하고 반복문 종료
+			Threatened = 1;
+			break;
+		}
+
+		// 위협이 감지되지 않았다면 다음 행 검사
+		CurrentRow++;
+	}
+
+	// 위협 여부를 저장한 결과값 반환
+	return Threatened;
 }
 
 // 백트래킹으로 찾은 N개의 퀸 해 출력
