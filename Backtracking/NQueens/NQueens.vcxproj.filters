@@ -18,6 +18,9 @@
     <ClCompile Include="NQueens.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_NQueens.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NQueens.h">

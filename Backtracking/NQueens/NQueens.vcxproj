@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="NQueens.c" />
+    <ClCompile Include="Test_NQueens.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NQueens.h" />
