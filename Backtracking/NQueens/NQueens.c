@@ -71,5 +71,43 @@ int IsThreatened(int Columns[], int NewRow)
 // 백트래킹으로 찾은 N개의 퀸 해 출력
 void PrintSolution(int Columns[], int NumberOfQueens)
 {
+	// N * N 칸의 체스칸을 순회할 때 사용할 인덱스 값 초기화
+	int i = 0;
+	int j = 0;
 
+	// 이중 for-loop 를 돌려서 N * N 칸의 체스칸 전체 순회
+	for (i = 0; i < NumberOfQueens; i++)
+	{
+		for (j = 0; j < NumberOfQueens; j++)
+		{
+			if (Columns[i] == j)
+			{
+				/*
+					N개의 퀸의 진짜 해가 저장된 Columns 배열에서
+					현재 순회 중인 i행 j열이 저장되어 있다면,
+
+					해당 칸에 퀸이 배치되어 있다는 뜻이므로,
+					이 부분을 "Q" 라는 문자로 표시
+				*/
+				printf("Q");
+			}
+			else
+			{
+				/*
+					현재 순회 중인 i행 j열이
+					Columns 배열에 저장되어 있지 않다면,
+
+					해당 칸에는 퀸이 배치되어 있지 않다는 뜻이므로,
+					빈칸이라는 의미에서 "." 라는 문자로 표시
+				*/
+				printf(".");
+			}
+		}
+
+		// 각 행(i)에 대한 순회가 끝날 때마다 개행
+		printf("\n");
+	}
+
+	// 이후에 또 진짜 해가 발견되어 출력해야 할 수 있으므로, 출력된 현재 해와 구분을 위해 개행
+	printf("\n");
 }
