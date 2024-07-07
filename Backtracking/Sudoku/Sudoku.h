@@ -35,9 +35,9 @@
 void PrintSolution(int Board[N][N]);
 
 // [1, 9] 사이의 숫자 중 하나(= num)를 특정 칸(= (row, col))에 놓을 수 있는 지 검사
-bool isSafe(int Board[N][N], int row, int col, int num);
+bool IsSafe(int Board[N][N], int row, int col, int num);
 
 // 백트래킹으로 스도쿠의 진짜 해 탐색
-void FindSolutionForSudoku(int Board[N][N]);
+bool FindSolutionForSudoku(int Board[N][N]);
 
 #endif // !SUDOKU_H
