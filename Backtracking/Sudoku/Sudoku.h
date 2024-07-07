@@ -8,6 +8,7 @@
 */
 
 #include <stdio.h> // printf(), scanf() 같은 입출력 함수 선언이 포함된 헤더파일
+#include <stdbool.h> // C 언어는 C++ 과 달리 bool, true, false 키워드를 기본적으로 지원하지 않으므로, 이 헤더 파일을 포함해야 bool 자료형 사용 가능. 
 
 /* 함수 프로토타입 선언 */
 
@@ -27,13 +28,16 @@
 	https://github.com/jooo0922/cpp-study/blob/main/TBCppStudy/Chapter6_08/Chapter6_08.cpp
 */
 
+// 스도쿠 보드 크기를 매크로 전처리기로 선언
+#define N 9
+
 // 백트래킹으로 찾은 스도쿠 해 출력
-void PrintSolution(int Board[9][9]);
+void PrintSolution(int Board[N][N]);
 
 // [1, 9] 사이의 숫자 중 하나(= num)를 특정 칸(= (row, col))에 놓을 수 있는 지 검사
-bool isSafe(int Board[9][9], int row, int col, int num);
+bool isSafe(int Board[N][N], int row, int col, int num);
 
 // 백트래킹으로 스도쿠의 진짜 해 탐색
-void FindSolutionForSudoku(int Board[9][9]);
+void FindSolutionForSudoku(int Board[N][N]);
 
 #endif // !SUDOKU_H
