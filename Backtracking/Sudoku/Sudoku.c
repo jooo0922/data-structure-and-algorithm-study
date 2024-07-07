@@ -8,7 +8,7 @@ void PrintSolution(int Board[N][N])
 	{
 		for (int col = 0; col < N; col++)
 		{
-			printf("%d", Board[row][col]);
+			printf("%d ", Board[row][col]);
 		}
 
 		// 하나의 행(row)을 모두 출력한 뒤에는 개행
@@ -110,7 +110,7 @@ bool FindSolutionForSudoku(int Board[N][N])
 	}
 	
 	// [1, 9] 범위의 숫자를 순회하며 발견된 빈 셀에 입력 시도
-	for (int num = 1; num < 9; num++)
+	for (int num = 1; num <= 9; num++)
 	{
 		// 현재 순회 중인 숫자를 빈 셀(= 부분해)에 입력했을 때, 부분해가 조건을 만족하는지 검사
 		// -> 여기서 조건이란, 해당 행, 해당 열, 해당 3*3 서브그리드에 중복된 숫자가 없어야 한다는 것! 
