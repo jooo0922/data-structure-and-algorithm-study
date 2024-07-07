@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="Sudoku.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sudoku.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
