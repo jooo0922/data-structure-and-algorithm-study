@@ -18,6 +18,9 @@
     <ClCompile Include="Sudoku.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Sudoku.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sudoku.h">
